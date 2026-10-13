@@ -1,3 +1,11 @@
+# geoecu 0.2.0
+
+* Nuevas funciones `reubicar_galapagos()` y `marco_galapagos()` para mapas
+  nacionales: trasladan Galápagos a la esquina superior izquierda, junto al
+  continente, y devuelven un recuadro para dibujarlo. Funcionan con los tres
+  niveles y con capas unidas con `geoecu_unir()`.
+* README: instrucciones para instalar `sf` rápidamente en Linux.
+
 # geoecu 0.1.0
 
 * Primera versión.
