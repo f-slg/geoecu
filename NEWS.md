@@ -1,3 +1,9 @@
+# geoecu 0.2.1
+
+* Se documenta la fuente de las geometrías: cartografía de libre acceso del
+  Geoportal del Instituto Geográfico Militar (IGM) del Ecuador.
+* README: aclaración de que geoecu es un paquete independiente.
+
 # geoecu 0.2.0
 
 * Nuevas funciones `reubicar_galapagos()` y `marco_galapagos()` para mapas

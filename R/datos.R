@@ -7,18 +7,18 @@
 #' @format Un `data.frame` con 1262 filas y 7 columnas:
 #' \describe{
 #'   \item{dpa_parroq}{Código DPA de la parroquia (6 dígitos, texto).}
-#'   \item{parroquia}{Nombre oficial de la parroquia, en mayúsculas.}
+#'   \item{parroquia}{Nombre de la parroquia, en mayúsculas.}
 #'   \item{area_dpa}{`"urbana"` (sufijo de código <= 50, incluye cabeceras
 #'     cantonales) o `"rural"` (sufijo > 50).}
 #'   \item{dpa_canton}{Código DPA del cantón (4 dígitos, texto).}
-#'   \item{canton}{Nombre oficial del cantón.}
+#'   \item{canton}{Nombre del cantón.}
 #'   \item{dpa_provin}{Código DPA de la provincia (2 dígitos, texto).}
-#'   \item{provincia}{Nombre oficial de la provincia.}
+#'   \item{provincia}{Nombre de la provincia.}
 #' }
 #'
-#' @source Capa de parroquias del Ministerio de Salud Pública del Ecuador,
-#'   basada en la DPA_PARROQUIA_2018 depurada, con ediciones hasta 2022.
-#'   Ver `data-raw/` en el repositorio para el procesamiento completo.
+#' @source Cartografía de libre acceso del Geoportal del Instituto Geográfico
+#'   Militar (IGM) del Ecuador. Ver `data-raw/` en el repositorio para el
+#'   procesamiento completo.
 #'
 #' @examples
 #' head(dpa)

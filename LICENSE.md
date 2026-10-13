@@ -23,6 +23,7 @@ SOFTWARE.
 ---
 
 La licencia MIT cubre el **código** del paquete. Las **geometrías y códigos
-DPA** provienen del Ministerio de Salud Pública del Ecuador y se distribuyen
+DPA** provienen de la cartografía de libre acceso del Instituto Geográfico
+Militar (IGM) del Ecuador y se distribuyen
 como assets de los releases del repositorio, no dentro del paquete; su uso debe
 citar la fuente (ver README).

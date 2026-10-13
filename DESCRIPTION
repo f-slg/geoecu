@@ -1,13 +1,13 @@
 Package: geoecu
 Type: Package
 Title: Capas Geográficas de la División Político-Administrativa del Ecuador
-Version: 0.2.0
+Version: 0.2.1
 Authors@R:
     person("Ronald Fabricio", "Salas Guerrero",
            email = "fabriciosalasguerrero@gmail.com",
            role = c("aut", "cre", "cph"))
 Description: Acceso sencillo a las capas de provincias, cantones y parroquias
-    del Ecuador con los códigos oficiales de la División Político-Administrativa
+    del Ecuador con los códigos de la División Político-Administrativa
     (DPA), listas para mapear y unir con datos de salud, vigilancia
     epidemiológica u otras fuentes. Los tres niveles encajan exactamente entre
     sí y se ofrecen en dos resoluciones: una liviana para mapas y tableros, y

@@ -2,8 +2,8 @@
 # -----------------------------------------------------------------------------
 # geoecu · Paso 1: simplificación topológica y construcción de niveles
 #
-# Parte de la capa oficial de parroquias (DPA_PARROQUIA_2018 depurada, MSP,
-# EPSG:32717) y construye cantones y provincias disolviendo por código DPA.
+# Parte de la capa de parroquias de la cartografía de libre acceso del IGM
+# (EPSG:32717) y construye cantones y provincias disolviendo por código DPA.
 # Así los tres niveles encajan exactamente (sin huecos ni traslapes).
 #
 # Requisitos: Node.js y mapshaper (npm install -g mapshaper)

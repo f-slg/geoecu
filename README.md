@@ -6,9 +6,12 @@
 <!-- badges: end -->
 
 **geoecu** da acceso en una línea de código a las capas de **provincias,
-cantones y parroquias del Ecuador**, con los **códigos oficiales de la
-División Político-Administrativa (DPA)**, listas para mapear y para unir con
-datos de salud, vigilancia epidemiológica o cualquier otra fuente.
+cantones y parroquias del Ecuador**, con los **códigos de la División
+Político-Administrativa (DPA)**, listas para mapear y para unir con datos de
+salud, vigilancia epidemiológica o cualquier otra fuente.
+
+> **Nota:** geoecu es un paquete independiente, desarrollado a título
+> personal. No es un producto oficial de ninguna institución.
 
 - Los tres niveles **encajan exactamente**: cada cantón es la unión de sus
   parroquias y cada provincia la unión de sus cantones, sin huecos ni
@@ -153,7 +156,7 @@ la caché: `geoecu_cache_dir()` y `geoecu_limpiar_cache()`.
 
 | | |
 |---|---|
-| **Fuente** | Capa de parroquias del Ministerio de Salud Pública del Ecuador (DPA_PARROQUIA_2018 depurada, con ediciones hasta 2022). |
+| **Fuente** | [Cartografía de libre acceso](https://www.geoportaligm.gob.ec/portal/index.php/descargas/cartografia-de-libre-acceso/registro/) del Geoportal del Instituto Geográfico Militar (IGM) del Ecuador: límites de provincias, cantones y parroquias con códigos DPA. |
 | **Figuras** | Las imágenes de este README se generan con [`data-raw/03_figuras_readme.R`](data-raw/03_figuras_readme.R) a partir de los datos del paquete. |
 | **Procesamiento** | Cantones y provincias construidos disolviendo las parroquias por código DPA; simplificación topológica con [mapshaper](https://github.com/mbloch/mapshaper) (10 m en alta, 250 m en baja); reproyección a WGS84. Scripts en [`data-raw/`](data-raw/). |
 | **Cobertura** | 24 provincias, 221 cantones y 1262 parroquias (440 urbanas, 822 rurales). |
@@ -170,8 +173,8 @@ Político-Administrativa del Ecuador. Paquete de R versión 0.1.0.
 https://github.com/f-slg/geoecu
 ```
 
-Al usar los datos, cita también al Ministerio de Salud Pública del Ecuador
-como fuente de las geometrías.
+Al usar los datos, cita también al Instituto Geográfico Militar (IGM) del
+Ecuador como fuente de las geometrías.
 
 ## Licencia
 

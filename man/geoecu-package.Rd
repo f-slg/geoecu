@@ -6,7 +6,7 @@
 \alias{geoecu-package}
 \title{geoecu: capas geográficas de la DPA del Ecuador}
 \description{
-Provincias, cantones y parroquias del Ecuador con códigos DPA oficiales,
+Provincias, cantones y parroquias del Ecuador con códigos DPA,
 listos para mapear y unir con datos propios.
 }
 \details{
