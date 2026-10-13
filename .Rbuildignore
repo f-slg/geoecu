@@ -8,3 +8,5 @@
 ^docs$
 ^pkgdown$
 ^SUBIR_A_GITHUB\.md$
+^cran-comments\.md$
+^CRAN-SUBMISSION$

@@ -1,18 +1,24 @@
 Package: geoecu
 Type: Package
-Title: Capas Geográficas de la División Político-Administrativa del Ecuador
-Version: 0.2.1
+Title: Maps of the Provinces, Cantons and Parishes of Ecuador (Mapas de
+    Provincias, Cantones y Parroquias del Ecuador)
+Version: 0.3.0
 Authors@R:
     person("Ronald Fabricio", "Salas Guerrero",
            email = "fabriciosalasguerrero@gmail.com",
            role = c("aut", "cre", "cph"))
-Description: Acceso sencillo a las capas de provincias, cantones y parroquias
-    del Ecuador con los códigos de la División Político-Administrativa
-    (DPA), listas para mapear y unir con datos de salud, vigilancia
-    epidemiológica u otras fuentes. Los tres niveles encajan exactamente entre
-    sí y se ofrecen en dos resoluciones: una liviana para mapas y tableros, y
-    otra detallada para análisis espacial. Incluye un catálogo de códigos DPA y
-    utilidades para normalizar nombres y códigos.
+Description: Provides the boundaries of the provinces, cantons and parishes
+    of Ecuador as 'sf' objects, identified by the codes of the national
+    political-administrative division (DPA, "División Político-Administrativa"),
+    ready to be mapped and joined with health, epidemiological surveillance or
+    other data. The three levels nest exactly and are offered in two
+    resolutions: a light one for maps and dashboards and a detailed one for
+    spatial analysis. The layers are derived from the free-access cartography
+    of the Geographic Military Institute of Ecuador (IGM)
+    <https://www.geoportaligm.gob.ec/portal/>, are downloaded on first use as
+    'GeoPackage' files and cached locally. Includes a catalogue of DPA codes,
+    helpers to clean codes and place names, and tools to relocate the
+    Galapagos Islands in national maps. Documentation is in Spanish.
 License: MIT + file LICENSE
 URL: https://github.com/f-slg/geoecu
 BugReports: https://github.com/f-slg/geoecu/issues

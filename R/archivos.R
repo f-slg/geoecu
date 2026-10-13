@@ -19,10 +19,8 @@ geoecu_cache_dir <- function() {
 #'
 #' @return `TRUE` de forma invisible.
 #' @export
-#' @examples
-#' \dontrun{
+#' @examplesIf interactive()
 #' geoecu_limpiar_cache()
-#' }
 geoecu_limpiar_cache <- function() {
   carpeta <- tools::R_user_dir("geoecu", which = "cache")
   if (dir.exists(carpeta)) unlink(carpeta, recursive = TRUE)
@@ -44,10 +42,10 @@ geoecu_limpiar_cache <- function() {
 #' @return La carpeta anterior, de forma invisible.
 #' @export
 #' @examples
-#' \dontrun{
-#' geoecu_usar_carpeta("C:/datos/geoecu")
-#' parroquias <- read_parroquias()
-#' }
+#' # Usar una carpeta propia y luego volver a la configuración anterior
+#' anterior <- geoecu_usar_carpeta(tempdir())
+#' geoecu_datos_disponibles()
+#' geoecu_usar_carpeta(anterior)
 geoecu_usar_carpeta <- function(carpeta) {
   if (!is.null(carpeta)) {
     if (!dir.exists(carpeta)) stop("No existe la carpeta: ", carpeta, call. = FALSE)

@@ -23,8 +23,8 @@ También puedes definir la variable de entorno \code{GEOECU_CARPETA} (por
 ejemplo, en tu \code{.Renviron}) para que la carpeta se use siempre.
 }
 \examples{
-\dontrun{
-geoecu_usar_carpeta("C:/datos/geoecu")
-parroquias <- read_parroquias()
-}
+# Usar una carpeta propia y luego volver a la configuración anterior
+anterior <- geoecu_usar_carpeta(tempdir())
+geoecu_datos_disponibles()
+geoecu_usar_carpeta(anterior)
 }

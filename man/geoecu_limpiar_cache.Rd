@@ -14,7 +14,7 @@ Elimina los GeoPackages guardados en la caché. Se volverán a descargar la
 próxima vez que se necesiten.
 }
 \examples{
-\dontrun{
+\dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 geoecu_limpiar_cache()
-}
+\dontshow{\}) # examplesIf}
 }

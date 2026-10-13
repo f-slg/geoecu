@@ -1,3 +1,9 @@
+# geoecu 0.3.0
+
+* Primera versión enviada a CRAN.
+* `DESCRIPTION` en inglés, con el título también en español.
+* Los ejemplos ya no usan `\dontrun{}`.
+
 # geoecu 0.2.1
 
 * Se documenta la fuente de las geometrías: cartografía de libre acceso del
