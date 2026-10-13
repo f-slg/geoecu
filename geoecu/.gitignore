@@ -19,3 +19,4 @@ docs/
 data-raw/build/
 data-raw/release/
 data-raw/insumos/
+*.zip
