@@ -30,6 +30,32 @@ La primera vez que pidas una capa, geoecu descarga el GeoPackage
 correspondiente (unos segundos) y lo guarda en caché. Después funciona sin
 conexión.
 
+### Usuarios de Linux
+
+geoecu depende de [`sf`](https://r-spatial.github.io/sf/). En Windows y macOS,
+CRAN ofrece `sf` ya compilado y se instala en un minuto. En Linux, CRAN solo
+publica el código fuente y R lo compila al instalarlo, lo que puede tardar
+entre 15 y 30 minutos la primera vez.
+
+Para evitar esa espera, instala `sf` ya compilado desde los repositorios del
+sistema **antes** de instalar geoecu:
+
+```bash
+# Ubuntu / Debian
+sudo apt install r-cran-sf
+
+# Fedora
+sudo dnf install R-sf
+```
+
+Si prefieres compilarlo desde R, instala primero las librerías del sistema
+que necesita:
+
+```bash
+# Ubuntu / Debian
+sudo apt install libgdal-dev libgeos-dev libproj-dev libudunits2-dev libssl-dev
+```
+
 ## Uso
 
 ```r
