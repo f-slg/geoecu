@@ -19,6 +19,8 @@ datos de salud, vigilancia epidemiológica o cualquier otra fuente.
 - Une tus tablas por código DPA aunque los códigos vengan de Excel sin ceros a
   la izquierda.
 
+<img src="man/figures/README-niveles.png" width="100%" alt="Ecuador por provincias según región natural, por cantones según número de parroquias y por parroquias urbanas y rurales" />
+
 ## Instalación
 
 ```r
@@ -69,8 +71,10 @@ parroquias <- read_parroquias(canton = "Puyango", area = "rural")
 loja_utm <- read_cantones(provincia = 11, crs = 32717)
 
 # Versión detallada
-parroquias_alta <- read_parroquias(provincia = "Azuay", resolucion = "alta")
+parroquias_alta <- read_parroquias(provincia = "Loja", resolucion = "alta")
 ```
+
+<img src="man/figures/README-loja.png" width="520" alt="Mapa de la provincia de Loja con sus 16 cantones en colores distintos y los límites de sus 107 parroquias" />
 
 Cada capa es un objeto `sf` con estas columnas:
 
@@ -114,12 +118,13 @@ prov <- reubicar_galapagos(read_provincias(crs = 32717))
 ggplot() +
   geom_sf(data = mapa, aes(fill = parroquias), color = "white", linewidth = 0.1) +
   geom_sf(data = prov, fill = NA, color = "#0F2233", linewidth = 0.3) +
-  geom_sf(data = marco_galapagos(prov), fill = NA, color = "grey75", linewidth = 0.3) +
-  scale_fill_gradient(low = "#FBF3D5", high = "#B8860B") +
+  geom_sf(data = marco_galapagos(prov), fill = NA, color = "grey78", linewidth = 0.3) +
+  scale_fill_gradientn(colours = c("#FFF4D2", "#F2C14E", "#D9822B", "#8C3B12"),
+                       trans = "log10") +
   theme_void()
 ```
 
-<img src="man/figures/README-ejemplo.png" width="600" alt="Mapa de Ecuador con el número de parroquias por cantón y Galápagos en un recuadro" />
+<img src="man/figures/README-nacional.png" width="600" alt="Mapa de Ecuador con el número de parroquias por cantón y Galápagos en un recuadro en la esquina superior izquierda" />
 
 El traslado es solo para visualizar: para medir áreas o distancias usa las
 capas sin reubicar.
@@ -149,6 +154,7 @@ la caché: `geoecu_cache_dir()` y `geoecu_limpiar_cache()`.
 | | |
 |---|---|
 | **Fuente** | Capa de parroquias del Ministerio de Salud Pública del Ecuador (DPA_PARROQUIA_2018 depurada, con ediciones hasta 2022). |
+| **Figuras** | Las imágenes de este README se generan con [`data-raw/03_figuras_readme.R`](data-raw/03_figuras_readme.R) a partir de los datos del paquete. |
 | **Procesamiento** | Cantones y provincias construidos disolviendo las parroquias por código DPA; simplificación topológica con [mapshaper](https://github.com/mbloch/mapshaper) (10 m en alta, 250 m en baja); reproyección a WGS84. Scripts en [`data-raw/`](data-raw/). |
 | **Cobertura** | 24 provincias, 221 cantones y 1262 parroquias (440 urbanas, 822 rurales). |
 | **Sistema de coordenadas** | WGS84 (EPSG:4326) por defecto. |
