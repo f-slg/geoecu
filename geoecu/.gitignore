@@ -1,0 +1,21 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rcheck/
+geoecu_*.tar.gz
+docs/
+
+# Los datos geográficos se publican como assets del release, no en git
+*.gpkg
+*.shp
+*.shx
+*.dbf
+*.prj
+*.cpg
+*.sbn
+*.sbx
+*.shp.xml
+data-raw/build/
+data-raw/release/
+data-raw/insumos/
