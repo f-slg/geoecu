@@ -96,7 +96,33 @@ ggplot(mapa) +
   theme_void()
 ```
 
-<img src="man/figures/README-ejemplo.png" width="560" alt="Mapa de Ecuador con el número de parroquias por cantón" />
+### Mapas nacionales con Galápagos
+
+`reubicar_galapagos()` traslada las islas a la esquina superior izquierda,
+junto al continente, y `marco_galapagos()` devuelve el recuadro para
+dibujarlo. Funciona con los tres niveles y con capas unidas con
+`geoecu_unir()`; si reubicas varias capas, quedan alineadas entre sí.
+
+```r
+n_parr <- as.data.frame(table(dpa_canton = dpa$dpa_canton))
+names(n_parr)[2] <- "parroquias"
+
+mapa <- geoecu_unir(n_parr, "dpa_canton", "canton", crs = 32717) |>
+  reubicar_galapagos()
+prov <- reubicar_galapagos(read_provincias(crs = 32717))
+
+ggplot() +
+  geom_sf(data = mapa, aes(fill = parroquias), color = "white", linewidth = 0.1) +
+  geom_sf(data = prov, fill = NA, color = "#0F2233", linewidth = 0.3) +
+  geom_sf(data = marco_galapagos(prov), fill = NA, color = "grey75", linewidth = 0.3) +
+  scale_fill_gradient(low = "#FBF3D5", high = "#B8860B") +
+  theme_void()
+```
+
+<img src="man/figures/README-ejemplo.png" width="600" alt="Mapa de Ecuador con el número de parroquias por cantón y Galápagos en un recuadro" />
+
+El traslado es solo para visualizar: para medir áreas o distancias usa las
+capas sin reubicar.
 
 ### Catálogo DPA y utilidades
 
