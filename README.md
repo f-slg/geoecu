@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml)
-[![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](LICENSE.md)
+[![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](https://github.com/f-slg/geoecu/blob/main/LICENSE.md)
 <!-- badges: end -->
 
 **geoecu** da acceso en una línea de código a las capas de **provincias,
@@ -157,8 +157,8 @@ la caché: `geoecu_cache_dir()` y `geoecu_limpiar_cache()`.
 | | |
 |---|---|
 | **Fuente** | [Cartografía de libre acceso](https://www.geoportaligm.gob.ec/portal/index.php/descargas/cartografia-de-libre-acceso/registro/) del Geoportal del Instituto Geográfico Militar (IGM) del Ecuador: límites de provincias, cantones y parroquias con códigos DPA. |
-| **Figuras** | Las imágenes de este README se generan con [`data-raw/03_figuras_readme.R`](data-raw/03_figuras_readme.R) a partir de los datos del paquete. |
-| **Procesamiento** | Cantones y provincias construidos disolviendo las parroquias por código DPA; simplificación topológica con [mapshaper](https://github.com/mbloch/mapshaper) (10 m en alta, 250 m en baja); reproyección a WGS84. Scripts en [`data-raw/`](data-raw/). |
+| **Figuras** | Las imágenes de este README se generan con [`data-raw/03_figuras_readme.R`](https://github.com/f-slg/geoecu/blob/main/data-raw/03_figuras_readme.R) a partir de los datos del paquete. |
+| **Procesamiento** | Cantones y provincias construidos disolviendo las parroquias por código DPA; simplificación topológica con [mapshaper](https://github.com/mbloch/mapshaper) (10 m en alta, 250 m en baja); reproyección a WGS84. Scripts en [`data-raw/`](https://github.com/f-slg/geoecu/tree/main/data-raw). |
 | **Cobertura** | 24 provincias, 221 cantones y 1262 parroquias (440 urbanas, 822 rurales). |
 | **Sistema de coordenadas** | WGS84 (EPSG:4326) por defecto. |
 
@@ -178,4 +178,4 @@ Ecuador como fuente de las geometrías.
 
 ## Licencia
 
-El código se distribuye bajo licencia [MIT](LICENSE.md).
+El código se distribuye bajo licencia [MIT](https://github.com/f-slg/geoecu/blob/main/LICENSE.md).

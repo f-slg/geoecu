@@ -4,10 +4,9 @@ This is the first submission of 'geoecu'.
 
 ## Test environments
 
-* local Ubuntu 24.04, R 4.3.3
+* local Ubuntu 26.04, R 4.5.2
 * GitHub Actions: windows-latest, macos-latest, ubuntu-latest (R release)
-* win-builder (R-devel)
-* R-hub
+* win-builder: R-devel, R-release, R-oldrelease
 
 ## R CMD check results
 
