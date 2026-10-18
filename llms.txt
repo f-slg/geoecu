@@ -189,6 +189,18 @@ origen.
 Al usar los datos, cita también al Instituto Geográfico Militar (IGM)
 del Ecuador como fuente de las geometrías.
 
+## Contribuir
+
+Las preguntas de uso van en
+[Discussions](https://github.com/f-slg/geoecu/discussions/categories/q-a),
+y los errores y propuestas en
+[issues](https://github.com/f-slg/geoecu/issues/new/choose). Consulta la
+[guía de
+contribución](https://github.com/f-slg/geoecu/blob/main/.github/CONTRIBUTING.md).
+Este proyecto sigue un [código de
+conducta](https://github.com/f-slg/geoecu/blob/main/.github/CODE_OF_CONDUCT.md):
+al participar, te comprometes a respetarlo.
+
 ## Licencia
 
 El código se distribuye bajo licencia
