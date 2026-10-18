@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Preguntas y ayuda de uso
+    url: https://github.com/f-slg/geoecu/discussions/categories/q-a
+    about: ¿Cómo hago...? ¿Qué significa...? Pregunta en Discussions; así la respuesta queda disponible para todos.
+  - name: Cartografía oficial del IGM
+    url: https://www.geoportaligm.gob.ec/portal/
+    about: Las geometrías provienen de la cartografía de libre acceso del Instituto Geográfico Militar.

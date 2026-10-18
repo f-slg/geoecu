@@ -1,0 +1,41 @@
+name: Problema con un límite o un código
+description: Un polígono, un código DPA o un nombre que no coincide con lo esperado.
+title: "[Capas] "
+labels: ["datos"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por avisar. Las geometrías provienen de la cartografía de libre acceso del IGM; indica la fuente con la que comparas para poder revisarlo.
+  - type: dropdown
+    id: nivel
+    attributes:
+      label: Nivel
+      options: [Provincia, Cantón, Parroquia]
+    validations:
+      required: true
+  - type: input
+    id: territorio
+    attributes:
+      label: Territorio
+      description: Nombre y código DPA.
+      placeholder: "Parroquia Puerto Ayora (200350)"
+    validations:
+      required: true
+  - type: textarea
+    id: problema
+    attributes:
+      label: ¿Qué encontraste?
+      description: Qué falta o qué está mal (límite, código, nombre) y con qué fuente lo comparas.
+    validations:
+      required: true
+  - type: dropdown
+    id: resolucion
+    attributes:
+      label: Resolución
+      options: ["baja", "alta", "ambas"]
+  - type: input
+    id: version
+    attributes:
+      label: Versión de geoecu
+      description: Resultado de `packageVersion("geoecu")`.
