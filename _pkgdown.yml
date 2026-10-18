@@ -1,0 +1,59 @@
+url: https://f-slg.github.io/geoecu/
+lang: es
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#0F2233"
+    link-color: "#9A6B00"
+    base_font: {google: "Source Sans 3"}
+    heading_font: {google: "Source Sans 3"}
+    code_font: {google: "JetBrains Mono"}
+
+home:
+  title: "geoecu: mapas de provincias, cantones y parroquias del Ecuador"
+  description: >
+    Capas geográficas de la División Político-Administrativa del Ecuador
+    como objetos sf, listas para mapear y unir con datos propios.
+  sidebar:
+    structure: [links, license, citation, authors, dev]
+  links:
+  - text: Cartografía del IGM
+    href: https://www.geoportaligm.gob.ec/portal/
+  - text: Paquete hermano pobecu
+    href: https://f-slg.github.io/pobecu/
+
+navbar:
+  bg: primary
+  structure:
+    left: [intro, reference, news]
+    right: [search, github]
+  components:
+    reference:
+      text: Funciones
+      href: reference/index.html
+    news:
+      text: Novedades
+      href: news/index.html
+
+reference:
+- title: Leer capas
+  contents:
+  - read_dpa
+- title: Unir datos y mapear
+  contents:
+  - geoecu_unir
+  - reubicar_galapagos
+  - marco_galapagos
+- title: Catálogo DPA y utilidades
+  contents:
+  - dpa
+  - buscar_dpa
+  - formatear_codigo
+  - normalizar_nombre
+- title: Datos descargados
+  contents:
+  - geoecu_cache_dir
+  - geoecu_datos_disponibles
+  - geoecu_limpiar_cache
+  - geoecu_usar_carpeta

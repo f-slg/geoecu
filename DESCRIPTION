@@ -20,7 +20,7 @@ Description: Provides the boundaries of the provinces, cantons and parishes
     helpers to clean codes and place names, and tools to relocate the
     Galapagos Islands in national maps. Documentation is in Spanish.
 License: MIT + file LICENSE
-URL: https://github.com/f-slg/geoecu
+URL: https://f-slg.github.io/geoecu/, https://github.com/f-slg/geoecu
 BugReports: https://github.com/f-slg/geoecu/issues
 Depends:
     R (>= 4.1.0)
