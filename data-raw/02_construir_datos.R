@@ -38,6 +38,23 @@ texto_utf8 <- function(x) {
   x
 }
 
+# Tipo de circunscripción según el campo `txt` de la capa de origen.
+# "NO APLICA" corresponde a la zona en estudio Jaramijó-Manta.
+tipo_parroquia <- function(txt) {
+  tipo <- c("CABECERA CANTONAL" = "cabecera cantonal",
+            "PARROQUIA RURAL"   = "parroquia rural",
+            "ZONA EN ESTUDIO"   = "zona en estudio",
+            "NO APLICA"         = "zona en estudio")[txt]
+  if (anyNA(tipo)) stop("Valores de `txt` no previstos: ",
+                        paste(unique(txt[is.na(tipo)]), collapse = ", "))
+  unname(tipo)
+}
+
+# Las zonas en estudio llevan "ZONA EN ESTUDIO" en el nombre en la capa de origen
+tipo_nivel <- function(nombre, normal) {
+  ifelse(grepl("ZONA EN ESTUDIO", nombre, fixed = TRUE), "zona en estudio", normal)
+}
+
 # Las áreas se calculan una sola vez, sobre la versión de alta resolución
 areas <- list()
 
@@ -46,9 +63,9 @@ for (res in c("alta", "baja")) {
   cant <- renombrar(leer(res, "cantones"))
   parr <- renombrar(leer(res, "parroquias"))
 
-  # Código de parroquia: sufijo <= 50 urbana (50 = cabecera cantonal), > 50 rural
-  parr$area_dpa <- ifelse(as.integer(substr(parr$dpa_parroq, 5, 6)) <= 50,
-                          "urbana", "rural")
+  parr$tipo <- tipo_parroquia(parr$txt)
+  cant$tipo <- tipo_nivel(cant$canton, "cantón")
+  prov$tipo <- tipo_nivel(prov$provincia, "provincia")
 
   if (res == "alta") {
     areas$prov <- setNames(area_km2(prov), prov$dpa_provin)
@@ -59,11 +76,11 @@ for (res in c("alta", "baja")) {
   cant$area_km2 <- unname(areas$cant[cant$dpa_canton])
   parr$area_km2 <- unname(areas$parr[parr$dpa_parroq])
 
-  prov <- prov[order(prov$dpa_provin), c("dpa_provin", "provincia", "area_km2")]
+  prov <- prov[order(prov$dpa_provin), c("dpa_provin", "provincia", "tipo", "area_km2")]
   cant <- cant[order(cant$dpa_canton),
-               c("dpa_canton", "canton", "dpa_provin", "provincia", "area_km2")]
+               c("dpa_canton", "canton", "tipo", "dpa_provin", "provincia", "area_km2")]
   parr <- parr[order(parr$dpa_parroq),
-               c("dpa_parroq", "parroquia", "area_dpa", "dpa_canton", "canton",
+               c("dpa_parroq", "parroquia", "tipo", "dpa_canton", "canton",
                  "dpa_provin", "provincia", "area_km2")]
 
   capas <- list(provincias = prov, cantones = cant, parroquias = parr)
@@ -73,13 +90,13 @@ for (res in c("alta", "baja")) {
     capa <- texto_utf8(st_make_valid(capas[[nm]]))
     st_write(capa, destino, layer = nm, quiet = TRUE)
   }
-  message("Escrito: ", destino)
+  message("Escrito: ", destino, " (md5 ", unname(tools::md5sum(destino)), ")")
 
   if (res == "baja") {
     dpa <- texto_utf8(st_drop_geometry(parr))
     dpa$area_km2 <- NULL
     rownames(dpa) <- NULL
     save(dpa, file = "data/dpa.rda", compress = "xz")
-    message("Escrito: data/dpa.rda (", nrow(dpa), " parroquias)")
+    message("Escrito: data/dpa.rda (", nrow(dpa), " filas)")
   }
 }

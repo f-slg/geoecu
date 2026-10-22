@@ -2,24 +2,30 @@
 # -----------------------------------------------------------------------------
 # geoecu · Paso 1: simplificación topológica y construcción de niveles
 #
-# Parte de la capa de parroquias de la cartografía de libre acceso del IGM
-# (EPSG:32717) y construye cantones y provincias disolviendo por código DPA.
-# Así los tres niveles encajan exactamente (sin huecos ni traslapes).
+# Parte de la capa ORGANIZACION_TERRITORIAL_PARROQUIAL de la Organización
+# Territorial del Estado (CONALI, Ministerio de Gobierno; datos abiertos,
+# licencia CC BY, EPSG:32717) y construye cantones y provincias disolviendo
+# por código DPA. Así los tres niveles encajan exactamente (sin huecos ni
+# traslapes).
+#
+# Se excluye el polígono sin código numérico ("ISLA"). Las zonas en estudio se
+# conservan con sus códigos para que el mapa nacional no tenga huecos.
 #
 # Requisitos: Node.js y mapshaper (npm install -g mapshaper)
-# Uso:        bash data-raw/01_simplificar.sh ruta/a/PARROQUIA.shp
+# Uso:        bash data-raw/01_simplificar.sh ruta/a/ORGANIZACION_TERRITORIAL_PARROQUIAL.shp
 # Salida:     data-raw/build/{alta,baja}/{provincias,cantones,parroquias}.json
 # -----------------------------------------------------------------------------
 set -euo pipefail
 
-ENTRADA="${1:?Indica la ruta a PARROQUIA.shp}"
+ENTRADA="${1:?Indica la ruta a ORGANIZACION_TERRITORIAL_PARROQUIAL.shp}"
 SALIDA="data-raw/build"
-MS="node --max-old-space-size=6000 $(command -v mapshaper)"
+MS="${MAPSHAPER:-mapshaper-xl}"
 
 construir () {
   local resolucion="$1" tolerancia="$2" precision="$3"
   mkdir -p "$SALIDA/$resolucion"
   $MS -i "$ENTRADA" encoding=utf8 name=parroquias \
+    -filter 'DPA_PARROQ != "ISLA"' \
     -clean \
     -simplify interval="$tolerancia" keep-shapes planar \
     -dissolve DPA_CANTON copy-fields=DPA_DESCAN,DPA_PROVIN,DPA_DESPRO + name=cantones \
