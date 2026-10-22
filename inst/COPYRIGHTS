@@ -1,0 +1,38 @@
+geoecu: derechos y fuentes
+==========================
+
+Código
+------
+El código del paquete es (c) 2026 Ronald Fabricio Salas Guerrero y se
+distribuye bajo la licencia MIT (ver LICENSE).
+
+Datos
+-----
+El catálogo `dpa` (incluido en el paquete) y las geometrías de provincias,
+cantones y parroquias (descargadas desde los releases del repositorio) se
+derivan de:
+
+  Organización Territorial del Estado. Comité Nacional de Límites Internos
+  (CONALI), Dirección de Límites Territoriales Internos, Ministerio de
+  Gobierno del Ecuador. Capa ORGANIZACION_TERRITORIAL_PARROQUIAL, versión del
+  17 de julio de 2026.
+  https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial
+
+Estos datos se publican como datos abiertos con licencia Creative Commons
+Atribución (CC BY). Según sus metadatos, el acceso es sin restricción y el
+Directorio del CONALI autoriza su publicación por cualquier medio, citando la
+fuente:
+
+  Límites territoriales de la Organización Territorial del Estado
+  interparroquiales, aprobados por el Directorio del CONALI en sesión
+  ordinaria del 24 de marzo de 2022, 17 de enero de 2023 y 13 de marzo de 2026.
+
+geoecu modifica los datos de origen: simplifica las geometrías, construye
+cantones y provincias disolviendo las parroquias, reproyecta a WGS84, excluye
+un polígono sin código ("ISLA") y añade columnas (`tipo`, `area_km2`). El
+procesamiento completo está en `data-raw/` del repositorio. geoecu es un
+paquete independiente: no es un producto oficial del CONALI ni del Ministerio
+de Gobierno, que no lo respaldan.
+
+La tabla `dpa_equivalencias` relaciona estos códigos con los de las versiones
+anteriores de geoecu (0.3.0 y anteriores).

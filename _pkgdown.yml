@@ -18,8 +18,8 @@ home:
   sidebar:
     structure: [links, license, citation, authors, dev]
   links:
-  - text: Cartografía del IGM
-    href: https://www.geoportaligm.gob.ec/portal/
+  - text: Organización Territorial del Estado (CONALI)
+    href: https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial
   - text: Paquete hermano pobecu
     href: https://f-slg.github.io/pobecu/
 
@@ -49,6 +49,12 @@ reference:
   contents:
   - dpa
   - buscar_dpa
+- title: Códigos de versiones anteriores
+  contents:
+  - dpa_equivalencias
+  - actualizar_codigo
+- title: Limpieza de códigos y nombres
+  contents:
   - formatear_codigo
   - normalizar_nombre
 - title: Datos descargados
