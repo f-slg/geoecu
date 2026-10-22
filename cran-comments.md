@@ -15,7 +15,6 @@ and licence of the data are documented in `inst/COPYRIGHTS` (declared in the
 * local Ubuntu 26.04, R 4.5.2
 * GitHub Actions: windows-latest, macos-latest, ubuntu-latest (R release),
   with the data-dependent tests enabled
-* win-builder: R-devel
 
 ## R CMD check results
 
