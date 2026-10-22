@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/f-slg/geoecu/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/f-slg/geoecu/blob/datos-v0.2.0/DESCRIPTION)
 
 Salas Guerrero R (2026). *geoecu: Maps of the Provinces, Cantons and
 Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias del

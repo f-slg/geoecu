@@ -2,6 +2,8 @@
 
 ## geoecu 0.3.0
 
+CRAN release: 2026-10-22
+
 - Primera versión enviada a CRAN.
 - `DESCRIPTION` en inglés, con el título también en español.
 - Los ejemplos ya no usan `\dontrun{}`.
