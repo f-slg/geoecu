@@ -29,7 +29,7 @@ los polígonos de la capa: los territorios sin datos quedan con \code{NA}, lo
 que permite mapearlos.
 }
 \examples{
-\dontshow{if (geoecu_datos_disponibles()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (geoecu_datos_disponibles()) withAutoprint(\{ # examplesIf}
 casos <- data.frame(cod = c(1101, 1102, 1103), casos = c(12, 3, 7))
 mapa <- geoecu_unir(casos, codigo = "cod", nivel = "canton",
                     provincia = "Loja")

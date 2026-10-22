@@ -19,20 +19,27 @@ capa correspondiente usando el código DPA.
 \item \link{dpa} es el catálogo de códigos y nombres; \code{\link[=buscar_dpa]{buscar_dpa()}} busca en él.
 \item \code{\link[=formatear_codigo]{formatear_codigo()}} y \code{\link[=normalizar_nombre]{normalizar_nombre()}} limpian códigos y nombres
 antes de unir tablas.
+\item \code{\link[=actualizar_codigo]{actualizar_codigo()}} y \link{dpa_equivalencias} convierten códigos de
+parroquia de versiones anteriores de geoecu.
 }
 }
 
 \subsection{Datos}{
 
+Las capas provienen de la Organización Territorial del Estado del Comité
+Nacional de Límites Internos (CONALI), Ministerio de Gobierno del Ecuador,
+publicada como datos abiertos con licencia CC BY.
+
 Las geometrías no vienen dentro del paquete: se descargan la primera vez
-desde los releases del repositorio en GitHub y se guardan en caché
-(\code{\link[=geoecu_cache_dir]{geoecu_cache_dir()}}). También puedes usar archivos locales con
+desde los releases del repositorio en GitHub, se verifican y se guardan en
+caché (\code{\link[=geoecu_cache_dir]{geoecu_cache_dir()}}). También puedes usar archivos locales con
 \code{\link[=geoecu_usar_carpeta]{geoecu_usar_carpeta()}}.
 }
 }
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://f-slg.github.io/geoecu/}
   \item \url{https://github.com/f-slg/geoecu}
   \item Report bugs at \url{https://github.com/f-slg/geoecu/issues}
 }
@@ -40,6 +47,11 @@ Useful links:
 }
 \author{
 \strong{Maintainer}: Ronald Fabricio Salas Guerrero \email{fabriciosalasguerrero@gmail.com} [copyright holder]
+
+Authors:
+\itemize{
+  \item Ronald Fabricio Salas Guerrero \email{fabriciosalasguerrero@gmail.com} [copyright holder]
+}
 
 }
 \keyword{internal}

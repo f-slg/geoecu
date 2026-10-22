@@ -12,7 +12,7 @@ Ruta de la carpeta de caché (texto).
 \description{
 Los GeoPackages descargados se guardan aquí para no volver a descargarlos.
 La ubicación sigue las convenciones de cada sistema operativo
-(\code{\link[tools:userdir]{tools::R_user_dir()}}).
+(\code{\link[tools:R_user_dir]{tools::R_user_dir()}}).
 }
 \examples{
 geoecu_cache_dir()

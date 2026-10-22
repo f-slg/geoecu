@@ -32,7 +32,7 @@ El traslado es \strong{solo para visualizar}: no uses el resultado para medir
 porque comparten la misma geometría de origen.
 }
 \examples{
-\dontshow{if (geoecu_datos_disponibles()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (geoecu_datos_disponibles() && requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(ggplot2)
 prov <- reubicar_galapagos(read_provincias(crs = 32717))
 ggplot(prov) +
