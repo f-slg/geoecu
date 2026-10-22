@@ -1,8 +1,11 @@
 # geoecu <img src="man/figures/logo.png" align="right" height="139" alt="logo de geoecu" />
 
 <!-- badges: start -->
+[![CRAN](https://www.r-pkg.org/badges/version/geoecu)](https://cran.r-project.org/package=geoecu)
 [![R-CMD-check](https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml)
+[![Sitio web](https://img.shields.io/badge/documentaci%C3%B3n-f--slg.github.io%2Fgeoecu-0F2233.svg)](https://f-slg.github.io/geoecu/)
 [![Licencia: MIT](https://img.shields.io/badge/licencia-MIT-blue.svg)](https://github.com/f-slg/geoecu/blob/main/LICENSE.md)
+[![Datos: CC BY](https://img.shields.io/badge/datos-CONALI%20%C2%B7%20CC%20BY-F2B705.svg)](https://github.com/f-slg/geoecu/blob/main/inst/COPYRIGHTS)
 <!-- badges: end -->
 
 **geoecu** da acceso en una línea de código a las capas de **provincias,
@@ -16,14 +19,26 @@ publicados por el CONALI (Ministerio de Gobierno).
 > personal. No es un producto oficial de ninguna institución, ni del CONALI
 > ni del Ministerio de Gobierno.
 
+- **Datos actualizados**: 24 provincias, 223 cantones y 1048 parroquias
+  según la Organización Territorial del Estado del 17 de julio de 2026
+  (incluye el cantón Borbón y la parroquia Miss Ecuador).
 - Los tres niveles **encajan exactamente**: cada cantón es la unión de sus
   parroquias y cada provincia la unión de sus cantones, sin huecos ni
   traslapes.
 - Dos resoluciones: `"baja"` (3 MB, para mapas, boletines y tableros Shiny) y
-  `"alta"` (para análisis espacial).
-- Filtros por **nombre o código**, sin importar tildes ni mayúsculas.
+  `"alta"` (39 MB, para análisis espacial).
+- Filtros por **nombre o código**, sin importar tildes ni mayúsculas, con
+  sugerencias cuando un nombre no existe o es ambiguo.
 - Une tus tablas por código DPA aunque los códigos vengan de Excel sin ceros a
   la izquierda.
+- Mapas nacionales con **Galápagos reubicado** junto al continente.
+- Convierte los códigos de versiones anteriores (parroquias urbanas, antiguo
+  cantón Eloy Alfaro) con `actualizar_codigo()`.
+- Descarga única, verificada y en caché; después funciona sin conexión.
+
+📖 **Documentación completa:** [Guía de uso](https://f-slg.github.io/geoecu/articles/guia.html) ·
+[Datos y fuente](https://f-slg.github.io/geoecu/articles/datos.html) ·
+[Referencia de funciones](https://f-slg.github.io/geoecu/reference/)
 
 <img src="man/figures/README-niveles.png" width="100%" alt="Ecuador por provincias según región natural, por cantones según número de parroquias y por parroquias según tipo: cabecera cantonal o rural" />
 

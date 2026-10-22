@@ -35,6 +35,14 @@
 * `inst/COPYRIGHTS` y `inst/CITATION` con la fuente de los datos y cómo
   citarla; `LICENSE.md` aclara que el catálogo `dpa` va dentro del paquete.
 * Las pruebas que necesitan las capas se ejecutan en GitHub Actions.
+* Nuevos artículos en el sitio web: una **Guía de uso** detallada (leer,
+  filtrar, unir, mapear, Galápagos, agregar, códigos anteriores, uso sin
+  conexión) y **Datos y fuente** (origen, licencia, procesamiento, zonas en
+  estudio y cambios).
+* Logo, favicons y figuras del README regenerados con los datos nuevos
+  (`data-raw/05_logo.R`).
+* README con más detalle y guía de contribución con el procedimiento para
+  actualizar los datos y publicar en CRAN.
 
 # geoecu 0.3.0
 
