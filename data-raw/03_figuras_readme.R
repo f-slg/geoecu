@@ -39,8 +39,10 @@ region <- data.frame(
              "Sierra", "Amazonía", "Insular", "Amazonía", "Amazonía",
              "Costa", "Costa")
 )
+region <- rbind(region, data.frame(dpa_provin = "90", region = "Zona en estudio"))
 region$region <- factor(region$region,
-                        levels = c("Costa", "Sierra", "Amazonía", "Insular"))
+                        levels = c("Costa", "Sierra", "Amazonía", "Insular",
+                                   "Zona en estudio"))
 
 prov <- reubicar_galapagos(read_provincias(crs = 32717))
 cant <- reubicar_galapagos(read_cantones(crs = 32717))
@@ -52,7 +54,8 @@ g1 <- ggplot(p_prov) +
   geom_sf(aes(fill = region), color = "white", linewidth = 0.35) +
   marco(prov) +
   scale_fill_manual(values = c(Costa = "#E9A23B", Sierra = "#7B9E5A",
-                               "Amazonía" = "#2E6E5C", Insular = "#4C8DB5"),
+                               "Amazonía" = "#2E6E5C", Insular = "#4C8DB5",
+                               "Zona en estudio" = "grey80"),
                     name = NULL) +
   labs(title = "24 provincias", subtitle = "por región natural") +
   tema
@@ -68,16 +71,18 @@ g2 <- ggplot(c_parr) +
                        trans = "log10", breaks = c(2, 5, 10, 25, 60),
                        name = "parroquias") +
   guides(fill = guide_colorbar(barwidth = 9, barheight = 0.5)) +
-  labs(title = "221 cantones", subtitle = "número de parroquias") +
+  labs(title = "223 cantones", subtitle = "número de parroquias") +
   tema
 
 g3 <- ggplot(parr) +
-  geom_sf(aes(fill = area_dpa), color = "white", linewidth = 0.05) +
+  geom_sf(aes(fill = tipo), color = "white", linewidth = 0.05) +
   geom_sf(data = prov, fill = NA, color = azul, linewidth = 0.25) +
   marco(prov) +
-  scale_fill_manual(values = c(urbana = "#C2410C", rural = "#F6E7C8"),
+  scale_fill_manual(values = c("cabecera cantonal" = "#C2410C",
+                               "parroquia rural" = "#F6E7C8",
+                               "zona en estudio" = "grey80"),
                     name = NULL) +
-  labs(title = "1262 parroquias", subtitle = "urbanas y rurales según DPA") +
+  labs(title = "1048 parroquias", subtitle = "cabeceras cantonales y rurales") +
   tema
 
 principal <- (g1 | g2 | g3) +
@@ -117,7 +122,8 @@ g_loja <- ggplot() +
                 fontface = "bold", fill = scales::alpha("white", 0.8),
                 label.size = 0, label.padding = unit(0.12, "lines")) +
   scale_fill_manual(values = grDevices::hcl.colors(16, "Set 3"), guide = "none") +
-  labs(title = "Provincia de Loja: 16 cantones y 107 parroquias",
+  labs(title = sprintf("Provincia de Loja: %d cantones y %d parroquias",
+                       nrow(loja_c), nrow(loja_p)),
        subtitle = "read_parroquias(provincia = \"Loja\", resolucion = \"alta\")") +
   tema + theme(plot.title = element_text(hjust = 0),
                plot.subtitle = element_text(hjust = 0, family = "mono"),

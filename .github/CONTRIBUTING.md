@@ -16,8 +16,9 @@ plantilla que corresponda:
 
 - **Reportar un error:** una función falla o da un resultado incorrecto.
   Incluye un ejemplo mínimo que se pueda copiar y ejecutar.
-- **Problema con los datos:** algo no coincide con los límites del IGM. Indica la fuente
-  con la que comparas.
+- **Problema con los datos:** un límite, código o nombre no coincide con la
+  Organización Territorial del Estado (CONALI) vigente. Indica la fuente con la
+  que comparas (por ejemplo, el Registro Oficial de creación).
 - **Proponer una mejora:** cuéntanos qué necesitas hacer.
 
 ## Enviar cambios

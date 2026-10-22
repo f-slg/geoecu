@@ -38,6 +38,18 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
+      # Descarga la capa liviana para que se ejecuten las pruebas que necesitan
+      # datos (en CRAN se omiten). La etiqueta se lee de R/zzz.R.
+      - name: Descargar capas
+        shell: bash
+        run: |
+          etiqueta=$(grep -o 'datos-v[0-9.]*' R/zzz.R | head -n 1)
+          carpeta="$RUNNER_TEMP/geoecu"
+          mkdir -p "$carpeta"
+          curl -fsSL -o "$carpeta/geoecu_dpa_baja.gpkg" \
+            "https://github.com/${{ github.repository }}/releases/download/$etiqueta/geoecu_dpa_baja.gpkg"
+          echo "GEOECU_CARPETA=$carpeta" >> "$GITHUB_ENV"
+
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
