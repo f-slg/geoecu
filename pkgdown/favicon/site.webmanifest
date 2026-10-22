@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "short_name": "",
+  "name": "geoecu",
+  "short_name": "geoecu",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -15,7 +15,7 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
+  "theme_color": "#0F2233",
   "background_color": "#ffffff",
   "display": "standalone"
 }
