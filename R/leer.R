@@ -1,8 +1,16 @@
 #' Leer las capas de provincias, cantones o parroquias
 #'
 #' Devuelven un objeto `sf` con los límites del nivel solicitado y sus códigos
-#' DPA. Los tres niveles encajan exactamente: cada cantón es la unión de sus
-#' parroquias y cada provincia la unión de sus cantones.
+#' DPA, según la Organización Territorial del Estado (CONALI). Los tres niveles
+#' encajan exactamente: cada cantón es la unión de sus parroquias y cada
+#' provincia la unión de sus cantones.
+#'
+#' Además de las circunscripciones, las capas incluyen las zonas en estudio
+#' (territorios con límites aún no resueltos), identificadas en la columna
+#' `tipo`, para que el mapa nacional no tenga huecos. Para excluirlas, filtra
+#' `tipo != "zona en estudio"`. Las parroquias son las de la división
+#' político-administrativa: cabeceras cantonales y parroquias rurales. Las
+#' parroquias urbanas forman parte de su cabecera cantonal.
 #'
 #' La primera vez se descarga el GeoPackage de la resolución pedida y se
 #' guarda en caché; las siguientes veces se lee directamente del disco.
@@ -13,7 +21,11 @@
 #' @param canton Cantones a incluir, por nombre o código. Si un nombre se
 #'   repite en varias provincias (por ejemplo, Bolívar u Olmedo), usa el
 #'   código o indica también `provincia`.
-#' @param area Solo para parroquias: `"urbana"`, `"rural"` o `NULL` (ambas).
+#' @param tipo Solo para parroquias: `"cabecera"` (cabeceras cantonales),
+#'   `"rural"` (parroquias rurales), `"zona"` (zonas en estudio) o `NULL`
+#'   (todas). Se pueden combinar, por ejemplo `c("cabecera", "rural")`.
+#' @param area Obsoleto. Usa `tipo`. `"rural"` equivale a
+#'   `tipo = "rural"` y `"urbana"` a `tipo = "cabecera"`.
 #' @param resolucion `"baja"` (por defecto; liviana, para mapas y tableros) o
 #'   `"alta"` (detallada, para análisis espacial).
 #' @param crs Sistema de coordenadas de salida. Por defecto WGS84
@@ -21,11 +33,17 @@
 #'   metros.
 #'
 #' @return Un objeto `sf` de polígonos con las columnas:
-#'   * `read_provincias()`: `dpa_provin`, `provincia`, `area_km2`.
-#'   * `read_cantones()`: `dpa_canton`, `canton`, `dpa_provin`, `provincia`,
-#'     `area_km2`.
-#'   * `read_parroquias()`: `dpa_parroq`, `parroquia`, `area_dpa`,
-#'     `dpa_canton`, `canton`, `dpa_provin`, `provincia`, `area_km2`.
+#'   * `read_provincias()`: `dpa_provin`, `provincia`, `tipo`, `area_km2`.
+#'   * `read_cantones()`: `dpa_canton`, `canton`, `tipo`, `dpa_provin`,
+#'     `provincia`, `area_km2`.
+#'   * `read_parroquias()`: `dpa_parroq`, `parroquia`, `tipo`, `dpa_canton`,
+#'     `canton`, `dpa_provin`, `provincia`, `area_km2`.
+#'
+#'   `tipo` vale `"provincia"`, `"cantón"`, `"cabecera cantonal"` o
+#'   `"parroquia rural"` según el nivel, o `"zona en estudio"`.
+#' @source Organización Territorial del Estado, Comité Nacional de Límites
+#'   Internos (CONALI), Ministerio de Gobierno del Ecuador. Datos abiertos,
+#'   licencia CC BY: <https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial>.
 #'
 #' @name read_dpa
 #' @examplesIf geoecu_datos_disponibles()
@@ -36,7 +54,7 @@
 #' loja <- read_cantones(provincia = "Loja", crs = 32717)
 #'
 #' # Parroquias rurales de un cantón
-#' read_parroquias(canton = "Puyango", area = "rural")
+#' read_parroquias(canton = "Puyango", tipo = "rural")
 NULL
 
 #' @rdname read_dpa
@@ -65,16 +83,17 @@ read_cantones <- function(provincia = NULL, canton = NULL,
 
 #' @rdname read_dpa
 #' @export
-read_parroquias <- function(provincia = NULL, canton = NULL, area = NULL,
-                            resolucion = c("baja", "alta"), crs = 4326) {
+read_parroquias <- function(provincia = NULL, canton = NULL, tipo = NULL,
+                            resolucion = c("baja", "alta"), crs = 4326,
+                            area = NULL) {
   resolucion <- match.arg(resolucion)
-  if (!is.null(area)) area <- match.arg(area, c("urbana", "rural"))
+  tipo <- .resolver_tipo(tipo, area)
   cod_prov <- .resolver_codigos(provincia, "provincia")
   cod_cant <- .resolver_codigos(canton, "canton", dentro = cod_prov)
   x <- .leer_capa("parroquias", resolucion)
   if (!is.null(cod_prov)) x <- x[x$dpa_provin %in% cod_prov, ]
   if (!is.null(cod_cant)) x <- x[x$dpa_canton %in% cod_cant, ]
-  if (!is.null(area))     x <- x[x$area_dpa == area, ]
+  if (!is.null(tipo))     x <- x[x$tipo %in% tipo, ]
   .finalizar(x, crs)
 }
 
@@ -141,6 +160,24 @@ geoecu_unir <- function(datos, codigo, nivel = c("canton", "provincia", "parroqu
 }
 
 # --- internas ----------------------------------------------------------------
+
+# Traduce `tipo` (y el argumento obsoleto `area`) a los valores de la columna
+# `tipo` de la capa de parroquias.
+.resolver_tipo <- function(tipo, area = NULL) {
+  valores <- c(cabecera = "cabecera cantonal", rural = "parroquia rural",
+               zona = "zona en estudio")
+  if (!is.null(area)) {
+    area <- match.arg(area, c("urbana", "rural"))
+    warning("`area` est\u00e1 obsoleto; usa `tipo = \"",
+            if (area == "rural") "rural" else "cabecera", "\"`. ",
+            "Las parroquias urbanas ahora forman parte de su cabecera cantonal.",
+            call. = FALSE)
+    if (is.null(tipo)) tipo <- if (area == "rural") "rural" else "cabecera"
+  }
+  if (is.null(tipo)) return(NULL)
+  tipo <- match.arg(tipo, names(valores), several.ok = TRUE)
+  unname(valores[tipo])
+}
 
 .leer_capa <- function(capa, resolucion) {
   ruta <- .ruta_datos(resolucion)

@@ -22,7 +22,7 @@ Devuelve un rectángulo alrededor de Galápagos, pensado para dibujarlo como
 un recuadro tenue después de \code{\link[=reubicar_galapagos]{reubicar_galapagos()}}.
 }
 \examples{
-\dontshow{if (geoecu_datos_disponibles()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (geoecu_datos_disponibles()) withAutoprint(\{ # examplesIf}
 prov <- reubicar_galapagos(read_provincias(crs = 32717))
 marco_galapagos(prov)
 \dontshow{\}) # examplesIf}

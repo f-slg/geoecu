@@ -7,6 +7,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-^SUBIR_A_GITHUB\.md$
+^vignettes$
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$

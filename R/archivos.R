@@ -127,7 +127,17 @@ geoecu_datos_disponibles <- function(resolucion = "baja") {
          "\nRevisa tu conexi\u00f3n o usa geoecu_usar_carpeta() con archivos locales.",
          call. = FALSE)
   }
-  file.copy(tmp, destino, overwrite = TRUE)
+  # Solo se verifica la huella del release oficial; con `geoecu.url_base`
+  # se pueden usar otras fuentes bajo responsabilidad de quien las configura.
+  if (is.null(getOption("geoecu.url_base")) &&
+      !identical(unname(tools::md5sum(tmp)), .geoecu_md5[[resolucion]])) {
+    stop("El archivo descargado no coincide con la versi\u00f3n esperada de los datos ",
+         "(", .geoecu_version_datos, "). Puede estar incompleto o haber sido ",
+         "modificado. Intenta de nuevo m\u00e1s tarde.", call. = FALSE)
+  }
+  if (!file.copy(tmp, destino, overwrite = TRUE)) {
+    stop("No se pudo guardar el archivo en la cach\u00e9: ", destino, call. = FALSE)
+  }
   destino
 }
 

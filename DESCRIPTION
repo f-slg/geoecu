@@ -2,7 +2,7 @@ Package: geoecu
 Type: Package
 Title: Maps of the Provinces, Cantons and Parishes of Ecuador (Mapas de
     Provincias, Cantones y Parroquias del Ecuador)
-Version: 0.3.0
+Version: 0.4.0
 Authors@R:
     person("Ronald Fabricio", "Salas Guerrero",
            email = "fabriciosalasguerrero@gmail.com",
@@ -13,13 +13,16 @@ Description: Provides the boundaries of the provinces, cantons and parishes
     ready to be mapped and joined with health, epidemiological surveillance or
     other data. The three levels nest exactly and are offered in two
     resolutions: a light one for maps and dashboards and a detailed one for
-    spatial analysis. The layers are derived from the free-access cartography
-    of the Geographic Military Institute of Ecuador (IGM)
-    <https://www.geoportaligm.gob.ec/portal/>, are downloaded on first use as
-    'GeoPackage' files and cached locally. Includes a catalogue of DPA codes,
+    spatial analysis. The layers are derived from the open data of the
+    Territorial Organization of the State published by the National Committee
+    of Internal Boundaries (CONALI, Ministry of Government of Ecuador) under a
+    CC BY licence <https://www.datosabiertos.gob.ec/>, and are downloaded on
+    first use as 'GeoPackage' files, verified and cached locally. Includes a
+    catalogue of DPA codes, a table to update codes from earlier versions,
     helpers to clean codes and place names, and tools to relocate the
     Galapagos Islands in national maps. Documentation is in Spanish.
 License: MIT + file LICENSE
+Copyright: see file inst/COPYRIGHTS
 URL: https://f-slg.github.io/geoecu/, https://github.com/f-slg/geoecu
 BugReports: https://github.com/f-slg/geoecu/issues
 Depends:
@@ -30,11 +33,13 @@ Imports:
     tools,
     utils
 Suggests:
+    curl,
     ggplot2,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Config/Needs/website: rmarkdown, knitr
 Encoding: UTF-8
 Language: es
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+Config/roxygen2/version: 8.1.1
