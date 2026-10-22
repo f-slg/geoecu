@@ -21,7 +21,7 @@
 #'   Galápagos o no contiene el continente, se devuelve sin cambios.
 #' @seealso [marco_galapagos()] para dibujar el recuadro.
 #' @export
-#' @examplesIf geoecu_datos_disponibles()
+#' @examplesIf geoecu_datos_disponibles() && requireNamespace("ggplot2", quietly = TRUE)
 #' library(ggplot2)
 #' prov <- reubicar_galapagos(read_provincias(crs = 32717))
 #' ggplot(prov) +

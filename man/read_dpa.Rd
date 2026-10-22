@@ -6,6 +6,11 @@
 \alias{read_cantones}
 \alias{read_parroquias}
 \title{Leer las capas de provincias, cantones o parroquias}
+\source{
+Organización Territorial del Estado, Comité Nacional de Límites
+Internos (CONALI), Ministerio de Gobierno del Ecuador. Datos abiertos,
+licencia CC BY: \url{https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial}.
+}
 \usage{
 read_provincias(provincia = NULL, resolucion = c("baja", "alta"), crs = 4326)
 
@@ -19,9 +24,10 @@ read_cantones(
 read_parroquias(
   provincia = NULL,
   canton = NULL,
-  area = NULL,
+  tipo = NULL,
   resolucion = c("baja", "alta"),
-  crs = 4326
+  crs = 4326,
+  area = NULL
 )
 }
 \arguments{
@@ -40,29 +46,45 @@ metros.}
 repite en varias provincias (por ejemplo, Bolívar u Olmedo), usa el
 código o indica también \code{provincia}.}
 
-\item{area}{Solo para parroquias: \code{"urbana"}, \code{"rural"} o \code{NULL} (ambas).}
+\item{tipo}{Solo para parroquias: \code{"cabecera"} (cabeceras cantonales),
+\code{"rural"} (parroquias rurales), \code{"zona"} (zonas en estudio) o \code{NULL}
+(todas). Se pueden combinar, por ejemplo \code{c("cabecera", "rural")}.}
+
+\item{area}{Obsoleto. Usa \code{tipo}. \code{"rural"} equivale a
+\code{tipo = "rural"} y \code{"urbana"} a \code{tipo = "cabecera"}.}
 }
 \value{
 Un objeto \code{sf} de polígonos con las columnas:
 \itemize{
-\item \code{read_provincias()}: \code{dpa_provin}, \code{provincia}, \code{area_km2}.
-\item \code{read_cantones()}: \code{dpa_canton}, \code{canton}, \code{dpa_provin}, \code{provincia},
-\code{area_km2}.
-\item \code{read_parroquias()}: \code{dpa_parroq}, \code{parroquia}, \code{area_dpa},
-\code{dpa_canton}, \code{canton}, \code{dpa_provin}, \code{provincia}, \code{area_km2}.
+\item \code{read_provincias()}: \code{dpa_provin}, \code{provincia}, \code{tipo}, \code{area_km2}.
+\item \code{read_cantones()}: \code{dpa_canton}, \code{canton}, \code{tipo}, \code{dpa_provin},
+\code{provincia}, \code{area_km2}.
+\item \code{read_parroquias()}: \code{dpa_parroq}, \code{parroquia}, \code{tipo}, \code{dpa_canton},
+\code{canton}, \code{dpa_provin}, \code{provincia}, \code{area_km2}.
 }
+
+\code{tipo} vale \code{"provincia"}, \code{"cantón"}, \code{"cabecera cantonal"} o
+\code{"parroquia rural"} según el nivel, o \code{"zona en estudio"}.
 }
 \description{
 Devuelven un objeto \code{sf} con los límites del nivel solicitado y sus códigos
-DPA. Los tres niveles encajan exactamente: cada cantón es la unión de sus
-parroquias y cada provincia la unión de sus cantones.
+DPA, según la Organización Territorial del Estado (CONALI). Los tres niveles
+encajan exactamente: cada cantón es la unión de sus parroquias y cada
+provincia la unión de sus cantones.
 }
 \details{
+Además de las circunscripciones, las capas incluyen las zonas en estudio
+(territorios con límites aún no resueltos), identificadas en la columna
+\code{tipo}, para que el mapa nacional no tenga huecos. Para excluirlas, filtra
+\code{tipo != "zona en estudio"}. Las parroquias son las de la división
+político-administrativa: cabeceras cantonales y parroquias rurales. Las
+parroquias urbanas forman parte de su cabecera cantonal.
+
 La primera vez se descarga el GeoPackage de la resolución pedida y se
 guarda en caché; las siguientes veces se lee directamente del disco.
 }
 \examples{
-\dontshow{if (geoecu_datos_disponibles()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (geoecu_datos_disponibles()) withAutoprint(\{ # examplesIf}
 provincias <- read_provincias()
 plot(sf::st_geometry(provincias))
 
@@ -70,6 +92,6 @@ plot(sf::st_geometry(provincias))
 loja <- read_cantones(provincia = "Loja", crs = 32717)
 
 # Parroquias rurales de un cantón
-read_parroquias(canton = "Puyango", area = "rural")
+read_parroquias(canton = "Puyango", tipo = "rural")
 \dontshow{\}) # examplesIf}
 }

@@ -102,6 +102,56 @@ buscar_dpa <- function(texto, nivel = c("parroquia", "canton", "provincia")) {
   res
 }
 
+#' Actualizar códigos de parroquia de versiones anteriores
+#'
+#' Convierte códigos de parroquia de los datos de geoecu 0.3.0 y anteriores
+#' (por ejemplo, de parroquias urbanas o del antiguo cantón Eloy Alfaro) al
+#' código actual, usando la equivalencia principal de [dpa_equivalencias].
+#' Los códigos vigentes se devuelven igual, aunque sus límites hayan cambiado.
+#'
+#' Cuando menos del 90 % de una parroquia anterior quedó en una sola parroquia
+#' actual, se usa la de mayor superposición y se avisa: revisa
+#' [dpa_equivalencias] si necesitas repartir los datos.
+#'
+#' @param x Vector de códigos de parroquia (número o texto).
+#' @return Vector de texto con los códigos actuales. Los códigos que no
+#'   existen en ninguna versión se devuelven como `NA` con una advertencia.
+#' @export
+#' @examples
+#' # Parroquia urbana de Cuenca, Borbón (antes en Eloy Alfaro) y una sin cambios
+#' actualizar_codigo(c("010101", "080253", "110152"))
+#'
+#' # Agregar una tabla antigua al código actual
+#' casos <- data.frame(cod = c("010101", "010102", "010150"), casos = c(3, 4, 1))
+#' casos$cod <- actualizar_codigo(casos$cod)
+#' aggregate(casos ~ cod, data = casos, FUN = sum)
+actualizar_codigo <- function(x) {
+  cod <- suppressWarnings(formatear_codigo(x, "parroquia"))
+  eq <- geoecu::dpa_equivalencias
+  princ <- eq[eq$principal, ]
+  actuales <- geoecu::dpa$dpa_parroq
+
+  # Un código vigente se conserva aunque su territorio haya cambiado
+  vigente <- cod %in% actuales
+  res <- ifelse(vigente, cod, princ$dpa_parroq[match(cod, princ$dpa_parroq_anterior)])
+
+  desconocidos <- unique(x[!is.na(cod) & is.na(res)])
+  invalidos <- unique(x[!is.na(x) & is.na(cod)])
+  if (length(c(desconocidos, invalidos))) {
+    warning("C\u00f3digo(s) que no existen en ninguna versi\u00f3n se devolvieron como NA: ",
+            paste(utils::head(c(desconocidos, invalidos), 5), collapse = ", "),
+            call. = FALSE)
+  }
+  repartidas <- unique(cod[!vigente &
+    cod %in% princ$dpa_parroq_anterior[princ$proporcion < 0.9]])
+  if (length(repartidas)) {
+    warning("Parroquia(s) repartida(s) entre varias actuales; se us\u00f3 la de mayor ",
+            "superposici\u00f3n: ", paste(utils::head(repartidas, 5), collapse = ", "),
+            ". Revisa `dpa_equivalencias`.", call. = FALSE)
+  }
+  unname(res)
+}
+
 # --- internas ----------------------------------------------------------------
 
 .etiqueta <- function(nivel) {

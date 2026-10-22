@@ -5,12 +5,12 @@
 \alias{dpa}
 \title{Catálogo de la División Político-Administrativa (DPA) del Ecuador}
 \format{
-Un \code{data.frame} con 1262 filas y 7 columnas:
+Un \code{data.frame} con 1051 filas y 7 columnas:
 \describe{
 \item{dpa_parroq}{Código DPA de la parroquia (6 dígitos, texto).}
 \item{parroquia}{Nombre de la parroquia, en mayúsculas.}
-\item{area_dpa}{\code{"urbana"} (sufijo de código <= 50, incluye cabeceras
-cantonales) o \code{"rural"} (sufijo > 50).}
+\item{tipo}{\code{"cabecera cantonal"}, \code{"parroquia rural"} o
+\code{"zona en estudio"}.}
 \item{dpa_canton}{Código DPA del cantón (4 dígitos, texto).}
 \item{canton}{Nombre del cantón.}
 \item{dpa_provin}{Código DPA de la provincia (2 dígitos, texto).}
@@ -18,9 +18,11 @@ cantonales) o \code{"rural"} (sufijo > 50).}
 }
 }
 \source{
-Cartografía de libre acceso del Geoportal del Instituto Geográfico
-Militar (IGM) del Ecuador. Ver \verb{data-raw/} en el repositorio para el
-procesamiento completo.
+Organización Territorial del Estado, Comité Nacional de Límites
+Internos (CONALI), Ministerio de Gobierno del Ecuador, versión del 17 de
+julio de 2026. Datos abiertos, licencia CC BY:
+\url{https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial}.
+Ver \verb{data-raw/} en el repositorio para el procesamiento completo.
 }
 \usage{
 dpa
@@ -30,9 +32,20 @@ Una fila por parroquia, con sus códigos y nombres en los tres niveles.
 Sirve para buscar códigos, validar tablas antes de unirlas con las capas o
 agregar datos parroquiales a cantón o provincia sin necesidad de geometrías.
 }
+\details{
+Incluye 1048 parroquias (223 cabeceras cantonales y 825 parroquias rurales)
+de 223 cantones y 24 provincias, más 3 zonas en estudio (territorios con
+límites aún no resueltos): Jaramijó-Manta (código \code{"139090"}),
+Sinaí-Cuchaentza (\code{"140190"}) y Juval (\code{"900651"}, provincia \code{"90"}). Las
+parroquias urbanas forman parte de su cabecera cantonal.
+}
 \examples{
 head(dpa)
 # Número de parroquias por provincia
 table(dpa$provincia)
+}
+\seealso{
+\link{dpa_equivalencias} para actualizar códigos de versiones
+anteriores de geoecu.
 }
 \keyword{datasets}
