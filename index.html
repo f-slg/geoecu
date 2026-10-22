@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,6 +41,8 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="articles/guia.html">Guía de uso</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/datos.html">Datos y fuente</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Funciones</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Novedades</a></li>
       </ul>
@@ -63,22 +65,32 @@
 </div>
 <!-- badges: start -->
 
-<p><strong>geoecu</strong> da acceso en una línea de código a las capas de <strong>provincias, cantones y parroquias del Ecuador</strong>, con los <strong>códigos de la División Político-Administrativa (DPA)</strong>, listas para mapear y para unir con datos de salud, vigilancia epidemiológica o cualquier otra fuente.</p>
+<p><strong>geoecu</strong> da acceso en una línea de código a las capas de <strong>provincias, cantones y parroquias del Ecuador</strong>, con los <strong>códigos de la División Político-Administrativa (DPA)</strong>, listas para mapear y para unir con datos de salud, vigilancia epidemiológica o cualquier otra fuente. Las capas provienen de los <a href="https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial" class="external-link">datos abiertos de la Organización Territorial del Estado</a> publicados por el CONALI (Ministerio de Gobierno).</p>
 <blockquote>
-<p><strong>Nota:</strong> geoecu es un paquete independiente, desarrollado a título personal. No es un producto oficial de ninguna institución.</p>
+<p><strong>Nota:</strong> geoecu es un paquete independiente, desarrollado a título personal. No es un producto oficial de ninguna institución, ni del CONALI ni del Ministerio de Gobierno.</p>
 </blockquote>
 <ul>
+<li>
+<strong>Datos actualizados</strong>: 24 provincias, 223 cantones y 1048 parroquias según la Organización Territorial del Estado del 17 de julio de 2026 (incluye el cantón Borbón y la parroquia Miss Ecuador).</li>
 <li>Los tres niveles <strong>encajan exactamente</strong>: cada cantón es la unión de sus parroquias y cada provincia la unión de sus cantones, sin huecos ni traslapes.</li>
-<li>Dos resoluciones: <code>"baja"</code> (3 MB, para mapas, boletines y tableros Shiny) y <code>"alta"</code> (para análisis espacial).</li>
-<li>Filtros por <strong>nombre o código</strong>, sin importar tildes ni mayúsculas.</li>
+<li>Dos resoluciones: <code>"baja"</code> (3 MB, para mapas, boletines y tableros Shiny) y <code>"alta"</code> (39 MB, para análisis espacial).</li>
+<li>Filtros por <strong>nombre o código</strong>, sin importar tildes ni mayúsculas, con sugerencias cuando un nombre no existe o es ambiguo.</li>
 <li>Une tus tablas por código DPA aunque los códigos vengan de Excel sin ceros a la izquierda.</li>
+<li>Mapas nacionales con <strong>Galápagos reubicado</strong> junto al continente.</li>
+<li>Convierte los códigos de versiones anteriores (parroquias urbanas, antiguo cantón Eloy Alfaro) con <code><a href="reference/actualizar_codigo.html">actualizar_codigo()</a></code>.</li>
+<li>Descarga única, verificada y en caché; después funciona sin conexión.</li>
 </ul>
-<p><img src="reference/figures/README-niveles.png" width="100%" alt="Ecuador por provincias según región natural, por cantones según número de parroquias y por parroquias urbanas y rurales"></p>
+<p>📖 <strong>Documentación completa:</strong> <a href="https://f-slg.github.io/geoecu/articles/guia.html">Guía de uso</a> · <a href="https://f-slg.github.io/geoecu/articles/datos.html">Datos y fuente</a> · <a href="https://f-slg.github.io/geoecu/reference/">Referencia de funciones</a></p>
+<p><img src="reference/figures/README-niveles.png" width="100%" alt="Ecuador por provincias según región natural, por cantones según número de parroquias y por parroquias según tipo: cabecera cantonal o rural"></p>
 <div class="section level2">
 <h2 id="instalación">Instalación<a class="anchor" aria-label="anchor" href="#instalaci%C3%B3n"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<code class="sourceCode R"><span><span class="co"># Desde CRAN</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"geoecu"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Versión en desarrollo</span></span>
+<span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"f-slg/geoecu"</span><span class="op">)</span></span></code></pre></div>
 <p>La primera vez que pidas una capa, geoecu descarga el GeoPackage correspondiente (unos segundos) y lo guarda en caché. Después funciona sin conexión.</p>
 <div class="section level3">
@@ -104,14 +116,14 @@
 <span></span>
 <span><span class="va">provincias</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_dpa.html">read_provincias</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">cantones</span>   <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_dpa.html">read_cantones</a></span><span class="op">(</span>provincia <span class="op">=</span> <span class="st">"Loja"</span><span class="op">)</span></span>
-<span><span class="va">parroquias</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_dpa.html">read_parroquias</a></span><span class="op">(</span>canton <span class="op">=</span> <span class="st">"Puyango"</span>, area <span class="op">=</span> <span class="st">"rural"</span><span class="op">)</span></span>
+<span><span class="va">parroquias</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_dpa.html">read_parroquias</a></span><span class="op">(</span>canton <span class="op">=</span> <span class="st">"Puyango"</span>, tipo <span class="op">=</span> <span class="st">"rural"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># En UTM 17S para medir áreas o distancias en metros</span></span>
 <span><span class="va">loja_utm</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_dpa.html">read_cantones</a></span><span class="op">(</span>provincia <span class="op">=</span> <span class="fl">11</span>, crs <span class="op">=</span> <span class="fl">32717</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Versión detallada</span></span>
 <span><span class="va">parroquias_alta</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/read_dpa.html">read_parroquias</a></span><span class="op">(</span>provincia <span class="op">=</span> <span class="st">"Loja"</span>, resolucion <span class="op">=</span> <span class="st">"alta"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-loja.png" width="520" alt="Mapa de la provincia de Loja con sus 16 cantones en colores distintos y los límites de sus 107 parroquias"></p>
+<p><img src="reference/figures/README-loja.png" width="520" alt="Mapa de la provincia de Loja con sus 16 cantones en colores distintos y los límites de sus 94 parroquias"></p>
 <p>Cada capa es un objeto <code>sf</code> con estas columnas:</p>
 <table class="table">
 <colgroup>
@@ -126,23 +138,24 @@
 <tr>
 <td><code><a href="reference/read_dpa.html">read_provincias()</a></code></td>
 <td>
-<code>dpa_provin</code>, <code>provincia</code>, <code>area_km2</code>
+<code>dpa_provin</code>, <code>provincia</code>, <code>tipo</code>, <code>area_km2</code>
 </td>
 </tr>
 <tr>
 <td><code><a href="reference/read_dpa.html">read_cantones()</a></code></td>
 <td>
-<code>dpa_canton</code>, <code>canton</code>, <code>dpa_provin</code>, <code>provincia</code>, <code>area_km2</code>
+<code>dpa_canton</code>, <code>canton</code>, <code>tipo</code>, <code>dpa_provin</code>, <code>provincia</code>, <code>area_km2</code>
 </td>
 </tr>
 <tr>
 <td><code><a href="reference/read_dpa.html">read_parroquias()</a></code></td>
 <td>
-<code>dpa_parroq</code>, <code>parroquia</code>, <code>area_dpa</code>, <code>dpa_canton</code>, <code>canton</code>, <code>dpa_provin</code>, <code>provincia</code>, <code>area_km2</code>
+<code>dpa_parroq</code>, <code>parroquia</code>, <code>tipo</code>, <code>dpa_canton</code>, <code>canton</code>, <code>dpa_provin</code>, <code>provincia</code>, <code>area_km2</code>
 </td>
 </tr>
 </tbody>
 </table>
+<p>La columna <code>tipo</code> distingue las circunscripciones (<code>"provincia"</code>, <code>"cantón"</code>, <code>"cabecera cantonal"</code>, <code>"parroquia rural"</code>) de las <strong>zonas en estudio</strong>, territorios con límites aún no resueltos que se incluyen para que el mapa no tenga huecos. Para excluirlas: <code>subset(x, tipo != "zona en estudio")</code>.</p>
 <div class="section level3">
 <h3 id="unir-tus-datos-y-mapear">Unir tus datos y mapear<a class="anchor" aria-label="anchor" href="#unir-tus-datos-y-mapear"></a>
 </h3>
@@ -183,7 +196,7 @@
 <h3 id="catálogo-dpa-y-utilidades">Catálogo DPA y utilidades<a class="anchor" aria-label="anchor" href="#cat%C3%A1logo-dpa-y-utilidades"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dpa</span><span class="op">)</span>                                  <span class="co"># 1262 parroquias con sus códigos</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dpa</span><span class="op">)</span>                                  <span class="co"># 1051 parroquias y zonas con sus códigos</span></span>
 <span><span class="fu"><a href="reference/buscar_dpa.html">buscar_dpa</a></span><span class="op">(</span><span class="st">"arenal"</span><span class="op">)</span>                       <span class="co"># buscar por nombre o código</span></span>
 <span><span class="fu"><a href="reference/buscar_dpa.html">buscar_dpa</a></span><span class="op">(</span><span class="st">"puyango"</span>, nivel <span class="op">=</span> <span class="st">"canton"</span><span class="op">)</span></span>
 <span></span>
@@ -191,9 +204,17 @@
 <span><span class="fu"><a href="reference/normalizar_nombre.html">normalizar_nombre</a></span><span class="op">(</span><span class="st">"Cañar "</span><span class="op">)</span>                <span class="co"># "CANAR"</span></span></code></pre></div>
 </div>
 <div class="section level3">
+<h3 id="códigos-de-versiones-anteriores">Códigos de versiones anteriores<a class="anchor" aria-label="anchor" href="#c%C3%B3digos-de-versiones-anteriores"></a>
+</h3>
+<p>Desde la versión 0.4.0, geoecu usa la Organización Territorial del Estado del CONALI, que no subdivide las cabeceras cantonales en parroquias urbanas e incluye el cantón Borbón y nuevas parroquias rurales. Si tus tablas usan los códigos de versiones anteriores, <code><a href="reference/actualizar_codigo.html">actualizar_codigo()</a></code> los convierte y <code>dpa_equivalencias</code> muestra la correspondencia completa:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/actualizar_codigo.html">actualizar_codigo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"010101"</span>, <span class="st">"080253"</span><span class="op">)</span><span class="op">)</span>   <span class="co"># "010150" (cabecera de Cuenca), "080950" (Borbón)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">dpa_equivalencias</span>, <span class="va">cambio</span> <span class="op">==</span> <span class="st">"código distinto"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="trabajar-sin-conexión-o-con-archivos-propios">Trabajar sin conexión o con archivos propios<a class="anchor" aria-label="anchor" href="#trabajar-sin-conexi%C3%B3n-o-con-archivos-propios"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/geoecu_usar_carpeta.html">geoecu_usar_carpeta</a></span><span class="op">(</span><span class="st">"C:/datos/geoecu"</span><span class="op">)</span>     <span class="co"># carpeta con geoecu_dpa_baja.gpkg</span></span></code></pre></div>
 <p>También puedes definir <code>GEOECU_CARPETA</code> en tu <code>.Renviron</code>. Para ver o borrar la caché: <code><a href="reference/geoecu_cache_dir.html">geoecu_cache_dir()</a></code> y <code><a href="reference/geoecu_limpiar_cache.html">geoecu_limpiar_cache()</a></code>.</p>
 </div>
@@ -210,7 +231,7 @@
 <tr>
 <td><strong>Fuente</strong></td>
 <td>
-<a href="https://www.geoportaligm.gob.ec/portal/index.php/descargas/cartografia-de-libre-acceso/registro/" class="external-link">Cartografía de libre acceso</a> del Geoportal del Instituto Geográfico Militar (IGM) del Ecuador: límites de provincias, cantones y parroquias con códigos DPA.</td>
+<a href="https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial" class="external-link">Organización Territorial del Estado</a>, Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del Ecuador. Versión del 17 de julio de 2026. Datos abiertos, licencia CC BY.</td>
 </tr>
 <tr>
 <td><strong>Figuras</strong></td>
@@ -218,11 +239,11 @@
 </tr>
 <tr>
 <td><strong>Procesamiento</strong></td>
-<td>Cantones y provincias construidos disolviendo las parroquias por código DPA; simplificación topológica con <a href="https://github.com/mbloch/mapshaper" class="external-link">mapshaper</a> (10 m en alta, 250 m en baja); reproyección a WGS84. Scripts en <a href="https://github.com/f-slg/geoecu/tree/main/data-raw" class="external-link"><code>data-raw/</code></a>.</td>
+<td>Cantones y provincias construidos disolviendo las parroquias por código DPA; se excluye un polígono sin código (“ISLA”); simplificación topológica con <a href="https://github.com/mbloch/mapshaper" class="external-link">mapshaper</a> (10 m en alta, 250 m en baja); reproyección a WGS84. Scripts en <a href="https://github.com/f-slg/geoecu/tree/main/data-raw" class="external-link"><code>data-raw/</code></a>.</td>
 </tr>
 <tr>
 <td><strong>Cobertura</strong></td>
-<td>24 provincias, 221 cantones y 1262 parroquias (440 urbanas, 822 rurales).</td>
+<td>24 provincias, 223 cantones y 1048 parroquias (223 cabeceras cantonales y 825 rurales), más 3 zonas en estudio.</td>
 </tr>
 <tr>
 <td><strong>Sistema de coordenadas</strong></td>
@@ -230,15 +251,19 @@
 </tr>
 </tbody>
 </table>
-<p>Las parroquias creadas o recodificadas después de la versión de origen no aparecen. Las áreas no delimitadas se asignan según la capa de origen.</p>
+<p>Las parroquias urbanas forman parte de su cabecera cantonal. Las circunscripciones creadas después de la versión de origen no aparecen hasta la siguiente actualización de datos.</p>
 </div>
 <div class="section level2">
 <h2 id="cómo-citar">Cómo citar<a class="anchor" aria-label="anchor" href="#c%C3%B3mo-citar"></a>
 </h2>
-<pre><code>Salas Guerrero, R. F. (2026). geoecu: Capas geográficas de la División
-Político-Administrativa del Ecuador. Paquete de R versión 0.1.0.
-https://github.com/f-slg/geoecu</code></pre>
-<p>Al usar los datos, cita también al Instituto Geográfico Militar (IGM) del Ecuador como fuente de las geometrías.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"geoecu"</span><span class="op">)</span></span></code></pre></div>
+<p>Al usar los datos, cita también la fuente, como pide el CONALI:</p>
+<pre><code>Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del
+Ecuador. Límites territoriales de la Organización Territorial del Estado
+interparroquiales, aprobados por el Directorio del CONALI en sesión ordinaria
+del 24 de marzo de 2022, 17 de enero de 2023 y 13 de marzo de 2026. Datos
+abiertos, licencia CC BY.</code></pre>
 </div>
 <div class="section level2">
 <h2 id="contribuir">Contribuir<a class="anchor" aria-label="anchor" href="#contribuir"></a>
@@ -248,7 +273,7 @@ https://github.com/f-slg/geoecu</code></pre>
 <div class="section level2">
 <h2 id="licencia">Licencia<a class="anchor" aria-label="anchor" href="#licencia"></a>
 </h2>
-<p>El código se distribuye bajo licencia <a href="https://github.com/f-slg/geoecu/blob/main/LICENSE.md" class="external-link">MIT</a>.</p>
+<p>El código se distribuye bajo licencia <a href="https://github.com/f-slg/geoecu/blob/main/LICENSE.md" class="external-link">MIT</a>. Los datos son del CONALI, con licencia CC BY; ver <a href="https://github.com/f-slg/geoecu/blob/main/inst/COPYRIGHTS" class="external-link"><code>inst/COPYRIGHTS</code></a>.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -257,7 +282,7 @@ https://github.com/f-slg/geoecu</code></pre>
 <li><a href="https://cloud.r-project.org/package=geoecu" class="external-link">View on CRAN</a></li>
 <li><a href="https://github.com/f-slg/geoecu/" class="external-link">Browse source code</a></li>
 <li><a href="https://github.com/f-slg/geoecu/issues" class="external-link">Report a bug</a></li>
-<li><a href="https://www.geoportaligm.gob.ec/portal/" class="external-link">Cartografía del IGM</a></li>
+<li><a href="https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial" class="external-link">Organización Territorial del Estado (CONALI)</a></li>
 <li><a href="https://f-slg.github.io/pobecu/" class="external-link">Paquete hermano pobecu</a></li>
 </ul>
 </div>
@@ -287,8 +312,11 @@ https://github.com/f-slg/geoecu</code></pre>
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=geoecu" class="external-link"><img src="https://www.r-pkg.org/badges/version/geoecu" alt="CRAN"></a></li>
 <li><a href="https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://f-slg.github.io/geoecu/"><img src="https://img.shields.io/badge/documentaci%C3%B3n-f--slg.github.io%2Fgeoecu-0F2233.svg" alt="Sitio web"></a></li>
 <li><a href="https://github.com/f-slg/geoecu/blob/main/LICENSE.md" class="external-link"><img src="https://img.shields.io/badge/licencia-MIT-blue.svg" alt="Licencia: MIT"></a></li>
+<li><a href="https://github.com/f-slg/geoecu/blob/main/inst/COPYRIGHTS" class="external-link"><img src="https://img.shields.io/badge/datos-CONALI%20%C2%B7%20CC%20BY-F2B705.svg" alt="Datos: CC BY"></a></li>
 </ul>
 </div>
 

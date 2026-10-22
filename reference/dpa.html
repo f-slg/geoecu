@@ -11,7 +11,7 @@ agregar datos parroquiales a cantón o provincia sin necesidad de geometrías.">
 
     <a class="navbar-brand me-2" href="../index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,7 +19,9 @@ agregar datos parroquiales a cantón o provincia sin necesidad de geometrías.">
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Funciones</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/guia.html">Guía de uso</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/datos.html">Datos y fuente</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Funciones</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Novedades</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -32,7 +34,7 @@ agregar datos parroquiales a cantón o provincia sin necesidad de geometrías.">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Catálogo de la División Político-Administrativa (DPA) del Ecuador</h1>
-      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/datos-v0.2.0/R/datos.R" class="external-link"><code>R/datos.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/main/R/datos.R" class="external-link"><code>R/datos.R</code></a></small>
       <div class="d-none name"><code>dpa.Rd</code></div>
     </div>
 
@@ -49,15 +51,15 @@ agregar datos parroquiales a cantón o provincia sin necesidad de geometrías.</
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p>Un <code>data.frame</code> con 1262 filas y 7 columnas:</p><dl><dt>dpa_parroq</dt>
+    <p>Un <code>data.frame</code> con 1051 filas y 7 columnas:</p><dl><dt>dpa_parroq</dt>
 <dd><p>Código DPA de la parroquia (6 dígitos, texto).</p></dd>
 
 <dt>parroquia</dt>
 <dd><p>Nombre de la parroquia, en mayúsculas.</p></dd>
 
-<dt>area_dpa</dt>
-<dd><p><code>"urbana"</code> (sufijo de código &lt;= 50, incluye cabeceras
-cantonales) o <code>"rural"</code> (sufijo &gt; 50).</p></dd>
+<dt>tipo</dt>
+<dd><p><code>"cabecera cantonal"</code>, <code>"parroquia rural"</code> o
+<code>"zona en estudio"</code>.</p></dd>
 
 <dt>dpa_canton</dt>
 <dd><p>Código DPA del cantón (4 dígitos, texto).</p></dd>
@@ -75,21 +77,36 @@ cantonales) o <code>"rural"</code> (sufijo &gt; 50).</p></dd>
 </dl></div>
     <div class="section level2">
     <h2 id="source">Source<a class="anchor" aria-label="anchor" href="#source"></a></h2>
-    <p>Cartografía de libre acceso del Geoportal del Instituto Geográfico
-Militar (IGM) del Ecuador. Ver <code>data-raw/</code> en el repositorio para el
-procesamiento completo.</p>
+    <p>Organización Territorial del Estado, Comité Nacional de Límites
+Internos (CONALI), Ministerio de Gobierno del Ecuador, versión del 17 de
+julio de 2026. Datos abiertos, licencia CC BY:
+<a href="https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial" class="external-link">https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial</a>.
+Ver <code>data-raw/</code> en el repositorio para el procesamiento completo.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Incluye 1048 parroquias (223 cabeceras cantonales y 825 parroquias rurales)
+de 223 cantones y 24 provincias, más 3 zonas en estudio (territorios con
+límites aún no resueltos): Jaramijó-Manta (código <code>"139090"</code>),
+Sinaí-Cuchaentza (<code>"140190"</code>) y Juval (<code>"900651"</code>, provincia <code>"90"</code>). Las
+parroquias urbanas forman parte de su cabecera cantonal.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
+    <div class="dont-index"><p><a href="dpa_equivalencias.html">dpa_equivalencias</a> para actualizar códigos de versiones
+anteriores de geoecu.</p></div>
     </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dpa</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   dpa_parroq           parroquia area_dpa dpa_canton canton dpa_provin</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     010101          BELLAVISTA   urbana       0101 CUENCA         01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2     010102         CAÑARIBAMBA   urbana       0101 CUENCA         01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3     010103            EL BATAN   urbana       0101 CUENCA         01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4     010104         EL SAGRARIO   urbana       0101 CUENCA         01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5     010105           EL VECINO   urbana       0101 CUENCA         01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     010106 GIL RAMIREZ DAVALOS   urbana       0101 CUENCA         01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   dpa_parroq  parroquia              tipo dpa_canton canton dpa_provin</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     010150     CUENCA cabecera cantonal       0101 CUENCA         01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     010151      BAÑOS   parroquia rural       0101 CUENCA         01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     010152      CUMBE   parroquia rural       0101 CUENCA         01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     010153    CHAUCHA   parroquia rural       0101 CUENCA         01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5     010154      CHECA   parroquia rural       0101 CUENCA         01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     010155 CHIQUINTAD   parroquia rural       0101 CUENCA         01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   provincia</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     AZUAY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2     AZUAY</span>
@@ -100,30 +117,56 @@ procesamiento completo.</p>
 <span class="r-in"><span><span class="co"># Número de parroquias por provincia</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">dpa</span><span class="op">$</span><span class="va">provincia</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                          AZUAY                        BOLIVAR </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             90                             26 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         CARCHI                          CAÑAR </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             36                             33 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     CHIMBORAZO                       COTOPAXI </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             62                             47 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         EL ORO                     ESMERALDAS </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             84                             68 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                      GALAPAGOS                         GUAYAS </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                              7                             81 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                       IMBABURA                           LOJA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             51                            107 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                       LOS RIOS                         MANABI </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             54                            105 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                MORONA SANTIAGO                           NAPO </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             60                             25 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                       ORELLANA                        PASTAZA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             33                             21 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                      PICHINCHA                    SANTA ELENA </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             98                             17 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SANTO DOMINGO DE LOS TSACHILAS                      SUCUMBIOS </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             19                             36 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                     TUNGURAHUA               ZAMORA CHINCHIPE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                             64                             38 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                     AZUAY </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        76 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   BOLÍVAR </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        26 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    CARCHI </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        32 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                     CAÑAR </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        33 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                CHIMBORAZO </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        55 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  COTOPAXI </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        40 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    EL ORO </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        64 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                ESMERALDAS </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        64 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                 GALÁPAGOS </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                         8 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    GUAYAS </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        54 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  IMBABURA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        42 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                      LOJA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        94 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  LOS RÍOS </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        30 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                    MANABÍ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        79 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                           MORONA SANTIAGO </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        59 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                      NAPO </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        25 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                  ORELLANA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        32 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                   PASTAZA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        22 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                 PICHINCHA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        62 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                               SANTA ELENA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        11 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            SANTO DOMINGO DE LOS TSÁCHILAS </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        12 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                 SUCUMBÍOS </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        39 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                TUNGURAHUA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        53 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          ZAMORA CHINCHIPE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                        38 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ZONA EN ESTUDIO: JUVAL (CAÑAR-CHIMBORAZO) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                         1 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

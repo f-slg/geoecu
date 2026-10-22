@@ -13,7 +13,7 @@ dpa
 
 ## Format
 
-Un `data.frame` con 1262 filas y 7 columnas:
+Un `data.frame` con 1051 filas y 7 columnas:
 
 - dpa_parroq:
 
@@ -23,10 +23,9 @@ Un `data.frame` con 1262 filas y 7 columnas:
 
   Nombre de la parroquia, en mayúsculas.
 
-- area_dpa:
+- tipo:
 
-  `"urbana"` (sufijo de código \<= 50, incluye cabeceras cantonales) o
-  `"rural"` (sufijo \> 50).
+  `"cabecera cantonal"`, `"parroquia rural"` o `"zona en estudio"`.
 
 - dpa_canton:
 
@@ -46,21 +45,37 @@ Un `data.frame` con 1262 filas y 7 columnas:
 
 ## Source
 
-Cartografía de libre acceso del Geoportal del Instituto Geográfico
-Militar (IGM) del Ecuador. Ver `data-raw/` en el repositorio para el
-procesamiento completo.
+Organización Territorial del Estado, Comité Nacional de Límites Internos
+(CONALI), Ministerio de Gobierno del Ecuador, versión del 17 de julio de
+2026. Datos abiertos, licencia CC BY:
+<https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial>.
+Ver `data-raw/` en el repositorio para el procesamiento completo.
+
+## Details
+
+Incluye 1048 parroquias (223 cabeceras cantonales y 825 parroquias
+rurales) de 223 cantones y 24 provincias, más 3 zonas en estudio
+(territorios con límites aún no resueltos): Jaramijó-Manta (código
+`"139090"`), Sinaí-Cuchaentza (`"140190"`) y Juval (`"900651"`,
+provincia `"90"`). Las parroquias urbanas forman parte de su cabecera
+cantonal.
+
+## See also
+
+[dpa_equivalencias](https://f-slg.github.io/geoecu/reference/dpa_equivalencias.md)
+para actualizar códigos de versiones anteriores de geoecu.
 
 ## Examples
 
 ``` r
 head(dpa)
-#>   dpa_parroq           parroquia area_dpa dpa_canton canton dpa_provin
-#> 1     010101          BELLAVISTA   urbana       0101 CUENCA         01
-#> 2     010102         CAÑARIBAMBA   urbana       0101 CUENCA         01
-#> 3     010103            EL BATAN   urbana       0101 CUENCA         01
-#> 4     010104         EL SAGRARIO   urbana       0101 CUENCA         01
-#> 5     010105           EL VECINO   urbana       0101 CUENCA         01
-#> 6     010106 GIL RAMIREZ DAVALOS   urbana       0101 CUENCA         01
+#>   dpa_parroq  parroquia              tipo dpa_canton canton dpa_provin
+#> 1     010150     CUENCA cabecera cantonal       0101 CUENCA         01
+#> 2     010151      BAÑOS   parroquia rural       0101 CUENCA         01
+#> 3     010152      CUMBE   parroquia rural       0101 CUENCA         01
+#> 4     010153    CHAUCHA   parroquia rural       0101 CUENCA         01
+#> 5     010154      CHECA   parroquia rural       0101 CUENCA         01
+#> 6     010155 CHIQUINTAD   parroquia rural       0101 CUENCA         01
 #>   provincia
 #> 1     AZUAY
 #> 2     AZUAY
@@ -71,28 +86,54 @@ head(dpa)
 # Número de parroquias por provincia
 table(dpa$provincia)
 #> 
-#>                          AZUAY                        BOLIVAR 
-#>                             90                             26 
-#>                         CARCHI                          CAÑAR 
-#>                             36                             33 
-#>                     CHIMBORAZO                       COTOPAXI 
-#>                             62                             47 
-#>                         EL ORO                     ESMERALDAS 
-#>                             84                             68 
-#>                      GALAPAGOS                         GUAYAS 
-#>                              7                             81 
-#>                       IMBABURA                           LOJA 
-#>                             51                            107 
-#>                       LOS RIOS                         MANABI 
-#>                             54                            105 
-#>                MORONA SANTIAGO                           NAPO 
-#>                             60                             25 
-#>                       ORELLANA                        PASTAZA 
-#>                             33                             21 
-#>                      PICHINCHA                    SANTA ELENA 
-#>                             98                             17 
-#> SANTO DOMINGO DE LOS TSACHILAS                      SUCUMBIOS 
-#>                             19                             36 
-#>                     TUNGURAHUA               ZAMORA CHINCHIPE 
-#>                             64                             38 
+#>                                     AZUAY 
+#>                                        76 
+#>                                   BOLÍVAR 
+#>                                        26 
+#>                                    CARCHI 
+#>                                        32 
+#>                                     CAÑAR 
+#>                                        33 
+#>                                CHIMBORAZO 
+#>                                        55 
+#>                                  COTOPAXI 
+#>                                        40 
+#>                                    EL ORO 
+#>                                        64 
+#>                                ESMERALDAS 
+#>                                        64 
+#>                                 GALÁPAGOS 
+#>                                         8 
+#>                                    GUAYAS 
+#>                                        54 
+#>                                  IMBABURA 
+#>                                        42 
+#>                                      LOJA 
+#>                                        94 
+#>                                  LOS RÍOS 
+#>                                        30 
+#>                                    MANABÍ 
+#>                                        79 
+#>                           MORONA SANTIAGO 
+#>                                        59 
+#>                                      NAPO 
+#>                                        25 
+#>                                  ORELLANA 
+#>                                        32 
+#>                                   PASTAZA 
+#>                                        22 
+#>                                 PICHINCHA 
+#>                                        62 
+#>                               SANTA ELENA 
+#>                                        11 
+#>            SANTO DOMINGO DE LOS TSÁCHILAS 
+#>                                        12 
+#>                                 SUCUMBÍOS 
+#>                                        39 
+#>                                TUNGURAHUA 
+#>                                        53 
+#>                          ZAMORA CHINCHIPE 
+#>                                        38 
+#> ZONA EN ESTUDIO: JUVAL (CAÑAR-CHIMBORAZO) 
+#>                                         1 
 ```

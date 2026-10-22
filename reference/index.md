@@ -22,6 +22,16 @@
   la División Político-Administrativa (DPA) del Ecuador
 - [`buscar_dpa()`](https://f-slg.github.io/geoecu/reference/buscar_dpa.md)
   : Buscar en el catálogo DPA
+
+## Códigos de versiones anteriores
+
+- [`dpa_equivalencias`](https://f-slg.github.io/geoecu/reference/dpa_equivalencias.md)
+  : Equivalencias con los códigos de parroquia de versiones anteriores
+- [`actualizar_codigo()`](https://f-slg.github.io/geoecu/reference/actualizar_codigo.md)
+  : Actualizar códigos de parroquia de versiones anteriores
+
+## Limpieza de códigos y nombres
+
 - [`formatear_codigo()`](https://f-slg.github.io/geoecu/reference/formatear_codigo.md)
   : Formatear códigos DPA
 - [`normalizar_nombre()`](https://f-slg.github.io/geoecu/reference/normalizar_nombre.md)

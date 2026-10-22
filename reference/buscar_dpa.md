@@ -27,8 +27,8 @@ Un `data.frame` con las coincidencias en el nivel indicado.
 
 ``` r
 buscar_dpa("arenal")
-#>   dpa_parroq parroquia area_dpa dpa_canton  canton dpa_provin provincia
-#> 1     111052 EL ARENAL    rural       1110 PUYANGO         11      LOJA
+#>   dpa_parroq parroquia            tipo dpa_canton  canton dpa_provin provincia
+#> 1     111052 EL ARENAL parroquia rural       1110 PUYANGO         11      LOJA
 buscar_dpa("puyango", nivel = "canton")
 #>   dpa_canton  canton dpa_provin provincia
 #> 1       1110 PUYANGO         11      LOJA

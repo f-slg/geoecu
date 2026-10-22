@@ -8,16 +8,29 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/f-slg/geoecu/blob/datos-v0.2.0/DESCRIPTION)
+[`inst/CITATION`](https://github.com/f-slg/geoecu/blob/main/inst/CITATION)
 
-Salas Guerrero R (2026). *geoecu: Maps of the Provinces, Cantons and
-Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias del
-Ecuador)*. R package version 0.3.0, <https://f-slg.github.io/geoecu/>.
+Salas Guerrero, R. F. (2026). geoecu: Mapas de provincias, cantones y
+parroquias del Ecuador. Paquete de R versión 0.4.0.
+https://f-slg.github.io/geoecu/
 
     @Manual{,
-      title = {geoecu: Maps of the Provinces, Cantons and Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias del Ecuador)},
+      title = {geoecu: Mapas de provincias, cantones y parroquias del Ecuador},
       author = {Ronald Fabricio {Salas Guerrero}},
       year = {2026},
-      note = {R package version 0.3.0},
+      note = {Paquete de R versión 0.4.0},
       url = {https://f-slg.github.io/geoecu/},
+    }
+
+Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del
+Ecuador (2026). Organización Territorial del Estado. Datos abiertos,
+licencia CC BY, versión del 17 de julio de 2026.
+https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial
+
+    @Misc{,
+      title = {Organización Territorial del Estado: límites territoriales internos (provincial, cantonal y parroquial)},
+      author = {{Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del Ecuador}},
+      year = {2026},
+      note = {Datos abiertos, licencia CC BY. Versión del 17 de julio de 2026},
+      url = {https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial},
     }

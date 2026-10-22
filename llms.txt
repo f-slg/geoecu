@@ -3,28 +3,51 @@
 **geoecu** da acceso en una línea de código a las capas de **provincias,
 cantones y parroquias del Ecuador**, con los **códigos de la División
 Político-Administrativa (DPA)**, listas para mapear y para unir con
-datos de salud, vigilancia epidemiológica o cualquier otra fuente.
+datos de salud, vigilancia epidemiológica o cualquier otra fuente. Las
+capas provienen de los [datos abiertos de la Organización Territorial
+del
+Estado](https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial)
+publicados por el CONALI (Ministerio de Gobierno).
 
 > **Nota:** geoecu es un paquete independiente, desarrollado a título
-> personal. No es un producto oficial de ninguna institución.
+> personal. No es un producto oficial de ninguna institución, ni del
+> CONALI ni del Ministerio de Gobierno.
 
+- **Datos actualizados**: 24 provincias, 223 cantones y 1048 parroquias
+  según la Organización Territorial del Estado del 17 de julio de 2026
+  (incluye el cantón Borbón y la parroquia Miss Ecuador).
 - Los tres niveles **encajan exactamente**: cada cantón es la unión de
   sus parroquias y cada provincia la unión de sus cantones, sin huecos
   ni traslapes.
 - Dos resoluciones: `"baja"` (3 MB, para mapas, boletines y tableros
-  Shiny) y `"alta"` (para análisis espacial).
-- Filtros por **nombre o código**, sin importar tildes ni mayúsculas.
+  Shiny) y `"alta"` (39 MB, para análisis espacial).
+- Filtros por **nombre o código**, sin importar tildes ni mayúsculas,
+  con sugerencias cuando un nombre no existe o es ambiguo.
 - Une tus tablas por código DPA aunque los códigos vengan de Excel sin
   ceros a la izquierda.
+- Mapas nacionales con **Galápagos reubicado** junto al continente.
+- Convierte los códigos de versiones anteriores (parroquias urbanas,
+  antiguo cantón Eloy Alfaro) con
+  [`actualizar_codigo()`](https://f-slg.github.io/geoecu/reference/actualizar_codigo.md).
+- Descarga única, verificada y en caché; después funciona sin conexión.
+
+📖 **Documentación completa:** [Guía de
+uso](https://f-slg.github.io/geoecu/articles/guia.html) · [Datos y
+fuente](https://f-slg.github.io/geoecu/articles/datos.html) ·
+[Referencia de funciones](https://f-slg.github.io/geoecu/reference/)
 
 ![Ecuador por provincias según región natural, por cantones según número
-de parroquias y por parroquias urbanas y
-rurales](reference/figures/README-niveles.png)
+de parroquias y por parroquias según tipo: cabecera cantonal o
+rural](reference/figures/README-niveles.png)
 
 ## Instalación
 
 ``` r
 
+# Desde CRAN
+install.packages("geoecu")
+
+# Versión en desarrollo
 # install.packages("remotes")
 remotes::install_github("f-slg/geoecu")
 ```
@@ -67,7 +90,7 @@ library(geoecu)
 
 provincias <- read_provincias()
 cantones   <- read_cantones(provincia = "Loja")
-parroquias <- read_parroquias(canton = "Puyango", area = "rural")
+parroquias <- read_parroquias(canton = "Puyango", tipo = "rural")
 
 # En UTM 17S para medir áreas o distancias en metros
 loja_utm <- read_cantones(provincia = 11, crs = 32717)
@@ -77,15 +100,21 @@ parroquias_alta <- read_parroquias(provincia = "Loja", resolucion = "alta")
 ```
 
 ![Mapa de la provincia de Loja con sus 16 cantones en colores distintos
-y los límites de sus 107 parroquias](reference/figures/README-loja.png)
+y los límites de sus 94 parroquias](reference/figures/README-loja.png)
 
 Cada capa es un objeto `sf` con estas columnas:
 
 | Capa | Columnas |
 |----|----|
-| [`read_provincias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) | `dpa_provin`, `provincia`, `area_km2` |
-| [`read_cantones()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) | `dpa_canton`, `canton`, `dpa_provin`, `provincia`, `area_km2` |
-| [`read_parroquias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) | `dpa_parroq`, `parroquia`, `area_dpa`, `dpa_canton`, `canton`, `dpa_provin`, `provincia`, `area_km2` |
+| [`read_provincias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) | `dpa_provin`, `provincia`, `tipo`, `area_km2` |
+| [`read_cantones()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) | `dpa_canton`, `canton`, `tipo`, `dpa_provin`, `provincia`, `area_km2` |
+| [`read_parroquias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) | `dpa_parroq`, `parroquia`, `tipo`, `dpa_canton`, `canton`, `dpa_provin`, `provincia`, `area_km2` |
+
+La columna `tipo` distingue las circunscripciones (`"provincia"`,
+`"cantón"`, `"cabecera cantonal"`, `"parroquia rural"`) de las **zonas
+en estudio**, territorios con límites aún no resueltos que se incluyen
+para que el mapa no tenga huecos. Para excluirlas:
+`subset(x, tipo != "zona en estudio")`.
 
 ### Unir tus datos y mapear
 
@@ -145,12 +174,27 @@ las capas sin reubicar.
 
 ``` r
 
-head(dpa)                                  # 1262 parroquias con sus códigos
+head(dpa)                                  # 1051 parroquias y zonas con sus códigos
 buscar_dpa("arenal")                       # buscar por nombre o código
 buscar_dpa("puyango", nivel = "canton")
 
 formatear_codigo(c(701, 1101), "canton")   # "0701" "1101"
 normalizar_nombre("Cañar ")                # "CANAR"
+```
+
+### Códigos de versiones anteriores
+
+Desde la versión 0.4.0, geoecu usa la Organización Territorial del
+Estado del CONALI, que no subdivide las cabeceras cantonales en
+parroquias urbanas e incluye el cantón Borbón y nuevas parroquias
+rurales. Si tus tablas usan los códigos de versiones anteriores,
+[`actualizar_codigo()`](https://f-slg.github.io/geoecu/reference/actualizar_codigo.md)
+los convierte y `dpa_equivalencias` muestra la correspondencia completa:
+
+``` r
+
+actualizar_codigo(c("010101", "080253"))   # "010150" (cabecera de Cuenca), "080950" (Borbón)
+subset(dpa_equivalencias, cambio == "código distinto")
 ```
 
 ### Trabajar sin conexión o con archivos propios
@@ -170,24 +214,30 @@ y
 
 |  |  |
 |----|----|
-| **Fuente** | [Cartografía de libre acceso](https://www.geoportaligm.gob.ec/portal/index.php/descargas/cartografia-de-libre-acceso/registro/) del Geoportal del Instituto Geográfico Militar (IGM) del Ecuador: límites de provincias, cantones y parroquias con códigos DPA. |
+| **Fuente** | [Organización Territorial del Estado](https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial), Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del Ecuador. Versión del 17 de julio de 2026. Datos abiertos, licencia CC BY. |
 | **Figuras** | Las imágenes de este README se generan con [`data-raw/03_figuras_readme.R`](https://github.com/f-slg/geoecu/blob/main/data-raw/03_figuras_readme.R) a partir de los datos del paquete. |
-| **Procesamiento** | Cantones y provincias construidos disolviendo las parroquias por código DPA; simplificación topológica con [mapshaper](https://github.com/mbloch/mapshaper) (10 m en alta, 250 m en baja); reproyección a WGS84. Scripts en [`data-raw/`](https://github.com/f-slg/geoecu/tree/main/data-raw). |
-| **Cobertura** | 24 provincias, 221 cantones y 1262 parroquias (440 urbanas, 822 rurales). |
+| **Procesamiento** | Cantones y provincias construidos disolviendo las parroquias por código DPA; se excluye un polígono sin código (“ISLA”); simplificación topológica con [mapshaper](https://github.com/mbloch/mapshaper) (10 m en alta, 250 m en baja); reproyección a WGS84. Scripts en [`data-raw/`](https://github.com/f-slg/geoecu/tree/main/data-raw). |
+| **Cobertura** | 24 provincias, 223 cantones y 1048 parroquias (223 cabeceras cantonales y 825 rurales), más 3 zonas en estudio. |
 | **Sistema de coordenadas** | WGS84 (EPSG:4326) por defecto. |
 
-Las parroquias creadas o recodificadas después de la versión de origen
-no aparecen. Las áreas no delimitadas se asignan según la capa de
-origen.
+Las parroquias urbanas forman parte de su cabecera cantonal. Las
+circunscripciones creadas después de la versión de origen no aparecen
+hasta la siguiente actualización de datos.
 
 ## Cómo citar
 
-    Salas Guerrero, R. F. (2026). geoecu: Capas geográficas de la División
-    Político-Administrativa del Ecuador. Paquete de R versión 0.1.0.
-    https://github.com/f-slg/geoecu
+``` r
 
-Al usar los datos, cita también al Instituto Geográfico Militar (IGM)
-del Ecuador como fuente de las geometrías.
+citation("geoecu")
+```
+
+Al usar los datos, cita también la fuente, como pide el CONALI:
+
+    Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del
+    Ecuador. Límites territoriales de la Organización Territorial del Estado
+    interparroquiales, aprobados por el Directorio del CONALI en sesión ordinaria
+    del 24 de marzo de 2022, 17 de enero de 2023 y 13 de marzo de 2026. Datos
+    abiertos, licencia CC BY.
 
 ## Contribuir
 
@@ -204,7 +254,9 @@ al participar, te comprometes a respetarlo.
 ## Licencia
 
 El código se distribuye bajo licencia
-[MIT](https://github.com/f-slg/geoecu/blob/main/LICENSE.md).
+[MIT](https://github.com/f-slg/geoecu/blob/main/LICENSE.md). Los datos
+son del CONALI, con licencia CC BY; ver
+[`inst/COPYRIGHTS`](https://github.com/f-slg/geoecu/blob/main/inst/COPYRIGHTS).
 
 # Package index
 
@@ -230,6 +282,16 @@ El código se distribuye bajo licencia
   la División Político-Administrativa (DPA) del Ecuador
 - [`buscar_dpa()`](https://f-slg.github.io/geoecu/reference/buscar_dpa.md)
   : Buscar en el catálogo DPA
+
+## Códigos de versiones anteriores
+
+- [`dpa_equivalencias`](https://f-slg.github.io/geoecu/reference/dpa_equivalencias.md)
+  : Equivalencias con los códigos de parroquia de versiones anteriores
+- [`actualizar_codigo()`](https://f-slg.github.io/geoecu/reference/actualizar_codigo.md)
+  : Actualizar códigos de parroquia de versiones anteriores
+
+## Limpieza de códigos y nombres
+
 - [`formatear_codigo()`](https://f-slg.github.io/geoecu/reference/formatear_codigo.md)
   : Formatear códigos DPA
 - [`normalizar_nombre()`](https://f-slg.github.io/geoecu/reference/normalizar_nombre.md)
@@ -246,3 +308,17 @@ El código se distribuye bajo licencia
 - [`geoecu_usar_carpeta()`](https://f-slg.github.io/geoecu/reference/geoecu_usar_carpeta.md)
   : Usar GeoPackages desde una carpeta local
 
+# Articles
+
+### Artículos
+
+- [Guía de uso](https://f-slg.github.io/geoecu/articles/guia.md):
+
+  Paso a paso: leer las capas, filtrar, unir datos propios, hacer mapas
+  temáticos, reubicar Galápagos y trabajar sin conexión.
+
+- [Datos: fuente y
+  procesamiento](https://f-slg.github.io/geoecu/articles/datos.md):
+
+  De dónde vienen las capas, cómo se procesan, qué son las zonas en
+  estudio y qué cambió respecto a las versiones anteriores de geoecu.

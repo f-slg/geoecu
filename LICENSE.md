@@ -23,8 +23,11 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ------------------------------------------------------------------------
 
-La licencia MIT cubre el **código** del paquete. Las **geometrías y
-códigos DPA** provienen de la cartografía de libre acceso del Instituto
-Geográfico Militar (IGM) del Ecuador y se distribuyen como assets de los
-releases del repositorio, no dentro del paquete; su uso debe citar la
-fuente (ver README).
+La licencia MIT cubre el **código** del paquete. Los **datos**
+(geometrías, códigos y nombres DPA) provienen de la Organización
+Territorial del Estado del Comité Nacional de Límites Internos (CONALI),
+Ministerio de Gobierno del Ecuador, publicada como datos abiertos con
+licencia Creative Commons Atribución (CC BY). El catálogo `dpa` va
+dentro del paquete; las geometrías se distribuyen como assets de los
+releases del repositorio. Su uso debe citar la fuente: ver
+`inst/COPYRIGHTS` y el README.

@@ -35,7 +35,7 @@ marco_galapagos(prov)
 #> Geometry set for 1 feature 
 #> Geometry type: POLYGON
 #> Dimension:     XY
-#> Bounding box:  xmin: 120998.3 ymin: 9796680 xmax: 469868.1 ymax: 10181240
+#> Bounding box:  xmin: 130411.1 ymin: 9796680 xmax: 479280.9 ymax: 10181240
 #> Projected CRS: WGS 84 / UTM zone 17S
-#> POLYGON ((120998.3 9796680, 469868.1 9796680, 4...
+#> POLYGON ((130411.1 9796680, 479280.9 9796680, 4...
 ```

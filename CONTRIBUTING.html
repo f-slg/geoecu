@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +15,9 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="reference/index.html">Funciones</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="articles/guia.html">Guía de uso</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/datos.html">Datos y fuente</a></li>
+<li class="nav-item"><a class="nav-link" href="reference/index.html">Funciones</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Novedades</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json"></form></li>
@@ -28,7 +30,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.png" class="logo" alt=""><h1>Cómo contribuir a geoecu</h1>
-      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/datos-v0.2.0/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/main/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
     </div>
 
 <div id="cómo-contribuir-a-geoecu" class="section level1">
@@ -44,7 +46,7 @@
 <ul><li>
 <strong>Reportar un error:</strong> una función falla o da un resultado incorrecto. Incluye un ejemplo mínimo que se pueda copiar y ejecutar.</li>
 <li>
-<strong>Problema con los datos:</strong> algo no coincide con los límites del IGM. Indica la fuente con la que comparas.</li>
+<strong>Problema con los datos:</strong> un límite, código o nombre no coincide con la Organización Territorial del Estado (CONALI) vigente. Indica la fuente con la que comparas (por ejemplo, el Registro Oficial de creación).</li>
 <li>
 <strong>Proponer una mejora:</strong> cuéntanos qué necesitas hacer.</li>
 </ul></div>
@@ -55,7 +57,41 @@
 <li>Verifica que el paquete pase <code>R CMD check</code> sin errores ni advertencias.</li>
 <li>Abre un <em>pull request</em> explicando qué cambia y por qué.</li>
 </ol><p>Los datos se generan con los scripts de <a href="https://github.com/f-slg/geoecu/tree/main/data-raw/" class="external-link"><code>data-raw/</code></a>: si propones un cambio en los datos, modifica el script y no los archivos generados.</p>
-<p>La documentación y los mensajes del paquete están en español.</p>
+</div>
+<div class="section level2">
+<h2 id="actualizar-los-datos">Actualizar los datos<a class="anchor" aria-label="anchor" href="#actualizar-los-datos"></a></h2>
+<p>Cuando el CONALI publique una nueva versión de la Organización Territorial del Estado (por ejemplo, tras la creación de un cantón o una parroquia):</p>
+<ol style="list-style-type: decimal"><li><p>Descarga la capa <code>ORGANIZACION_TERRITORIAL_PARROQUIAL</code> del <a href="https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial" class="external-link">portal de datos abiertos</a> y guárdala en <code>data-raw/insumos/</code> (carpeta ignorada por git). Revisa en sus metadatos la fecha, la licencia y la cita requerida.</p></li>
+<li>
+<p>Simplifica y construye los niveles (requiere Node.js y mapshaper):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">bash</span> data-raw/01_simplificar.sh data-raw/insumos/ORGANIZACION_TERRITORIAL_PARROQUIAL.shp</span></code></pre></div>
+</li>
+<li>
+<p>Genera los GeoPackages y el catálogo <code>dpa</code>. El script imprime la huella MD5 de cada GeoPackage:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/02_construir_datos.R</span></code></pre></div>
+</li>
+<li><p>Si cambian los códigos, actualiza <code>dpa_equivalencias</code> con <code>data-raw/04_equivalencias.R</code> (compara con la versión anterior de los datos, que debes copiar en <code>data-raw/insumos/</code>).</p></li>
+<li><p>En <code>R/zzz.R</code>, cambia <code>.geoecu_version_datos</code> a la nueva etiqueta (por ejemplo, <code>datos-v0.3.0</code>) y <code>.geoecu_md5</code> a las huellas del paso 3.</p></li>
+<li>
+<p>Publica el release de datos con esa etiqueta y los dos GeoPackages:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">gh</span> release create datos-v0.3.0 data-raw/release/geoecu_dpa_baja.gpkg data-raw/release/geoecu_dpa_alta.gpkg <span class="at">--title</span> <span class="st">"Datos geoecu 0.3.0"</span></span></code></pre></div>
+</li>
+<li><p>Actualiza la fecha de la versión de origen y los conteos en <code>R/datos.R</code>, <code>inst/COPYRIGHTS</code>, <code>inst/CITATION</code>, el README, los artículos de <code>vignettes/articles/</code> y las pruebas de <code>tests/testthat/</code>.</p></li>
+<li>
+<p>Regenera la documentación y las figuras, y verifica el paquete:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'roxygen2::roxygenise()'</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/03_figuras_readme.R</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/05_logo.R</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="ex">R</span> CMD build . <span class="kw">&amp;&amp;</span> <span class="ex">R</span> CMD check <span class="at">--as-cran</span> geoecu_<span class="pp">*</span>.tar.gz</span></code></pre></div>
+</li>
+</ol><p>Los releases de datos anteriores no se borran: así las versiones anteriores del paquete siguen funcionando con sus datos.</p>
+</div>
+<div class="section level2">
+<h2 id="publicar-una-versión-en-cran">Publicar una versión en CRAN<a class="anchor" aria-label="anchor" href="#publicar-una-versi%C3%B3n-en-cran"></a></h2>
+<ol style="list-style-type: decimal"><li>Actualiza <code>Version</code> en <code>DESCRIPTION</code>, <code>NEWS.md</code> y <code>cran-comments.md</code>.</li>
+<li>Verifica con <code>devtools::check(remote = TRUE, manual = TRUE)</code>, <code>devtools::check_win_devel()</code> y <code>urlchecker::url_check()</code>.</li>
+<li>Envía con <code>devtools::submit_cran()</code> y, cuando CRAN lo acepte, crea una etiqueta <code>vX.Y.Z</code> y un release en GitHub.</li>
+</ol><p>La documentación y los mensajes del paquete están en español.</p>
 </div>
 <div class="section level2">
 <h2 id="código-de-conducta">Código de conducta<a class="anchor" aria-label="anchor" href="#c%C3%B3digo-de-conducta"></a></h2>

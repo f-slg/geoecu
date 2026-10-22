@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +15,9 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Funciones</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/guia.html">Guía de uso</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/datos.html">Datos y fuente</a></li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Funciones</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Novedades</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -28,9 +30,37 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/f-slg/geoecu/blob/datos-v0.2.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/f-slg/geoecu/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.0" id="geoecu-040">geoecu 0.4.0<a class="anchor" aria-label="anchor" href="#geoecu-040"></a></h2>
+<div class="section level3">
+<h3 id="datos-0-4-0">Datos<a class="anchor" aria-label="anchor" href="#datos-0-4-0"></a></h3>
+<ul><li>Las capas se reconstruyen a partir de la <strong>Organización Territorial del Estado</strong> del Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del Ecuador, versión del 17 de julio de 2026, publicada como datos abiertos con licencia CC BY (nuevo release de datos <code>datos-v0.2.0</code>).</li>
+<li>Se corrige la atribución de la fuente: las versiones 0.2.1 a 0.3.0 atribuían los datos al Instituto Geográfico Militar (IGM), lo que no era correcto. Los datos anteriores (<code>datos-v0.1.0</code>) quedan reemplazados.</li>
+<li>Cobertura: 24 provincias, 223 cantones (incluye los nuevos cantones Borbón y Sevilla Don Bosco) y 1048 parroquias (223 cabeceras cantonales y 825 rurales, incluidas Sosote, Shuar Pastaza, Juan Montalvo, La Magdalena, La Primavera y Miss Ecuador), más 3 zonas en estudio.</li>
+<li>
+<strong>Cambio incompatible:</strong> el CONALI no subdivide las cabeceras cantonales en parroquias urbanas; ahora forman parte de su cabecera. La columna <code>area_dpa</code> (<code>"urbana"</code>/<code>"rural"</code>) se reemplaza por <code>tipo</code> (<code>"cabecera cantonal"</code>, <code>"parroquia rural"</code>, <code>"zona en estudio"</code>), presente también en provincias y cantones.</li>
+<li>Nuevo catálogo <code>dpa_equivalencias</code> y nueva función <code><a href="../reference/actualizar_codigo.html">actualizar_codigo()</a></code> para convertir códigos de parroquia de versiones anteriores.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="funciones-0-4-0">Funciones<a class="anchor" aria-label="anchor" href="#funciones-0-4-0"></a></h3>
+<ul><li>
+<code><a href="../reference/read_dpa.html">read_parroquias()</a></code> tiene el nuevo argumento <code>tipo</code> (<code>"cabecera"</code>, <code>"rural"</code>, <code>"zona"</code>). El argumento <code>area</code> queda obsoleto: sigue funcionando con una advertencia.</li>
+<li>Las descargas se verifican con una huella MD5 antes de guardarse en caché.</li>
+<li>El ejemplo de <code><a href="../reference/reubicar_galapagos.html">reubicar_galapagos()</a></code> solo se ejecuta si ggplot2 está instalado.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentación-0-4-0">Documentación<a class="anchor" aria-label="anchor" href="#documentaci%C3%B3n-0-4-0"></a></h3>
+<ul><li>
+<code>inst/COPYRIGHTS</code> y <code>inst/CITATION</code> con la fuente de los datos y cómo citarla; <code>LICENSE.md</code> aclara que el catálogo <code>dpa</code> va dentro del paquete.</li>
+<li>Las pruebas que necesitan las capas se ejecutan en GitHub Actions.</li>
+<li>Nuevos artículos en el sitio web: una <strong>Guía de uso</strong> detallada (leer, filtrar, unir, mapear, Galápagos, agregar, códigos anteriores, uso sin conexión) y <strong>Datos y fuente</strong> (origen, licencia, procesamiento, zonas en estudio y cambios).</li>
+<li>Logo, favicons y figuras del README regenerados con los datos nuevos (<code>data-raw/05_logo.R</code>).</li>
+<li>README con más detalle y guía de contribución con el procedimiento para actualizar los datos y publicar en CRAN.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="geoecu-030">geoecu 0.3.0<a class="anchor" aria-label="anchor" href="#geoecu-030"></a></h2><p class="text-muted">CRAN release: 2026-10-22</p>
 <ul><li>Primera versión enviada a CRAN.</li>

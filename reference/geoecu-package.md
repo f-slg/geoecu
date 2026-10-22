@@ -27,10 +27,20 @@ para mapear y unir con datos propios.
   [`normalizar_nombre()`](https://f-slg.github.io/geoecu/reference/normalizar_nombre.md)
   limpian códigos y nombres antes de unir tablas.
 
+- [`actualizar_codigo()`](https://f-slg.github.io/geoecu/reference/actualizar_codigo.md)
+  y
+  [dpa_equivalencias](https://f-slg.github.io/geoecu/reference/dpa_equivalencias.md)
+  convierten códigos de parroquia de versiones anteriores de geoecu.
+
 ### Datos
 
+Las capas provienen de la Organización Territorial del Estado del Comité
+Nacional de Límites Internos (CONALI), Ministerio de Gobierno del
+Ecuador, publicada como datos abiertos con licencia CC BY.
+
 Las geometrías no vienen dentro del paquete: se descargan la primera vez
-desde los releases del repositorio en GitHub y se guardan en caché
+desde los releases del repositorio en GitHub, se verifican y se guardan
+en caché
 ([`geoecu_cache_dir()`](https://f-slg.github.io/geoecu/reference/geoecu_cache_dir.md)).
 También puedes usar archivos locales con
 [`geoecu_usar_carpeta()`](https://f-slg.github.io/geoecu/reference/geoecu_usar_carpeta.md).
@@ -38,6 +48,8 @@ También puedes usar archivos locales con
 ## See also
 
 Useful links:
+
+- <https://f-slg.github.io/geoecu/>
 
 - <https://github.com/f-slg/geoecu>
 
@@ -47,3 +59,8 @@ Useful links:
 
 **Maintainer**: Ronald Fabricio Salas Guerrero
 <fabriciosalasguerrero@gmail.com> \[copyright holder\]
+
+Authors:
+
+- Ronald Fabricio Salas Guerrero <fabriciosalasguerrero@gmail.com>
+  \[copyright holder\]
