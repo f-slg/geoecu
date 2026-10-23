@@ -2,6 +2,8 @@
 
 ## geoecu 0.4.0
 
+CRAN release: 2026-10-22
+
 ### Datos
 
 - Las capas se reconstruyen a partir de la **Organización Territorial
