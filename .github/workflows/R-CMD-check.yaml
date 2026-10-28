@@ -57,6 +57,7 @@ jobs:
             test "$(head -c 15 "$archivo")" = "SQLite format 3"
           done
           echo "GEOECU_CARPETA=$carpeta" >> "$GITHUB_ENV"
+          echo "GEOECU_VERIFICAR_RELEASE=1" >> "$GITHUB_ENV"
 
       - uses: r-lib/actions/check-r-package@v2
         with:
