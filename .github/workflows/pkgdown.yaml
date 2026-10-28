@@ -2,6 +2,7 @@
 on:
   push:
     branches: [main, master]
+  pull_request:
   release:
     types: [published]
   workflow_dispatch:
@@ -45,6 +46,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Publicar en GitHub Pages
+        if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           clean: false
