@@ -1,11 +1,12 @@
 # Genera mapas de alta resolución para el README desde las capas oficiales.
-# Se ejecuta en la rama de documentación, sin alterar main.
+# Se ejecuta en ramas de documentación y correcciones de mapas; nunca actualiza main directamente.
 name: Render detailed map gallery
 
 on:
   push:
     branches:
-      - docs/mapas-detallados
+      - 'docs/**'
+      - fix/margenes-titulos-mapas
     paths:
       - 'data-raw/03_figuras_readme.R'
       - '.github/workflows/render-map-gallery.yml'
