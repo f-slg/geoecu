@@ -120,7 +120,7 @@ g_loja <- ggplot() +
   geom_sf(data = loja_c, fill = NA, color = azul, linewidth = 0.5) +
   geom_sf_label(data = loja_c, aes(label = canton), size = 2.3, color = azul,
                 fontface = "bold", fill = scales::alpha("white", 0.8),
-                label.size = 0, label.padding = unit(0.12, "lines")) +
+                linewidth = 0, label.padding = unit(0.12, "lines")) +
   scale_fill_manual(values = grDevices::hcl.colors(16, "Set 3"), guide = "none") +
   labs(title = sprintf("Provincia de Loja: %d cantones y %d parroquias",
                        nrow(loja_c), nrow(loja_p)),
