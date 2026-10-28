@@ -1,20 +1,25 @@
 # Genera mapas de alta resolución para el README desde las capas oficiales.
-# Se ejecuta en ramas de documentación y correcciones de mapas; nunca actualiza main directamente.
+# Renderiza y adjunta PNG para revisión, sin permisos para escribir en el repositorio.
 name: Render detailed map gallery
 
 on:
-  push:
-    branches:
-      - 'docs/**'
-      - fix/margenes-titulos-mapas
+  pull_request:
     paths:
       - 'data-raw/03_figuras_readme.R'
+      - 'man/figures/README-*.png'
       - '.github/workflows/render-map-gallery.yml'
       - 'DESCRIPTION'
+  push:
+    branches: [main]
+    paths:
+      - 'data-raw/03_figuras_readme.R'
+      - 'man/figures/README-*.png'
+      - '.github/workflows/render-map-gallery.yml'
   workflow_dispatch:
 
+# Ningún job puede escribir en main ni en ramas de PR.
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   render:
@@ -46,13 +51,12 @@ jobs:
           stopifnot(all(file.exists(figures)),
                     all(file.info(figures)$size > 1000))
 
-      - name: Commit rendered figures to documentation branch
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add man/figures/README-*.png
-          if ! git diff --cached --quiet; then
-            git commit -m "docs: update map gallery PNG figures"
-            git push
-          fi
+      # Conserva los PNG como artefactos para revisión manual.
+      # Para publicarlos, se agregan al PR mediante git (nunca desde Actions).
+      - name: Subir mapas generados como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: geoecu-figuras-renderizadas
+          path: man/figures/README-*.png
+          if-no-files-found: error
+          retention-days: 14

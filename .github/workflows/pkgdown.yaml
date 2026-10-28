@@ -1,15 +1,14 @@
-# Construye el sitio pkgdown y lo publica en GitHub Pages (rama gh-pages).
+# Construye pkgdown con permisos de solo lectura; publica desde un job aislado.
 on:
   push:
     branches: [main, master]
   pull_request:
-  release:
-    types: [published]
   workflow_dispatch:
 
 name: pkgdown
 
-permissions: read-all
+permissions:
+  contents: read
 
 jobs:
   pkgdown:
@@ -19,7 +18,7 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     permissions:
-      contents: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -49,8 +48,32 @@ jobs:
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
+      - name: Guardar sitio compilado para publicación
+        uses: actions/upload-artifact@v4
+        with:
+          name: geoecu-pkgdown-site
+          path: docs/
+          if-no-files-found: error
+          include-hidden-files: true
+
+  publicar:
+    name: Publicar GitHub Pages
+    # Solo el código de main, nunca ramas de Pull Request, puede publicarse.
+    needs: pkgdown
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Recuperar sitio compilado
+        uses: actions/download-artifact@v4
+        with:
+          name: geoecu-pkgdown-site
+          path: docs/
+
       - name: Publicar en GitHub Pages
-        if: github.event_name != 'pull_request'
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           clean: false
