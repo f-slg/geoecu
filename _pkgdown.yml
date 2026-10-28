@@ -26,12 +26,15 @@ home:
 navbar:
   bg: primary
   structure:
-    left: [guia, datos, reference, news]
+    left: [guia, galeria, datos, reference, news]
     right: [search, github]
   components:
     guia:
       text: Guía de uso
       href: articles/guia.html
+    galeria:
+      text: Galería de mapas
+      href: articles/galeria.html
     datos:
       text: Datos y fuente
       href: articles/datos.html
@@ -75,4 +78,5 @@ articles:
   navbar: ~
   contents:
   - articles/guia
+  - articles/galeria
   - articles/datos
