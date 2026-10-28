@@ -35,9 +35,11 @@ Imports:
 Suggests:
     curl,
     ggplot2,
+    patchwork,
+    scales,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Config/Needs/website: rmarkdown, knitr
+Config/Needs/website: rmarkdown, knitr, patchwork, scales
 Encoding: UTF-8
 Language: es
 LazyData: true
