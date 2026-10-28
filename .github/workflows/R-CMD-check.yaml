@@ -38,16 +38,24 @@ jobs:
           extra-packages: any::rcmdcheck
           needs: check
 
-      # Descarga la capa liviana para que se ejecuten las pruebas que necesitan
-      # datos (en CRAN se omiten). La etiqueta se lee de R/zzz.R.
-      - name: Descargar capas
+      # Descarga ambos GeoPackages para ejecutar pruebas de resolución baja
+      # y alta, que se omiten localmente si faltan datos (o durante CRAN).
+      - name: Descargar capas y verificar archivos
         shell: bash
         run: |
+          set -euo pipefail
           etiqueta=$(grep -o 'datos-v[0-9.]*' R/zzz.R | head -n 1)
           carpeta="$RUNNER_TEMP/geoecu"
           mkdir -p "$carpeta"
-          curl -fsSL -o "$carpeta/geoecu_dpa_baja.gpkg" \
-            "https://github.com/${{ github.repository }}/releases/download/$etiqueta/geoecu_dpa_baja.gpkg"
+          for resolucion in baja alta; do
+            archivo="$carpeta/geoecu_dpa_${resolucion}.gpkg"
+            curl --fail --location --silent --show-error --retry 3 \
+              -o "$archivo" \
+              "https://github.com/${{ github.repository }}/releases/download/$etiqueta/geoecu_dpa_${resolucion}.gpkg"
+            test -s "$archivo"
+            # SQLite3/GeoPackage: cabecera esperada (no sustituye validación de contenido).
+            test "$(head -c 16 "$archivo")" = "SQLite format 3"
+          done
           echo "GEOECU_CARPETA=$carpeta" >> "$GITHUB_ENV"
 
       - uses: r-lib/actions/check-r-package@v2
