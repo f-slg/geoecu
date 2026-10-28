@@ -189,7 +189,8 @@ Muestra **24 provincias** y una zona en estudio. Los colores reflejan regiones n
 
 <img src="man/figures/README-provincias.png" width="100%" alt="Ecuador: mapa provincial por región natural, nombres oficiales y Galápagos en recuadro" />
 
-**Código R exacto de la imagen** (independiente de los ejemplos anteriores):
+<details>
+<summary><strong>Ver y copiar el código R exacto de esta figura</strong></summary>
 
 ```r
 library(geoecu)
@@ -254,13 +255,16 @@ print(p_provincias)
 # ggsave("mapa_provincias.png", p_provincias, width = 10.5, height = 8, dpi = 200)
 ```
 
+</details>
+
 ### 2. Cantones: parroquias por cantón
 
 Mapa temático de **223 cantones** y dos zonas en estudio, con un indicador verificable obtenido directamente del catálogo `dpa`. La escala de colores es **logarítmica**.
 
 <img src="man/figures/README-cantones.png" width="100%" alt="Mapa nacional de cantones por número de parroquias, límites provinciales y Galápagos" />
 
-**Código R exacto de la imagen** (independiente de los ejemplos anteriores):
+<details>
+<summary><strong>Ver y copiar el código R exacto de esta figura</strong></summary>
 
 ```r
 library(geoecu)
@@ -312,13 +316,16 @@ print(p_cantones)
 # ggsave("mapa_cantones.png", p_cantones, width = 10.5, height = 8, dpi = 200)
 ```
 
+</details>
+
 ### 3. Parroquias: mapa nacional y detalle de Puyango
 
 Combina dos vistas: clasificación de **1048 parroquias** y tres zonas en estudio, y detalle de **Puyango (Loja)** con sus nombres parroquiales en resolución alta.
 
 <img src="man/figures/README-parroquias.png" width="100%" alt="Mapa nacional de parroquias según tipo y acercamiento de Puyango Loja con etiquetas parroquiales" />
 
-**Código R exacto de la imagen** (requiere además `patchwork`):
+<details>
+<summary><strong>Ver y copiar el código R exacto de esta figura</strong></summary>
 
 ```r
 library(geoecu)
@@ -382,13 +389,16 @@ print(panel_parroquial)
 # ggsave("mapa_parroquias.png", panel_parroquial, width = 15, height = 7.6, dpi = 200)
 ```
 
+</details>
+
 ### 4. Galápagos: mapa nacional con recuadro
 
 El recuadro muestra **Galápagos reubicado**, superpuesto a un mapa de cantones coloreados por número de parroquias. Es una composición **solo para visualización**, no para cálculos de área o distancias.
 
 <img src="man/figures/README-nacional.png" width="100%" alt="Mapa temático cantonal por número de parroquias y Galápagos reubicado" />
 
-**Código R exacto de la imagen** (independiente de los ejemplos anteriores):
+<details>
+<summary><strong>Ver y copiar el código R exacto de esta figura</strong></summary>
 
 ```r
 library(geoecu)
@@ -434,13 +444,16 @@ print(g_nac)
 # ggsave("mapa_nacional.png", g_nac, width = 9.5, height = 7.5, dpi = 200)
 ```
 
+</details>
+
 ### 5. Loja: límites cantonales y parroquiales
 
 Ejemplo de detalle con los **16 cantones y 94 parroquias de Loja**, límites cantonales resaltados y nombres de cantón. Se utilizan las capas de alta resolución.
 
 <img src="man/figures/README-loja.png" width="100%" alt="Mapa de Loja con 16 cantones y 94 parroquias etiquetadas por cantón" />
 
-**Código R exacto de la imagen** (independiente de los ejemplos anteriores):
+<details>
+<summary><strong>Ver y copiar el código R exacto de esta figura</strong></summary>
 
 ```r
 library(geoecu)
@@ -484,6 +497,8 @@ g_loja <- ggplot() +
 print(g_loja)
 # ggsave("mapa_loja.png", g_loja, width = 8, height = 8, dpi = 200)
 ```
+
+</details>
 
 > **Nota:** `reubicar_galapagos()` altera las coordenadas únicamente para mapas con recuadro. Para mediciones espaciales utiliza las capas originales sin reubicar.
 
