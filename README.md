@@ -43,22 +43,22 @@ publicados por el CONALI (Ministerio de Gobierno).
 ## Galería cartográfica por niveles
 
 Explora cada capa de la **División Político-Administrativa (DPA)** por separado. Las
-imágenes se generan con las geometrías oficiales disponibles en \`geoecu\`, no con
+imágenes se generan con las geometrías oficiales disponibles en `geoecu`, no con
 mapas ilustrativos. Puedes reproducirlas con el
 [script de figuras](data-raw/03_figuras_readme.R) o consultar los ejemplos de
 la [galería paso a paso](https://f-slg.github.io/geoecu/articles/galeria.html).
 
 | Nivel | Cobertura administrativa | Función |
 |:--|:--|:--|
-| **Provincias** | 24 provincias + 1 zona en estudio | \`read_provincias()\` |
-| **Cantones** | 223 cantones + 2 zonas en estudio | \`read_cantones()\` |
-| **Parroquias** | 1048 parroquias + 3 zonas en estudio | \`read_parroquias()\` |
+| **Provincias** | 24 provincias + 1 zona en estudio | `read_provincias()` |
+| **Cantones** | 223 cantones + 2 zonas en estudio | `read_cantones()` |
+| **Parroquias** | 1048 parroquias + 3 zonas en estudio | `read_parroquias()` |
 
 ### 1. Provincias · regiones naturales y límites
 
 <img src="man/figures/README-provincias.png" width="100%" alt="Mapa detallado del Ecuador por provincias, clasificadas según región natural, con nombres provinciales y Galápagos en recuadro" />
 
-\`\`\`r
+```r
 library(geoecu)
 library(ggplot2)
 
@@ -68,16 +68,16 @@ ggplot(prov) +
   guides(fill = "none") +
   labs(title = "Provincias del Ecuador") +
   theme_void()
-\`\`\`
+```
 
-Los códigos de provincia están en \`dpa_provin\`. Para un mapa nacional
-compacto, utiliza \`reubicar_galapagos()\` **solo para visualización**.
+Los códigos de provincia están en `dpa_provin`. Para un mapa nacional
+compacto, utiliza `reubicar_galapagos()` **solo para visualización**.
 
 ### 2. Cantones · mapa temático por número de parroquias
 
 <img src="man/figures/README-cantones.png" width="100%" alt="Mapa detallado de los cantones del Ecuador, coloreados por número de parroquias, con límites de provincias y recuadro de Galápagos" />
 
-\`\`\`r
+```r
 # Ejemplo reproducible con datos reales del catálogo
 conteo <- as.data.frame(table(dpa$dpa_canton), stringsAsFactors = FALSE)
 names(conteo) <- c("codigo", "n_parroquias")
@@ -89,17 +89,17 @@ ggplot(cant) +
   scale_fill_viridis_c(name = "Parroquias") +
   labs(title = "Parroquias por cantón") +
   theme_void()
-\`\`\`
+```
 
 La unión conserva todos los polígonos, incluidos aquellos sin información,
-que quedan con \`NA\`. Para unir **casos, tasas o coberturas de salud** con tus
-propios datos, utiliza \`geoecu_unir()\` y el código DPA correspondiente.
+que quedan con `NA`. Para unir **casos, tasas o coberturas de salud** con tus
+propios datos, utiliza `geoecu_unir()` y el código DPA correspondiente.
 
 ### 3. Parroquias · tipo administrativo y acercamiento a Puyango
 
 <img src="man/figures/README-parroquias.png" width="100%" alt="Mapa de parroquias del Ecuador según su tipo y mapa ampliado del cantón Puyango, Loja, con nombres y límites parroquiales detallados" />
 
-\`\`\`r
+```r
 # Cabecera cantonal y parroquias rurales en resolución alta
 puyango <- read_parroquias(
   provincia = "Loja",
@@ -110,24 +110,24 @@ ggplot(puyango) +
   geom_sf(aes(fill = tipo), color = "white", linewidth = 0.25) +
   labs(title = "Parroquias de Puyango", fill = "Tipo") +
   theme_void()
-\`\`\`
+```
 
 **Importante:** en la versión 0.4.0 las parroquias urbanas forman parte de
 la **cabecera cantonal**; no se ofrecen como polígonos independientes. Las
-**zonas en estudio** se identifican con \`tipo == "zona en estudio"\`.
+**zonas en estudio** se identifican con `tipo == "zona en estudio"`.
 
 ### 4. Galápagos · recuadro para cartografía nacional
 
 <img src="man/figures/README-nacional.png" width="720" alt="Mapa cantonal nacional con Galápagos reubicado y enmarcado para su visualización" />
 
-\`\`\`r
+```r
 prov_utm <- reubicar_galapagos(read_provincias(crs = 32717))
 ggplot(prov_utm) +
   geom_sf(fill = "#DCEAF2", color = "#0F2233", linewidth = 0.2) +
   geom_sf(data = marco_galapagos(prov_utm),
           fill = NA, color = "grey60") +
   theme_void()
-\`\`\`
+```
 
 > Las coordenadas de Galápagos se **trasladan solo para dibujar el recuadro**;
 > nunca uses esa geometría reubicada para calcular distancias o superficies.
