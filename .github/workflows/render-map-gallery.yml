@@ -1,0 +1,57 @@
+# Genera mapas de alta resolución para el README desde las capas oficiales.
+# Se ejecuta en la rama de documentación, sin alterar main.
+name: Render detailed map gallery
+
+on:
+  push:
+    branches:
+      - docs/mapas-detallados
+    paths:
+      - 'data-raw/03_figuras_readme.R'
+      - '.github/workflows/render-map-gallery.yml'
+      - 'DESCRIPTION'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: local::., any::patchwork, any::scales
+          needs: website
+
+      - name: Render maps
+        shell: Rscript {0}
+        run: |
+          source("data-raw/03_figuras_readme.R")
+          figures <- file.path("man/figures", c(
+            "README-provincias.png", "README-cantones.png",
+            "README-parroquias.png", "README-niveles.png",
+            "README-nacional.png", "README-loja.png"
+          ))
+          stopifnot(all(file.exists(figures)),
+                    all(file.info(figures)$size > 1000))
+
+      - name: Commit rendered figures to documentation branch
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add man/figures/README-*.png
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update map gallery PNG figures"
+            git push
+          fi
