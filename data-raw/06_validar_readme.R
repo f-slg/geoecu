@@ -20,8 +20,9 @@ if (length(comienzos) != 5L) {
 
 for (i in seq_along(comienzos)) {
   ini <- comienzos[[i]]
-  fin <- if (i < length(comienzos)) comienzos[[i + 1L]] - 1L
-         else length(lineas)
+  siguientes <- c(comienzos[comienzos > ini], grep("^## ", lineas))
+  siguientes <- siguientes[siguientes > ini]
+  fin <- if (length(siguientes)) min(siguientes) - 1L else length(lineas)
   bloque <- lineas[ini:fin]
   apertura <- grep("^\x60\x60\x60r$", bloque)
   if (length(apertura) != 1L) {
