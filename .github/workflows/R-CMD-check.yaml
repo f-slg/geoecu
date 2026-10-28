@@ -54,7 +54,7 @@ jobs:
               "https://github.com/${{ github.repository }}/releases/download/$etiqueta/geoecu_dpa_${resolucion}.gpkg"
             test -s "$archivo"
             # SQLite3/GeoPackage: cabecera esperada (no sustituye validación de contenido).
-            test "$(head -c 16 "$archivo")" = "SQLite format 3"
+            test "$(head -c 15 "$archivo")" = "SQLite format 3"
           done
           echo "GEOECU_CARPETA=$carpeta" >> "$GITHUB_ENV"
 
