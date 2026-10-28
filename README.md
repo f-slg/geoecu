@@ -201,11 +201,14 @@ dorado <- "#F2B705"
 
 tema <- theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", size = 13, color = azul,
-                                  hjust = 0.5, margin = margin(b = 4)),
-        plot.subtitle = element_text(size = 9.5, color = "grey40", hjust = 0.5),
+                                  hjust = 0.5, margin = margin(t = 3, b = 7, l = 4, r = 4)),
+        plot.subtitle = element_text(size = 9.5, color = "grey40",
+                                     hjust = 0.5, margin = margin(b = 5, l = 4, r = 4)),
         legend.position = "bottom",
         legend.title = element_text(size = 9, color = "grey30"),
         legend.text = element_text(size = 8.5, color = "grey30"),
+        plot.title.position = "plot",
+        plot.margin = margin(t = 18, r = 20, b = 18, l = 22, unit = "pt"),
         plot.background = element_rect(fill = "white", color = NA))
 
 marco <- function(capa) {
@@ -275,11 +278,14 @@ dorado <- "#F2B705"
 
 tema <- theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", size = 13, color = azul,
-                                  hjust = 0.5, margin = margin(b = 4)),
-        plot.subtitle = element_text(size = 9.5, color = "grey40", hjust = 0.5),
+                                  hjust = 0.5, margin = margin(t = 3, b = 7, l = 4, r = 4)),
+        plot.subtitle = element_text(size = 9.5, color = "grey40",
+                                     hjust = 0.5, margin = margin(b = 5, l = 4, r = 4)),
         legend.position = "bottom",
         legend.title = element_text(size = 9, color = "grey30"),
         legend.text = element_text(size = 8.5, color = "grey30"),
+        plot.title.position = "plot",
+        plot.margin = margin(t = 18, r = 20, b = 18, l = 22, unit = "pt"),
         plot.background = element_rect(fill = "white", color = NA))
 
 marco <- function(capa) {
@@ -337,11 +343,14 @@ dorado <- "#F2B705"
 
 tema <- theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", size = 13, color = azul,
-                                  hjust = 0.5, margin = margin(b = 4)),
-        plot.subtitle = element_text(size = 9.5, color = "grey40", hjust = 0.5),
+                                  hjust = 0.5, margin = margin(t = 3, b = 7, l = 4, r = 4)),
+        plot.subtitle = element_text(size = 9.5, color = "grey40",
+                                     hjust = 0.5, margin = margin(b = 5, l = 4, r = 4)),
         legend.position = "bottom",
         legend.title = element_text(size = 9, color = "grey30"),
         legend.text = element_text(size = 8.5, color = "grey30"),
+        plot.title.position = "plot",
+        plot.margin = margin(t = 18, r = 20, b = 18, l = 22, unit = "pt"),
         plot.background = element_rect(fill = "white", color = NA))
 
 marco <- function(capa) {
@@ -409,11 +418,14 @@ dorado <- "#F2B705"
 
 tema <- theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", size = 13, color = azul,
-                                  hjust = 0.5, margin = margin(b = 4)),
-        plot.subtitle = element_text(size = 9.5, color = "grey40", hjust = 0.5),
+                                  hjust = 0.5, margin = margin(t = 3, b = 7, l = 4, r = 4)),
+        plot.subtitle = element_text(size = 9.5, color = "grey40",
+                                     hjust = 0.5, margin = margin(b = 5, l = 4, r = 4)),
         legend.position = "bottom",
         legend.title = element_text(size = 9, color = "grey30"),
         legend.text = element_text(size = 8.5, color = "grey30"),
+        plot.title.position = "plot",
+        plot.margin = margin(t = 18, r = 20, b = 18, l = 22, unit = "pt"),
         plot.background = element_rect(fill = "white", color = NA))
 
 marco <- function(capa) {
@@ -464,11 +476,14 @@ dorado <- "#F2B705"
 
 tema <- theme_void(base_size = 12) +
   theme(plot.title = element_text(face = "bold", size = 13, color = azul,
-                                  hjust = 0.5, margin = margin(b = 4)),
-        plot.subtitle = element_text(size = 9.5, color = "grey40", hjust = 0.5),
+                                  hjust = 0.5, margin = margin(t = 3, b = 7, l = 4, r = 4)),
+        plot.subtitle = element_text(size = 9.5, color = "grey40",
+                                     hjust = 0.5, margin = margin(b = 5, l = 4, r = 4)),
         legend.position = "bottom",
         legend.title = element_text(size = 9, color = "grey30"),
         legend.text = element_text(size = 8.5, color = "grey30"),
+        plot.title.position = "plot",
+        plot.margin = margin(t = 18, r = 20, b = 18, l = 22, unit = "pt"),
         plot.background = element_rect(fill = "white", color = NA))
 
 marco <- function(capa) {
@@ -492,7 +507,7 @@ g_loja <- ggplot() +
        subtitle = "read_parroquias(provincia = \"Loja\", resolucion = \"alta\")") +
   tema + theme(plot.title = element_text(hjust = 0),
                plot.subtitle = element_text(hjust = 0, family = "mono"),
-               plot.margin = margin(12, 12, 12, 12))
+               plot.margin = margin(t = 18, r = 20, b = 18, l = 22, unit = "pt"))
 
 print(g_loja)
 # ggsave("mapa_loja.png", g_loja, width = 8, height = 8, dpi = 200)
