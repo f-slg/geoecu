@@ -36,9 +36,122 @@ uso](https://f-slg.github.io/geoecu/articles/guia.html) · [Datos y
 fuente](https://f-slg.github.io/geoecu/articles/datos.html) ·
 [Referencia de funciones](https://f-slg.github.io/geoecu/reference/)
 
-![Ecuador por provincias según región natural, por cantones según número
-de parroquias y por parroquias según tipo: cabecera cantonal o
-rural](reference/figures/README-niveles.png)
+## Galería cartográfica por niveles
+
+Explora cada capa de la **División Político-Administrativa (DPA)** por
+separado. Las imágenes se generan con las geometrías oficiales
+disponibles en `geoecu`, no con mapas ilustrativos. Puedes reproducirlas
+con el [script de
+figuras](https://f-slg.github.io/geoecu/data-raw/03_figuras_readme.R) o
+consultar los ejemplos de la [galería paso a
+paso](https://f-slg.github.io/geoecu/articles/galeria.html).
+
+| Nivel | Cobertura administrativa | Función |
+|:---|:---|:---|
+| **Provincias** | 24 provincias + 1 zona en estudio | [`read_provincias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) |
+| **Cantones** | 223 cantones + 2 zonas en estudio | [`read_cantones()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) |
+| **Parroquias** | 1048 parroquias + 3 zonas en estudio | [`read_parroquias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) |
+
+### 1. Provincias · regiones naturales y límites
+
+![Mapa detallado del Ecuador por provincias, clasificadas según región
+natural, con nombres provinciales y Galápagos en
+recuadro](reference/figures/README-provincias.png)
+
+``` r
+
+library(geoecu)
+library(ggplot2)
+
+prov <- read_provincias()
+ggplot(prov) +
+  geom_sf(aes(fill = provincia), color = "white", linewidth = 0.25) +
+  guides(fill = "none") +
+  labs(title = "Provincias del Ecuador") +
+  theme_void()
+```
+
+Los códigos de provincia están en `dpa_provin`. Para un mapa nacional
+compacto, utiliza
+[`reubicar_galapagos()`](https://f-slg.github.io/geoecu/reference/reubicar_galapagos.md)
+**solo para visualización**.
+
+### 2. Cantones · mapa temático por número de parroquias
+
+![Mapa detallado de los cantones del Ecuador, coloreados por número de
+parroquias, con límites de provincias y recuadro de
+Galápagos](reference/figures/README-cantones.png)
+
+``` r
+
+# Ejemplo reproducible con datos reales del catálogo
+conteo <- as.data.frame(table(dpa$dpa_canton), stringsAsFactors = FALSE)
+names(conteo) <- c("codigo", "n_parroquias")
+conteo$n_parroquias <- as.integer(conteo$n_parroquias)
+
+cant <- geoecu_unir(conteo, codigo = "codigo", nivel = "canton")
+ggplot(cant) +
+  geom_sf(aes(fill = n_parroquias), color = "white", linewidth = 0.08) +
+  scale_fill_viridis_c(name = "Parroquias") +
+  labs(title = "Parroquias por cantón") +
+  theme_void()
+```
+
+La unión conserva todos los polígonos, incluidos aquellos sin
+información, que quedan con `NA`. Para unir **casos, tasas o coberturas
+de salud** con tus propios datos, utiliza
+[`geoecu_unir()`](https://f-slg.github.io/geoecu/reference/geoecu_unir.md)
+y el código DPA correspondiente.
+
+### 3. Parroquias · tipo administrativo y acercamiento a Puyango
+
+![Mapa de parroquias del Ecuador según su tipo y mapa ampliado del
+cantón Puyango, Loja, con nombres y límites parroquiales
+detallados](reference/figures/README-parroquias.png)
+
+``` r
+
+# Cabecera cantonal y parroquias rurales en resolución alta
+puyango <- read_parroquias(
+  provincia = "Loja",
+  canton = "Puyango",
+  resolucion = "alta"
+)
+ggplot(puyango) +
+  geom_sf(aes(fill = tipo), color = "white", linewidth = 0.25) +
+  labs(title = "Parroquias de Puyango", fill = "Tipo") +
+  theme_void()
+```
+
+**Importante:** en la versión 0.4.0 las parroquias urbanas forman parte
+de la **cabecera cantonal**; no se ofrecen como polígonos
+independientes. Las **zonas en estudio** se identifican con
+`tipo == "zona en estudio"`.
+
+### 4. Galápagos · recuadro para cartografía nacional
+
+![Mapa cantonal nacional con Galápagos reubicado y enmarcado para su
+visualización](reference/figures/README-nacional.png)
+
+``` r
+
+prov_utm <- reubicar_galapagos(read_provincias(crs = 32717))
+ggplot(prov_utm) +
+  geom_sf(fill = "#DCEAF2", color = "#0F2233", linewidth = 0.2) +
+  geom_sf(data = marco_galapagos(prov_utm),
+          fill = NA, color = "grey60") +
+  theme_void()
+```
+
+> Las coordenadas de Galápagos se **trasladan solo para dibujar el
+> recuadro**; nunca uses esa geometría reubicada para calcular
+> distancias o superficies.
+
+**Más ejemplos:** [Guía de
+uso](https://f-slg.github.io/geoecu/articles/guia.html) · [Galería con
+código](https://f-slg.github.io/geoecu/articles/galeria.html) · [Código
+fuente del
+generador](https://f-slg.github.io/geoecu/data-raw/03_figuras_readme.R).
 
 ## Instalación
 
@@ -316,6 +429,12 @@ son del CONALI, con licencia CC BY; ver
 
   Paso a paso: leer las capas, filtrar, unir datos propios, hacer mapas
   temáticos, reubicar Galápagos y trabajar sin conexión.
+
+- [Galería cartográfica: provincias, cantones y
+  parroquias](https://f-slg.github.io/geoecu/articles/galeria.md):
+
+  Mapas reproducibles, con ejemplos en R por nivel administrativo, datos
+  oficiales CONALI y un detalle parroquial de Puyango (Loja).
 
 - [Datos: fuente y
   procesamiento](https://f-slg.github.io/geoecu/articles/datos.md):
