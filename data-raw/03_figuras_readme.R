@@ -224,40 +224,92 @@ panel_parroquial <- (p_parroquias | p_detalle) +
 ggsave(file.path(dir_fig, "README-parroquias.png"), panel_parroquial,
        width = 15, height = 7.6, dpi = 200)
 
-# Densidad poblacional por cantón: población 2026 (INEC, vía pobecu) / area_km2.
-# Las proyecciones del INEC usan 221 cantones: Borbón (0809) y Sevilla Don
-# Bosco (1413) se suman a los cantones de los que se separaron.
-origen <- c("0809" = "0802", "1413" = "1401")
-cant$dpa_pob <- ifelse(cant$dpa_canton %in% names(origen),
-                       origen[cant$dpa_canton], cant$dpa_canton)
-area <- aggregate(area_km2 ~ dpa_pob, data = sf::st_drop_geometry(cant), FUN = sum)
-pob <- pobecu::poblacion(nivel = "canton", anio = 2026)
-dens <- merge(area, pob[c("dpa_canton", "poblacion")],
-              by.x = "dpa_pob", by.y = "dpa_canton")
-dens$densidad <- dens$poblacion / dens$area_km2
-c_dens <- merge(cant, dens[c("dpa_pob", "densidad")], by = "dpa_pob", all.x = TRUE)
+# Densidad poblacional por provincia, cantón y parroquia: población del INEC
+# (vía pobecu) / area_km2, con una escala logarítmica común.
+anio <- 2026
+prov <- reubicar_galapagos(read_provincias(crs = 32717))
+cant <- reubicar_galapagos(read_cantones(crs = 32717))
+parr <- reubicar_galapagos(read_parroquias(crs = 32717))
 
-p_densidad <- ggplot() +
-  geom_sf(data = c_dens, aes(fill = densidad),
-          color = "white", linewidth = 0.08) +
-  geom_sf(data = prov, fill = NA, color = azul, linewidth = 0.42) +
-  marco(prov) +
-  scale_fill_gradientn(
-    colours = c("#FFF4D2", "#F2C14E", "#D9822B", "#8C3B12"),
-    trans = "log10", breaks = c(1, 10, 100, 1000),
-    labels = c("1", "10", "100", "1000"),
-    name = "Habitantes por km²", na.value = "grey85"
-  ) +
-  labs(title = "Ecuador | Densidad poblacional por cantón",
-       subtitle = "Proyección de población 2026 (INEC, vía pobecu) / area_km2 de geoecu",
-       caption = "Escala logarítmica · gris: zonas en estudio, sin población asignada") +
-  tema +
-  theme(legend.position = "right",
-        plot.title = element_text(hjust = 0, face = "bold", size = 17),
-        plot.subtitle = element_text(hjust = 0, size = 10),
-        plot.caption = element_text(size = 8, color = "grey45"))
+# Habitantes por km². `grupo` es el código de la unidad en la población del
+# INEC (pobecu): las unidades creadas después se suman a la de origen.
+densidad <- function(capa, grupo, pob) {
+  area <- tapply(capa$area_km2, grupo, sum)
+  hab <- pob$poblacion[match(names(area), pob$codigo)]
+  unname((hab / area)[grupo])
+}
 
-ggsave(file.path(dir_fig, "README-densidad.png"), p_densidad,
-       width = 10.5, height = 8, dpi = 200)
+pob_prov <- pobecu::poblacion(nivel = "provincia", anio = anio)
+pob_prov$codigo <- pob_prov$dpa_provin
+prov$densidad <- densidad(prov, prov$dpa_provin, pob_prov)
+
+# Borbón (0809) y Sevilla Don Bosco (1413) se separaron de Eloy Alfaro y Morona
+pob_cant <- pobecu::poblacion(nivel = "canton", anio = anio)
+pob_cant$codigo <- pob_cant$dpa_canton
+grupo_cant <- c("0809" = "0802", "1413" = "1401")
+cant$densidad <- densidad(
+  cant, ifelse(cant$dpa_canton %in% names(grupo_cant),
+               grupo_cant[cant$dpa_canton], cant$dpa_canton), pob_cant)
+
+# Parroquias (estimación de pobecu, no oficial): los códigos del Censo 2022
+# que cambiaron se actualizan, y las parroquias creadas después se suman a
+# la parroquia de la que se separaron.
+pob_parr <- pobecu::poblacion(nivel = "parroquia", anio = anio)
+pob_parr$codigo <- ifelse(pob_parr$dpa_parroq %in% parr$dpa_parroq,
+                          pob_parr$dpa_parroq,
+                          actualizar_codigo(pob_parr$dpa_parroq))
+grupo_parr <- c("131251" = "131250",   # Sosote -> Rocafuerte
+                "160167" = "160162",   # Shuar Pastaza -> Simón Bolívar
+                "170257" = "170250",   # Juan Montalvo -> Cayambe
+                "210456" = "210450",   # La Magdalena -> Shushufindi
+                "210457" = "210450",   # La Primavera -> Shushufindi
+                "210458" = "210450")   # Miss Ecuador -> Shushufindi
+parr$densidad <- densidad(
+  parr, ifelse(parr$dpa_parroq %in% names(grupo_parr),
+               grupo_parr[parr$dpa_parroq], parr$dpa_parroq), pob_parr)
+
+# Una sola escala para comparar los tres niveles
+limites <- range(c(prov$densidad, cant$densidad, parr$densidad), na.rm = TRUE)
+escala <- scale_fill_gradientn(
+  colours = c("#FFF4D2", "#F2C14E", "#D9822B", "#8C3B12"),
+  trans = "log10", limits = limites,
+  breaks = c(0.1, 1, 10, 100, 1000),
+  labels = c("0,1", "1", "10", "100", "1.000"),
+  name = "Habitantes por km²", na.value = "grey85"
+)
+
+mapa_densidad <- function(capa, titulo, borde) {
+  ggplot() +
+    geom_sf(data = capa, aes(fill = densidad), color = "white",
+            linewidth = borde) +
+    geom_sf(data = prov, fill = NA, color = azul, linewidth = 0.3) +
+    marco(prov) +
+    escala +
+    labs(title = titulo) +
+    tema +
+    theme(plot.margin = margin(t = 6, r = 6, b = 6, l = 6, unit = "pt"))
+}
+
+panel_densidad <- (mapa_densidad(prov, "Provincias", 0.15) |
+                     mapa_densidad(cant, "Cantones", 0.08) |
+                     mapa_densidad(parr, "Parroquias", 0.03)) +
+  plot_layout(guides = "collect") +
+  plot_annotation(
+    title = "Ecuador | Densidad poblacional",
+    subtitle = sprintf("Población %d (INEC, vía pobecu) / area_km2 de geoecu", anio),
+    caption = paste("Escala logarítmica común · parroquias: estimación de pobecu, no oficial",
+                    "· gris: zonas en estudio, sin población asignada"),
+    theme = theme(plot.title = element_text(face = "bold", size = 17, color = azul),
+                  plot.subtitle = element_text(size = 10, color = "grey40"),
+                  plot.caption = element_text(size = 8, color = "grey45"),
+                  plot.margin = margin(t = 18, r = 20, b = 12, l = 22, unit = "pt"),
+                  plot.background = element_rect(fill = "white", color = NA))
+  ) &
+  theme(legend.position = "bottom",
+        legend.title.position = "top", legend.title = element_text(hjust = 0.5),
+        legend.key.width = unit(2.2, "cm"), legend.key.height = unit(0.3, "cm"))
+
+ggsave(file.path(dir_fig, "README-densidad.png"), panel_densidad,
+       width = 15, height = 6.2, dpi = 200)
 
 message("Galería detallada escrita en ", dir_fig)

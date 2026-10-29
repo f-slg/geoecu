@@ -16,8 +16,9 @@
   gráfico del error de UTM 17S por provincia.
 * La documentación de `crs` en `read_provincias()` y la Guía de uso ya no
   recomiendan UTM 17S para medir áreas.
-* Nuevo ejemplo en la galería del README: densidad poblacional por cantón,
-  con `area_km2` y la proyección de población 2026 del INEC (paquete pobecu).
+* Nuevo ejemplo en la galería del README: densidad poblacional por provincia,
+  cantón y parroquia, con `area_km2` y la población 2026 del INEC (paquete
+  pobecu).
 
 # geoecu 0.4.0
 
