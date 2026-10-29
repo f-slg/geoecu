@@ -36,7 +36,7 @@ jobs:
       - name: Install dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          extra-packages: local::., any::patchwork, any::scales
+          extra-packages: local::., any::patchwork, any::scales, github::f-slg/pobecu
           needs: website
 
       - name: Render maps
@@ -46,7 +46,8 @@ jobs:
           figures <- file.path("man/figures", c(
             "README-provincias.png", "README-cantones.png",
             "README-parroquias.png", "README-niveles.png",
-            "README-nacional.png", "README-loja.png"
+            "README-nacional.png", "README-loja.png",
+            "README-densidad.png"
           ))
           stopifnot(all(file.exists(figures)),
                     all(file.info(figures)$size > 1000))

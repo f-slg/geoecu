@@ -2,9 +2,10 @@
 # geoecu · Figuras del README
 #
 # Genera las imágenes de man/figures/ que muestra el README. Usa solo datos
-# reales del paquete (catálogo dpa y áreas), nada simulado.
+# reales del paquete (catálogo dpa y áreas) y, para la densidad, la población
+# del INEC que distribuye pobecu; nada simulado.
 #
-# Requisitos: geoecu, ggplot2, patchwork
+# Requisitos: geoecu, ggplot2, patchwork, pobecu
 # Uso:        Rscript data-raw/03_figuras_readme.R
 # -----------------------------------------------------------------------------
 library(geoecu)
@@ -222,5 +223,41 @@ panel_parroquial <- (p_parroquias | p_detalle) +
   theme(legend.position = "bottom")
 ggsave(file.path(dir_fig, "README-parroquias.png"), panel_parroquial,
        width = 15, height = 7.6, dpi = 200)
+
+# Densidad poblacional por cantón: población 2026 (INEC, vía pobecu) / area_km2.
+# Las proyecciones del INEC usan 221 cantones: Borbón (0809) y Sevilla Don
+# Bosco (1413) se suman a los cantones de los que se separaron.
+origen <- c("0809" = "0802", "1413" = "1401")
+cant$dpa_pob <- ifelse(cant$dpa_canton %in% names(origen),
+                       origen[cant$dpa_canton], cant$dpa_canton)
+area <- aggregate(area_km2 ~ dpa_pob, data = sf::st_drop_geometry(cant), FUN = sum)
+pob <- pobecu::poblacion(nivel = "canton", anio = 2026)
+dens <- merge(area, pob[c("dpa_canton", "poblacion")],
+              by.x = "dpa_pob", by.y = "dpa_canton")
+dens$densidad <- dens$poblacion / dens$area_km2
+c_dens <- merge(cant, dens[c("dpa_pob", "densidad")], by = "dpa_pob", all.x = TRUE)
+
+p_densidad <- ggplot() +
+  geom_sf(data = c_dens, aes(fill = densidad),
+          color = "white", linewidth = 0.08) +
+  geom_sf(data = prov, fill = NA, color = azul, linewidth = 0.42) +
+  marco(prov) +
+  scale_fill_gradientn(
+    colours = c("#FFF4D2", "#F2C14E", "#D9822B", "#8C3B12"),
+    trans = "log10", breaks = c(1, 10, 100, 1000),
+    labels = c("1", "10", "100", "1000"),
+    name = "Habitantes por km²", na.value = "grey85"
+  ) +
+  labs(title = "Ecuador | Densidad poblacional por cantón",
+       subtitle = "Proyección de población 2026 (INEC, vía pobecu) / area_km2 de geoecu",
+       caption = "Escala logarítmica · gris: zonas en estudio, sin población asignada") +
+  tema +
+  theme(legend.position = "right",
+        plot.title = element_text(hjust = 0, face = "bold", size = 17),
+        plot.subtitle = element_text(hjust = 0, size = 10),
+        plot.caption = element_text(size = 8, color = "grey45"))
+
+ggsave(file.path(dir_fig, "README-densidad.png"), p_densidad,
+       width = 10.5, height = 8, dpi = 200)
 
 message("Galería detallada escrita en ", dir_fig)

@@ -178,7 +178,7 @@ geoecu_datos_disponibles()
 
 ## Galería de mapas y código reproducible
 
-Las cinco imágenes siguientes se generan con los datos abiertos de CONALI disponibles en `geoecu`. **Cada bloque de R es autónomo:** cópialo en RStudio para obtener la misma composición, paleta, capas, etiquetas y leyenda de la figura. El tamaño del panel *Plots* puede cambiar la distribución visual; cada ejemplo incluye la instrucción opcional de exportación con las dimensiones de la imagen publicada.
+Las seis imágenes siguientes se generan con los datos abiertos de CONALI disponibles en `geoecu`; la sexta añade la población del INEC mediante el paquete hermano [pobecu](https://f-slg.github.io/pobecu/). **Cada bloque de R es autónomo:** cópialo en RStudio para obtener la misma composición, paleta, capas, etiquetas y leyenda de la figura. El tamaño del panel *Plots* puede cambiar la distribución visual; cada ejemplo incluye la instrucción opcional de exportación con las dimensiones de la imagen publicada.
 
 | Nivel | Función principal | Cobertura |
 |---|---|---|
@@ -514,6 +514,81 @@ g_loja <- ggplot() +
 
 print(g_loja)
 # ggsave("mapa_loja.png", g_loja, width = 8, height = 8, dpi = 200)
+```
+
+</details>
+
+### 6. Densidad poblacional por cantón
+
+Combina `area_km2` de geoecu con la **proyección de población 2026 del INEC**, disponible en el paquete hermano [pobecu](https://f-slg.github.io/pobecu/), para obtener **habitantes por km²**. Las proyecciones usan 221 cantones, por eso Borbón y Sevilla Don Bosco se suman a los cantones de los que se separaron (Eloy Alfaro y Morona). La escala de colores es **logarítmica**.
+
+<img src="man/figures/README-densidad.png" width="100%" alt="Mapa nacional de densidad poblacional por cantón en habitantes por kilómetro cuadrado, con Galápagos en recuadro" />
+
+<details>
+<summary><strong>Ver y copiar el código R exacto de esta figura</strong></summary>
+
+```r
+# install.packages("remotes"); remotes::install_github("f-slg/pobecu")
+library(geoecu)
+library(ggplot2)
+
+azul   <- "#0F2233"
+dorado <- "#F2B705"
+
+tema <- theme_void(base_size = 12) +
+  theme(plot.title = element_text(face = "bold", size = 13, color = azul,
+                                  hjust = 0.5, margin = margin(t = 3, b = 7, l = 4, r = 4)),
+        plot.subtitle = element_text(size = 9.5, color = "grey40",
+                                     hjust = 0.5, margin = margin(b = 5, l = 4, r = 4)),
+        legend.position = "bottom",
+        legend.title = element_text(size = 9, color = "grey30"),
+        legend.text = element_text(size = 8.5, color = "grey30"),
+        plot.title.position = "plot",
+        plot.margin = margin(t = 18, r = 20, b = 18, l = 22, unit = "pt"),
+        plot.background = element_rect(fill = "white", color = NA))
+
+marco <- function(capa) {
+  geom_sf(data = marco_galapagos(capa), fill = NA, color = "grey78",
+          linewidth = 0.3)
+}
+
+prov <- reubicar_galapagos(read_provincias(crs = 32717))
+cant <- reubicar_galapagos(read_cantones(crs = 32717))
+
+# Las proyecciones del INEC usan 221 cantones: Borbón (0809) y Sevilla Don
+# Bosco (1413) se suman a los cantones de los que se separaron.
+origen <- c("0809" = "0802", "1413" = "1401")
+cant$dpa_pob <- ifelse(cant$dpa_canton %in% names(origen),
+                       origen[cant$dpa_canton], cant$dpa_canton)
+area <- aggregate(area_km2 ~ dpa_pob, data = sf::st_drop_geometry(cant), FUN = sum)
+pob <- pobecu::poblacion(nivel = "canton", anio = 2026)
+dens <- merge(area, pob[c("dpa_canton", "poblacion")],
+              by.x = "dpa_pob", by.y = "dpa_canton")
+dens$densidad <- dens$poblacion / dens$area_km2
+c_dens <- merge(cant, dens[c("dpa_pob", "densidad")], by = "dpa_pob", all.x = TRUE)
+
+p_densidad <- ggplot() +
+  geom_sf(data = c_dens, aes(fill = densidad),
+          color = "white", linewidth = 0.08) +
+  geom_sf(data = prov, fill = NA, color = azul, linewidth = 0.42) +
+  marco(prov) +
+  scale_fill_gradientn(
+    colours = c("#FFF4D2", "#F2C14E", "#D9822B", "#8C3B12"),
+    trans = "log10", breaks = c(1, 10, 100, 1000),
+    labels = c("1", "10", "100", "1000"),
+    name = "Habitantes por km²", na.value = "grey85"
+  ) +
+  labs(title = "Ecuador | Densidad poblacional por cantón",
+       subtitle = "Proyección de población 2026 (INEC, vía pobecu) / area_km2 de geoecu",
+       caption = "Escala logarítmica · gris: zonas en estudio, sin población asignada") +
+  tema +
+  theme(legend.position = "right",
+        plot.title = element_text(hjust = 0, face = "bold", size = 17),
+        plot.subtitle = element_text(hjust = 0, size = 10),
+        plot.caption = element_text(size = 8, color = "grey45"))
+
+print(p_densidad)
+# ggsave("mapa_densidad.png", p_densidad, width = 10.5, height = 8, dpi = 200)
 ```
 
 </details>
