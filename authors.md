@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/f-slg/geoecu/blob/datos-v0.3.0/inst/CITATION)
+[`inst/CITATION`](https://github.com/f-slg/geoecu/blob/main/inst/CITATION)
 
 Salas Guerrero, R. F. (2026). geoecu: Mapas de provincias, cantones y
 parroquias del Ecuador. Paquete de R versión 0.4.1.
