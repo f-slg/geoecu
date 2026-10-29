@@ -1,3 +1,9 @@
+## Resubmission
+
+This is a resubmission of 0.4.1. The incoming pretest reported a possibly
+invalid file URI in README.md (`data-raw/03_figuras_readme.R`, a file that is
+not part of the package). The link now points to the file on GitHub.
+
 ## Submission
 
 This is a minor update of 'geoecu' (0.4.0 -> 0.4.1) that corrects the
