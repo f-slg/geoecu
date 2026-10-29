@@ -13,15 +13,15 @@ release `datos-v0.3.0`.
 * local Ubuntu 26.04, R 4.5.2
 * GitHub Actions: windows-latest, macos-latest, ubuntu-latest (R release),
   with the data-dependent tests enabled
-* win-builder: R-devel (2026-10-21 r90733 ucrt)
+* win-builder: R-devel (2026-10-28 r90783 ucrt)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 notes
 
-* Days since last update: the update corrects the data source attribution
-  and updates the data to the current official version (new cantons and
-  parishes created in July 2026), so we preferred not to wait.
+* Version 0.4.0 was published only a week ago (2026-10-22). We preferred not
+  to wait because 0.4.1 corrects an error in the published data: the
+  `area_km2` values of the Galapagos Islands were overestimated by about 3 %.
 
 ## Notes for the reviewers
 
