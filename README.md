@@ -113,6 +113,9 @@ Cada capa es un objeto `sf` con códigos DPA y el área `area_km2`:
 | `read_cantones()` | `dpa_canton`, `canton`, `dpa_provin`, `provincia`, `area_km2` |
 | `read_parroquias()` | `dpa_parroq`, `parroquia`, `tipo`, `dpa_canton`, `canton`, `area_km2` |
 
+La columna `area_km2` es la superficie en km², calculada sobre el elipsoide
+WGS84 con la resolución alta.
+
 ### Unir una tabla propia con códigos DPA
 
 Este ejemplo usa **datos ficticios identificados como demostración**, sin requerir un CSV que no exista en el repositorio. Sustituye `datos_demo` por tu tabla real antes de interpretar los resultados.

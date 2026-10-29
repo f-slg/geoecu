@@ -1,3 +1,22 @@
+# geoecu 0.4.1
+
+## Datos
+
+* Se corrige `area_km2` (nuevo release de datos `datos-v0.3.0`). La
+  superficie se calculaba en UTM 17S, que no conserva áreas: Galápagos, en el
+  huso 15, salía inflada en un 3 % (unos 240 km²) y las provincias de la
+  Amazonía oriental entre 0,2 % y 0,6 %. Ahora se calcula sobre el elipsoide
+  WGS84 con una proyección de igual área (EPSG:6933). La superficie total del
+  Ecuador pasa de 257 205 a 256 505 km². Las geometrías y los códigos no
+  cambian.
+
+## Documentación
+
+* El artículo **Datos y fuente** tiene una nueva sección *Superficie* con un
+  gráfico del error de UTM 17S por provincia.
+* La documentación de `crs` en `read_provincias()` y la Guía de uso ya no
+  recomiendan UTM 17S para medir áreas.
+
 # geoecu 0.4.0
 
 ## Datos

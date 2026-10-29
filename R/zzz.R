@@ -3,13 +3,13 @@
 .geoecu_repo <- "f-slg/geoecu"
 
 # Etiqueta del release que contiene los GeoPackages de esta versión de datos.
-.geoecu_version_datos <- "datos-v0.2.0"
+.geoecu_version_datos <- "datos-v0.3.0"
 
 # Huellas MD5 de los GeoPackages del release. Se comprueban tras cada descarga
 # para detectar archivos incompletos o modificados. Se actualizan junto con
 # `.geoecu_version_datos` (02_construir_datos.R las imprime).
-.geoecu_md5 <- c(baja = "b57cc807151b57c86cbef13c07c1d8dc",
-                 alta = "d7b884ec3ded05ee1c7d6dc0df5fb6c9")
+.geoecu_md5 <- c(baja = "66e9f34f0f616ff8ee6e194f50072a31",
+                 alta = "59ddf5f007f4e6a73e70069a958bc08a")
 
 .geoecu_resoluciones <- c("baja", "alta")
 
