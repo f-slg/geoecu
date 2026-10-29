@@ -644,7 +644,7 @@ print(panel_densidad)
 
 > **Nota:** `reubicar_galapagos()` altera las coordenadas únicamente para mapas con recuadro. Para mediciones espaciales utiliza las capas originales sin reubicar.
 
-**[Consulta la guía de uso](https://f-slg.github.io/geoecu/articles/guia.html)** · **[Galería web](https://f-slg.github.io/geoecu/articles/galeria.html)** · **[Generador original de figuras](data-raw/03_figuras_readme.R)**
+**[Consulta la guía de uso](https://f-slg.github.io/geoecu/articles/guia.html)** · **[Galería web](https://f-slg.github.io/geoecu/articles/galeria.html)** · **[Generador original de figuras](https://github.com/f-slg/geoecu/blob/main/data-raw/03_figuras_readme.R)**
 
 
 ## Datos
