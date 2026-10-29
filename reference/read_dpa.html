@@ -13,7 +13,7 @@ provincia la unión de sus cantones."><meta property="og:image" content="https:/
 
     <a class="navbar-brand me-2" href="../index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +22,6 @@ provincia la unión de sus cantones."><meta property="og:image" content="https:/
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/guia.html">Guía de uso</a></li>
-<li class="nav-item"><a class="nav-link" href="../articles/galeria.html">Galería de mapas</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/datos.html">Datos y fuente</a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Funciones</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Novedades</a></li>
@@ -37,7 +36,7 @@ provincia la unión de sus cantones."><meta property="og:image" content="https:/
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Leer las capas de provincias, cantones o parroquias</h1>
-      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/main/R/leer.R" class="external-link"><code>R/leer.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/datos-v0.3.0/R/leer.R" class="external-link"><code>R/leer.R</code></a></small>
       <div class="d-none name"><code>read_dpa.Rd</code></div>
     </div>
 
@@ -92,8 +91,9 @@ devuelve todo el país.</p></dd>
 
 <dt id="arg-crs">crs<a class="anchor" aria-label="anchor" href="#arg-crs"></a></dt>
 <dd><p>Sistema de coordenadas de salida. Por defecto WGS84
-(EPSG:4326). Usa <code>32717</code> (UTM 17S) para calcular áreas o distancias en
-metros.</p></dd>
+(EPSG:4326). Usa <code>32717</code> (UTM 17S) para calcular distancias en metros en
+el continente. Para áreas, usa <code>area_km2</code> o una proyección de igual área
+como <code>6933</code>: UTM 17S infla la superficie de Galápagos en un 3 %.</p></dd>
 
 
 <dt id="arg-canton">canton<a class="anchor" aria-label="anchor" href="#arg-canton"></a></dt>
@@ -121,7 +121,9 @@ código o indica también <code>provincia</code>.</p></dd>
 <li><p><code>read_parroquias()</code>: <code>dpa_parroq</code>, <code>parroquia</code>, <code>tipo</code>, <code>dpa_canton</code>,
 <code>canton</code>, <code>dpa_provin</code>, <code>provincia</code>, <code>area_km2</code>.</p></li>
 </ul><p><code>tipo</code> vale <code>"provincia"</code>, <code>"cantón"</code>, <code>"cabecera cantonal"</code> o
-<code>"parroquia rural"</code> según el nivel, o <code>"zona en estudio"</code>.</p>
+<code>"parroquia rural"</code> según el nivel, o <code>"zona en estudio"</code>. <code>area_km2</code> es
+la superficie en km², calculada sobre el elipsoide WGS84 con la
+resolución alta (el mismo valor en ambas resoluciones).</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -158,11 +160,11 @@ guarda en caché; las siguientes veces se lee directamente del disco.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4     111054 MERCADILLO parroquia rural       1110 PUYANGO         11      LOJA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5     111055  VICENTINO parroquia rural       1110 PUYANGO         11      LOJA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   area_km2                       geometry</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   79.936 MULTIPOLYGON (((-80.03762 -...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   27.715 MULTIPOLYGON (((-79.98415 -...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  203.758 MULTIPOLYGON (((-80.16189 -...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   28.082 MULTIPOLYGON (((-79.88239 -...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   56.300 MULTIPOLYGON (((-79.91506 -...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   79.975 MULTIPOLYGON (((-80.03762 -...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   27.729 MULTIPOLYGON (((-79.98415 -...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  203.880 MULTIPOLYGON (((-80.16189 -...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   28.095 MULTIPOLYGON (((-79.88239 -...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   56.325 MULTIPOLYGON (((-79.91506 -...</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

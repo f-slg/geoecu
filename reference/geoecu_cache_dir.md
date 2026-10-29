@@ -19,5 +19,5 @@ Ruta de la carpeta de caché (texto).
 
 ``` r
 geoecu_cache_dir()
-#> [1] "/home/runner/.cache/R/geoecu/datos-v0.2.0"
+#> [1] "/home/runner/.cache/R/geoecu/datos-v0.3.0"
 ```

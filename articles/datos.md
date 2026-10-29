@@ -53,16 +53,17 @@ repositorio y se ejecutan en este orden:
       código DPA. Por eso los tres niveles encajan exactamente.
     - Reproyecta a WGS84 (EPSG:4326).
 2.  **`02_construir_datos.R`**: renombra columnas, asigna el `tipo` de
-    cada unidad, calcula `area_km2` en UTM 17S sobre la resolución alta
-    y escribe los GeoPackages `geoecu_dpa_baja.gpkg` y
-    `geoecu_dpa_alta.gpkg` y el catálogo `dpa`.
+    cada unidad, calcula `area_km2` sobre el elipsoide WGS84 (ver
+    [Superficie](#superficie)) con la resolución alta y escribe los
+    GeoPackages `geoecu_dpa_baja.gpkg` y `geoecu_dpa_alta.gpkg` y el
+    catálogo `dpa`.
 3.  **`03_figuras_readme.R`**: figuras del README.
 4.  **`04_equivalencias.R`**: tabla `dpa_equivalencias` con la versión
     anterior.
 5.  **`05_logo.R`**: logo y favicons del sitio.
 
 Los GeoPackages se publican en el release
-[`datos-v0.2.0`](https://github.com/f-slg/geoecu/releases/tag/datos-v0.2.0).
+[`datos-v0.3.0`](https://github.com/f-slg/geoecu/releases/tag/datos-v0.3.0).
 geoecu verifica la huella MD5 de cada descarga antes de guardarla en
 caché.
 
@@ -130,6 +131,82 @@ subset(dpa, tipo == "zona en estudio",
   provincia `"90"`. Por eso
   [`read_provincias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md)
   devuelve 25 filas.
+
+## Superficie
+
+La columna `area_km2` es la superficie de cada unidad en km², calculada
+sobre la **resolución alta** y con una proyección de **igual área**
+sobre el elipsoide WGS84 (EPSG:6933). Es el mismo valor en las dos
+resoluciones y en la suma de los niveles: la superficie de un cantón es
+la suma de la de sus parroquias.
+
+``` r
+
+prov <- read_provincias()
+sum(prov$area_km2)                                  # Ecuador, km²
+#> [1] 256505.4
+prov[prov$provincia == "GALÁPAGOS", "area_km2", drop = TRUE]
+#> [1] 7993.597
+```
+
+¿Por qué no UTM 17S, el sistema de origen de la capa? UTM conserva
+formas, no áreas, y la distorsión crece con la distancia al meridiano
+central del huso (81° O). El continente queda cerca de ese meridiano y
+el error es pequeño, pero **Galápagos está en el huso 15**, a unos 10°
+del meridiano central, y su superficie sale inflada en un 3 % (unos 240
+km²). Hasta la versión 0.4.0 de geoecu, `area_km2` se calculaba en UTM
+17S y arrastraba este error.
+
+``` r
+
+elipsoide <- as.numeric(sf::st_area(sf::st_transform(prov, 6933)))
+utm17s    <- as.numeric(sf::st_area(sf::st_transform(prov, 32717)))
+
+d <- data.frame(provincia = prov$provincia, tipo = prov$tipo,
+                dif = 100 * (utm17s / elipsoide - 1),
+                km2 = (utm17s - elipsoide) / 1e6)
+d <- d[d$tipo == "provincia", ]
+d$provincia <- factor(d$provincia, levels = d$provincia[order(d$dif)])
+d$signo <- ifelse(d$dif > 0, "UTM 17S sobreestima", "UTM 17S subestima")
+
+coma <- function(x) paste0(format(x, decimal.mark = ",", trim = TRUE), " %")
+gal <- d[d$provincia == "GALÁPAGOS", ]
+
+ggplot(d, aes(x = dif, y = provincia, color = signo)) +
+  geom_vline(xintercept = 0, color = "grey60", linewidth = 0.4) +
+  geom_segment(aes(x = 0, xend = dif, yend = provincia), linewidth = 0.6) +
+  geom_point(size = 2.4) +
+  annotate("text", x = gal$dif, y = "GALÁPAGOS", hjust = 1, vjust = 2,
+           size = 3.3, color = "grey20",
+           label = sprintf("+%s %% (%s km² de más)",
+                           formatC(gal$dif, format = "f", digits = 1, decimal.mark = ","),
+                           format(round(gal$km2), big.mark = ".", decimal.mark = ","))) +
+  scale_color_manual(values = c("UTM 17S sobreestima" = "#C2410C",
+                                "UTM 17S subestima" = "#2a78d6"),
+                     name = NULL) +
+  scale_x_continuous(labels = coma, expand = expansion(mult = c(0.02, 0.05))) +
+  labs(x = "Diferencia del área en UTM 17S respecto al área sobre el elipsoide",
+       y = NULL,
+       title = "Error de superficie al calcular áreas en UTM 17S",
+       subtitle = "Galápagos (huso 15) es la única provincia con un error relevante") +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "top", legend.justification = "left",
+        panel.grid.major.y = element_blank(),
+        panel.grid.minor = element_blank(),
+        plot.title.position = "plot")
+```
+
+![](datos_files/figure-html/utm-error-1.png)
+
+En el continente la diferencia es menor al 0,6 % y crece hacia el
+oriente amazónico, lejos del meridiano central. Si calculas áreas por tu
+cuenta, por ejemplo de polígonos propios, transforma a EPSG:6933 en
+lugar de UTM 17S:
+
+``` r
+
+sf::st_area(sf::st_transform(mis_poligonos, 6933))
+```
 
 ## Cambios respecto a versiones anteriores
 
@@ -210,6 +287,11 @@ uso](https://f-slg.github.io/geoecu/articles/guia.html#tablas-con-c%C3%B3digos-d
 Por otro lado, las versiones 0.2.1 a 0.3.0 atribuían los datos al
 Instituto Geográfico Militar (IGM), lo que no era correcto. Desde la
 versión 0.4.0 la fuente es la OTE del CONALI.
+
+En la versión 0.4.1 (release de datos `datos-v0.3.0`) solo cambia
+`area_km2`, que ahora se calcula sobre el elipsoide (ver
+[Superficie](#superficie)). Las geometrías y los códigos son los mismos
+que en `datos-v0.2.0`.
 
 ## Actualizaciones
 

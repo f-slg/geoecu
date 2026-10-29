@@ -38,33 +38,6 @@ Los datos se generan con los scripts de
 propones un cambio en los datos, modifica el script y no los archivos
 generados.
 
-## Actualizar las figuras del README
-
-Cuando cambien los estilos o ejemplos de los mapas:
-
-1.  Trabaja en una rama y ejecuta desde la raíz:
-
-    ``` bash
-    Rscript data-raw/03_figuras_readme.R
-    Rscript data-raw/06_validar_readme.R
-    ```
-
-2.  Revisa visualmente las seis figuras `man/figures/README-*.png` para
-    comprobar márgenes, títulos, etiquetas y leyendas. Actualiza los
-    ejemplos del README si cambia la composición.
-
-3.  Registra en **tu rama** los PNG y el código con un commit; abre un
-    PR.
-
-4.  El workflow **Render detailed map gallery** regenera las seis
-    figuras y las sube como artefacto para revisar, pero **no hace push,
-    commit ni publica cambios automáticamente**. Los archivos que
-    quieras integrar en `main` deben figurar en el PR.
-
-Este procedimiento mantiene separados los cambios cartográficos de la
-revisión y evita que GitHub Actions escriba directamente en ramas
-protegidas.
-
 ## Actualizar los datos
 
 Cuando el CONALI publique una nueva versión de la Organización

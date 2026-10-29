@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,7 +40,6 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="active nav-item"><a class="nav-link" href="../articles/guia.html">Guía de uso</a></li>
-<li class="nav-item"><a class="nav-link" href="../articles/galeria.html">Galería de mapas</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/datos.html">Datos y fuente</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Funciones</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Novedades</a></li>
@@ -65,7 +64,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>Guía de uso</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/main/vignettes/articles/guia.Rmd" class="external-link"><code>vignettes/articles/guia.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/datos-v0.3.0/vignettes/articles/guia.Rmd" class="external-link"><code>vignettes/articles/guia.Rmd</code></a></small>
       <div class="d-none name"><code>guia.Rmd</code></div>
     </div>
 
@@ -135,7 +134,7 @@ en caché. Después funciona sin conexión.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geoecu_datos_disponibles.html">geoecu_datos_disponibles</a></span><span class="op">(</span><span class="op">)</span>   <span class="co"># ¿ya está en caché la resolución baja?</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="fu"><a href="../reference/geoecu_cache_dir.html">geoecu_cache_dir</a></span><span class="op">(</span><span class="op">)</span>           <span class="co"># dónde se guarda</span></span>
-<span><span class="co">#&gt; [1] "/home/runner/.cache/R/geoecu/datos-v0.2.0"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "/home/runner/.cache/R/geoecu/datos-v0.3.0"</span></span></code></pre></div>
 <p>En Linux, instala antes <code>sf</code> desde los repositorios del
 sistema para evitar una compilación larga (por ejemplo,
 <code>sudo apt install r-cran-sf</code>).</p>
@@ -155,16 +154,16 @@ sistema para evitar una compilación larga (por ejemplo,
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="co">#&gt; First 10 features:</span></span>
 <span><span class="co">#&gt;    dpa_provin  provincia      tipo  area_km2                       geometry</span></span>
-<span><span class="co">#&gt; 1          01      AZUAY provincia  8172.708 MULTIPOLYGON (((-79.58575 -...</span></span>
-<span><span class="co">#&gt; 2          02    BOLÍVAR provincia  3956.929 MULTIPOLYGON (((-78.85256 -...</span></span>
-<span><span class="co">#&gt; 3          03      CAÑAR provincia  3228.573 MULTIPOLYGON (((-78.77399 -...</span></span>
-<span><span class="co">#&gt; 4          04     CARCHI provincia  3783.200 MULTIPOLYGON (((-77.76115 0...</span></span>
-<span><span class="co">#&gt; 5          05   COTOPAXI provincia  6187.707 MULTIPOLYGON (((-78.42733 -...</span></span>
-<span><span class="co">#&gt; 6          06 CHIMBORAZO provincia  5927.976 MULTIPOLYGON (((-78.44378 -...</span></span>
-<span><span class="co">#&gt; 7          07     EL ORO provincia  5870.021 MULTIPOLYGON (((-80.00642 -...</span></span>
-<span><span class="co">#&gt; 8          08 ESMERALDAS provincia 15837.145 MULTIPOLYGON (((-79.74509 0...</span></span>
-<span><span class="co">#&gt; 9          09     GUAYAS provincia 15899.595 MULTIPOLYGON (((-79.91472 -...</span></span>
-<span><span class="co">#&gt; 10         10   IMBABURA provincia  4791.589 MULTIPOLYGON (((-78.10539 0...</span></span></code></pre></div>
+<span><span class="co">#&gt; 1          01      AZUAY provincia  8170.524 MULTIPOLYGON (((-79.58575 -...</span></span>
+<span><span class="co">#&gt; 2          02    BOLÍVAR provincia  3955.740 MULTIPOLYGON (((-78.85256 -...</span></span>
+<span><span class="co">#&gt; 3          03      CAÑAR provincia  3227.251 MULTIPOLYGON (((-78.77399 -...</span></span>
+<span><span class="co">#&gt; 4          04     CARCHI provincia  3776.231 MULTIPOLYGON (((-77.76115 0...</span></span>
+<span><span class="co">#&gt; 5          05   COTOPAXI provincia  6183.837 MULTIPOLYGON (((-78.42733 -...</span></span>
+<span><span class="co">#&gt; 6          06 CHIMBORAZO provincia  5923.301 MULTIPOLYGON (((-78.44378 -...</span></span>
+<span><span class="co">#&gt; 7          07     EL ORO provincia  5872.194 MULTIPOLYGON (((-80.00642 -...</span></span>
+<span><span class="co">#&gt; 8          08 ESMERALDAS provincia 15833.575 MULTIPOLYGON (((-79.74509 0...</span></span>
+<span><span class="co">#&gt; 9          09     GUAYAS provincia 15905.857 MULTIPOLYGON (((-79.91472 -...</span></span>
+<span><span class="co">#&gt; 10         10   IMBABURA provincia  4785.149 MULTIPOLYGON (((-78.10539 0...</span></span></code></pre></div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">provincias</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"#F6E7C8"</span>, color <span class="op">=</span> <span class="st">"#0F2233"</span>, linewidth <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span></span>
@@ -206,8 +205,8 @@ los niveles superiores:</p>
 </tr>
 <tr class="even">
 <td><code>area_km2</code></td>
-<td>Superficie en km², calculada en UTM 17S sobre la resolución
-alta</td>
+<td>Superficie en km², calculada sobre el elipsoide WGS84 (EPSG:6933)
+con la resolución alta</td>
 </tr>
 </tbody>
 </table>
@@ -286,9 +285,9 @@ huecos:</p>
 <span><span class="co">#&gt; Bounding box:  xmin: -80.69712 ymin: -2.6269 xmax: -77.93053 ymax: -0.93145</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="co">#&gt;   dpa_parroq                                 parroquia area_km2</span></span>
-<span><span class="co">#&gt; 1     139090          ZONA EN ESTUDIO "JARAMIJO-MANTA"    7.699</span></span>
-<span><span class="co">#&gt; 2     140190        ZONA EN ESTUDIO "SINAÍ-CUCHAENTZA"   19.559</span></span>
-<span><span class="co">#&gt; 3     900651 ZONA EN ESTUDIO: JUVAL (CAÑAR-CHIMBORAZO)  606.224</span></span>
+<span><span class="co">#&gt; 1     139090          ZONA EN ESTUDIO "JARAMIJO-MANTA"    7.705</span></span>
+<span><span class="co">#&gt; 2     140190        ZONA EN ESTUDIO "SINAÍ-CUCHAENTZA"   19.520</span></span>
+<span><span class="co">#&gt; 3     900651 ZONA EN ESTUDIO: JUVAL (CAÑAR-CHIMBORAZO)  605.651</span></span>
 <span><span class="co">#&gt;                         geometry</span></span>
 <span><span class="co">#&gt; 1 MULTIPOLYGON (((-80.67187 -...</span></span>
 <span><span class="co">#&gt; 2 MULTIPOLYGON (((-78.03429 -...</span></span>
@@ -319,8 +318,12 @@ ideal para mapas, boletines y tableros Shiny.</li>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>baja <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">loja_baja</span><span class="op">)</span>, alta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/object.size.html" class="external-link">object.size</a></span><span class="op">(</span><span class="va">loja_alta</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   baja   alta </span></span>
 <span><span class="co">#&gt;  59400 774824</span></span></code></pre></div>
-<p>Para medir <strong>áreas o distancias en metros</strong>, usa un
-sistema proyectado como UTM 17S (<code>crs = 32717</code>):</p>
+<p>Para medir <strong>distancias en metros</strong> en el continente,
+usa un sistema proyectado como UTM 17S (<code>crs = 32717</code>). Para
+<strong>áreas</strong> ya tienes <code>area_km2</code>; si calculas
+áreas de polígonos propios, usa una proyección de igual área como
+EPSG:6933, porque UTM 17S infla la superficie de Galápagos en un 3 %
+(ver <a href="datos.html#superficie">Datos y fuente</a>):</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">loja</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_dpa.html">read_cantones</a></span><span class="op">(</span>provincia <span class="op">=</span> <span class="st">"Loja"</span>, crs <span class="op">=</span> <span class="fl">32717</span><span class="op">)</span></span>
 <span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">loja</span><span class="op">)</span><span class="op">$</span><span class="va">epsg</span></span>
@@ -332,12 +335,12 @@ sistema proyectado como UTM 17S (<code>crs = 32717</code>):</p>
 <span><span class="co">#&gt; Bounding box:  xmin: 584243.1 ymin: 9475071 xmax: 710810.6 ymax: 9594129</span></span>
 <span><span class="co">#&gt; Projected CRS: WGS 84 / UTM zone 17S</span></span>
 <span><span class="co">#&gt;         canton area_km2                       geometry</span></span>
-<span><span class="co">#&gt; 1         LOJA 1891.245 MULTIPOLYGON (((705567.1 95...</span></span>
-<span><span class="co">#&gt; 2       CALVAS  851.003 MULTIPOLYGON (((654500.3 95...</span></span>
-<span><span class="co">#&gt; 3     CATAMAYO  651.847 MULTIPOLYGON (((692247.1 95...</span></span>
-<span><span class="co">#&gt; 4       CELICA  521.597 MULTIPOLYGON (((614379.5 95...</span></span>
-<span><span class="co">#&gt; 5 CHAGUARPAMBA  313.231 MULTIPOLYGON (((657334.9 95...</span></span>
-<span><span class="co">#&gt; 6    ESPÍNDOLA  516.249 MULTIPOLYGON (((684478.4 94...</span></span></code></pre></div>
+<span><span class="co">#&gt; 1         LOJA 1890.991 MULTIPOLYGON (((705567.1 95...</span></span>
+<span><span class="co">#&gt; 2       CALVAS  851.174 MULTIPOLYGON (((654500.3 95...</span></span>
+<span><span class="co">#&gt; 3     CATAMAYO  651.854 MULTIPOLYGON (((692247.1 95...</span></span>
+<span><span class="co">#&gt; 4       CELICA  521.863 MULTIPOLYGON (((614379.5 95...</span></span>
+<span><span class="co">#&gt; 5 CHAGUARPAMBA  313.313 MULTIPOLYGON (((657334.9 95...</span></span>
+<span><span class="co">#&gt; 6    ESPÍNDOLA  516.265 MULTIPOLYGON (((684478.4 94...</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="unir-tus-datos">6. Unir tus datos<a class="anchor" aria-label="anchor" href="#unir-tus-datos"></a>
@@ -578,7 +581,7 @@ parroquia actual:</p>
 <p>Una vez descargados, los datos se leen de la caché. Para entornos sin
 internet (servidores institucionales, Shiny Server, equipos de campo),
 descarga los archivos <code>geoecu_dpa_baja.gpkg</code> y
-<code>geoecu_dpa_alta.gpkg</code> desde el <a href="https://github.com/f-slg/geoecu/releases/tag/datos-v0.2.0" class="external-link">release
+<code>geoecu_dpa_alta.gpkg</code> desde el <a href="https://github.com/f-slg/geoecu/releases/tag/datos-v0.3.0" class="external-link">release
 de datos</a>, cópialos a una carpeta e indícala:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/geoecu_usar_carpeta.html">geoecu_usar_carpeta</a></span><span class="op">(</span><span class="st">"/srv/datos/geoecu"</span><span class="op">)</span></span></code></pre></div>

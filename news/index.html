@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,7 +16,6 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/guia.html">Guía de uso</a></li>
-<li class="nav-item"><a class="nav-link" href="../articles/galeria.html">Galería de mapas</a></li>
 <li class="nav-item"><a class="nav-link" href="../articles/datos.html">Datos y fuente</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Funciones</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Novedades</a></li>
@@ -31,9 +30,21 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/f-slg/geoecu/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/f-slg/geoecu/blob/datos-v0.3.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.1" id="geoecu-041">geoecu 0.4.1<a class="anchor" aria-label="anchor" href="#geoecu-041"></a></h2>
+<div class="section level3">
+<h3 id="datos-0-4-1">Datos<a class="anchor" aria-label="anchor" href="#datos-0-4-1"></a></h3>
+<ul><li>Se corrige <code>area_km2</code> (nuevo release de datos <code>datos-v0.3.0</code>). La superficie se calculaba en UTM 17S, que no conserva áreas: Galápagos, en el huso 15, salía inflada en un 3 % (unos 240 km²) y las provincias de la Amazonía oriental entre 0,2 % y 0,6 %. Ahora se calcula sobre el elipsoide WGS84 con una proyección de igual área (EPSG:6933). La superficie total del Ecuador pasa de 257 205 a 256 505 km². Las geometrías y los códigos no cambian.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentación-0-4-1">Documentación<a class="anchor" aria-label="anchor" href="#documentaci%C3%B3n-0-4-1"></a></h3>
+<ul><li>El artículo <strong>Datos y fuente</strong> tiene una nueva sección <em>Superficie</em> con un gráfico del error de UTM 17S por provincia.</li>
+<li>La documentación de <code>crs</code> en <code><a href="../reference/read_dpa.html">read_provincias()</a></code> y la Guía de uso ya no recomiendan UTM 17S para medir áreas.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="geoecu-040">geoecu 0.4.0<a class="anchor" aria-label="anchor" href="#geoecu-040"></a></h2><p class="text-muted">CRAN release: 2026-10-22</p>
 <div class="section level3">

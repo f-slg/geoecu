@@ -50,7 +50,9 @@ CC BY:
 - crs:
 
   Sistema de coordenadas de salida. Por defecto WGS84 (EPSG:4326). Usa
-  `32717` (UTM 17S) para calcular áreas o distancias en metros.
+  `32717` (UTM 17S) para calcular distancias en metros en el continente.
+  Para áreas, usa `area_km2` o una proyección de igual área como `6933`:
+  UTM 17S infla la superficie de Galápagos en un 3 %.
 
 - canton:
 
@@ -82,7 +84,9 @@ Un objeto `sf` de polígonos con las columnas:
   `canton`, `dpa_provin`, `provincia`, `area_km2`.
 
 `tipo` vale `"provincia"`, `"cantón"`, `"cabecera cantonal"` o
-`"parroquia rural"` según el nivel, o `"zona en estudio"`.
+`"parroquia rural"` según el nivel, o `"zona en estudio"`. `area_km2` es
+la superficie en km², calculada sobre el elipsoide WGS84 con la
+resolución alta (el mismo valor en ambas resoluciones).
 
 ## Details
 
@@ -120,9 +124,9 @@ read_parroquias(canton = "Puyango", tipo = "rural")
 #> 4     111054 MERCADILLO parroquia rural       1110 PUYANGO         11      LOJA
 #> 5     111055  VICENTINO parroquia rural       1110 PUYANGO         11      LOJA
 #>   area_km2                       geometry
-#> 1   79.936 MULTIPOLYGON (((-80.03762 -...
-#> 2   27.715 MULTIPOLYGON (((-79.98415 -...
-#> 3  203.758 MULTIPOLYGON (((-80.16189 -...
-#> 4   28.082 MULTIPOLYGON (((-79.88239 -...
-#> 5   56.300 MULTIPOLYGON (((-79.91506 -...
+#> 1   79.975 MULTIPOLYGON (((-80.03762 -...
+#> 2   27.729 MULTIPOLYGON (((-79.98415 -...
+#> 3  203.880 MULTIPOLYGON (((-80.16189 -...
+#> 4   28.095 MULTIPOLYGON (((-79.88239 -...
+#> 5   56.325 MULTIPOLYGON (((-79.91506 -...
 ```

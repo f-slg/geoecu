@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,7 +16,6 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="articles/guia.html">Guía de uso</a></li>
-<li class="nav-item"><a class="nav-link" href="articles/galeria.html">Galería de mapas</a></li>
 <li class="nav-item"><a class="nav-link" href="articles/datos.html">Datos y fuente</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Funciones</a></li>
 <li class="nav-item"><a class="nav-link" href="news/index.html">Novedades</a></li>
@@ -31,7 +30,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="logo.png" class="logo" alt=""><h1>Cómo contribuir a geoecu</h1>
-      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/main/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/f-slg/geoecu/blob/datos-v0.3.0/.github/CONTRIBUTING.md" class="external-link"><code>.github/CONTRIBUTING.md</code></a></small>
     </div>
 
 <div id="cómo-contribuir-a-geoecu" class="section level1">
@@ -60,43 +59,30 @@
 </ol><p>Los datos se generan con los scripts de <a href="https://github.com/f-slg/geoecu/tree/main/data-raw/" class="external-link"><code>data-raw/</code></a>: si propones un cambio en los datos, modifica el script y no los archivos generados.</p>
 </div>
 <div class="section level2">
-<h2 id="actualizar-las-figuras-del-readme">Actualizar las figuras del README<a class="anchor" aria-label="anchor" href="#actualizar-las-figuras-del-readme"></a></h2>
-<p>Cuando cambien los estilos o ejemplos de los mapas:</p>
-<ol style="list-style-type: decimal"><li>
-<p>Trabaja en una rama y ejecuta desde la raíz:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/03_figuras_readme.R</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/06_validar_readme.R</span></code></pre></div>
-</li>
-<li><p>Revisa visualmente las seis figuras <code>man/figures/README-*.png</code> para comprobar márgenes, títulos, etiquetas y leyendas. Actualiza los ejemplos del README si cambia la composición.</p></li>
-<li><p>Registra en <strong>tu rama</strong> los PNG y el código con un commit; abre un PR.</p></li>
-<li><p>El workflow <strong>Render detailed map gallery</strong> regenera las seis figuras y las sube como artefacto para revisar, pero <strong>no hace push, commit ni publica cambios automáticamente</strong>. Los archivos que quieras integrar en <code>main</code> deben figurar en el PR.</p></li>
-</ol><p>Este procedimiento mantiene separados los cambios cartográficos de la revisión y evita que GitHub Actions escriba directamente en ramas protegidas.</p>
-</div>
-<div class="section level2">
 <h2 id="actualizar-los-datos">Actualizar los datos<a class="anchor" aria-label="anchor" href="#actualizar-los-datos"></a></h2>
 <p>Cuando el CONALI publique una nueva versión de la Organización Territorial del Estado (por ejemplo, tras la creación de un cantón o una parroquia):</p>
 <ol style="list-style-type: decimal"><li><p>Descarga la capa <code>ORGANIZACION_TERRITORIAL_PARROQUIAL</code> del <a href="https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial" class="external-link">portal de datos abiertos</a> y guárdala en <code>data-raw/insumos/</code> (carpeta ignorada por git). Revisa en sus metadatos la fecha, la licencia y la cita requerida.</p></li>
 <li>
 <p>Simplifica y construye los niveles (requiere Node.js y mapshaper):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">bash</span> data-raw/01_simplificar.sh data-raw/insumos/ORGANIZACION_TERRITORIAL_PARROQUIAL.shp</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">bash</span> data-raw/01_simplificar.sh data-raw/insumos/ORGANIZACION_TERRITORIAL_PARROQUIAL.shp</span></code></pre></div>
 </li>
 <li>
 <p>Genera los GeoPackages y el catálogo <code>dpa</code>. El script imprime la huella MD5 de cada GeoPackage:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/02_construir_datos.R</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/02_construir_datos.R</span></code></pre></div>
 </li>
 <li><p>Si cambian los códigos, actualiza <code>dpa_equivalencias</code> con <code>data-raw/04_equivalencias.R</code> (compara con la versión anterior de los datos, que debes copiar en <code>data-raw/insumos/</code>).</p></li>
 <li><p>En <code>R/zzz.R</code>, cambia <code>.geoecu_version_datos</code> a la nueva etiqueta (por ejemplo, <code>datos-v0.3.0</code>) y <code>.geoecu_md5</code> a las huellas del paso 3.</p></li>
 <li>
 <p>Publica el release de datos con esa etiqueta y los dos GeoPackages:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">gh</span> release create datos-v0.3.0 data-raw/release/geoecu_dpa_baja.gpkg data-raw/release/geoecu_dpa_alta.gpkg <span class="at">--title</span> <span class="st">"Datos geoecu 0.3.0"</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">gh</span> release create datos-v0.3.0 data-raw/release/geoecu_dpa_baja.gpkg data-raw/release/geoecu_dpa_alta.gpkg <span class="at">--title</span> <span class="st">"Datos geoecu 0.3.0"</span></span></code></pre></div>
 </li>
 <li><p>Actualiza la fecha de la versión de origen y los conteos en <code>R/datos.R</code>, <code>inst/COPYRIGHTS</code>, <code>inst/CITATION</code>, el README, los artículos de <code>vignettes/articles/</code> y las pruebas de <code>tests/testthat/</code>.</p></li>
 <li>
 <p>Regenera la documentación y las figuras, y verifica el paquete:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'roxygen2::roxygenise()'</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/03_figuras_readme.R</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/05_logo.R</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="ex">R</span> CMD build . <span class="kw">&amp;&amp;</span> <span class="ex">R</span> CMD check <span class="at">--as-cran</span> geoecu_<span class="pp">*</span>.tar.gz</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">Rscript</span> <span class="at">-e</span> <span class="st">'roxygen2::roxygenise()'</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/03_figuras_readme.R</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="ex">Rscript</span> data-raw/05_logo.R</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="ex">R</span> CMD build . <span class="kw">&amp;&amp;</span> <span class="ex">R</span> CMD check <span class="at">--as-cran</span> geoecu_<span class="pp">*</span>.tar.gz</span></code></pre></div>
 </li>
 </ol><p>Los releases de datos anteriores no se borran: así las versiones anteriores del paquete siguen funcionando con sus datos.</p>
 </div>
