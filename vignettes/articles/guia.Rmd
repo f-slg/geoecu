@@ -88,7 +88,7 @@ niveles superiores:
 | `dpa_provin`, `dpa_canton`, `dpa_parroq` | Códigos DPA (texto, con ceros a la izquierda) |
 | `provincia`, `canton`, `parroquia` | Nombres oficiales, en mayúsculas |
 | `tipo` | `"provincia"`, `"cantón"`, `"cabecera cantonal"`, `"parroquia rural"` o `"zona en estudio"` |
-| `area_km2` | Superficie en km², calculada en UTM 17S sobre la resolución alta |
+| `area_km2` | Superficie en km², calculada sobre el elipsoide WGS84 (EPSG:6933) con la resolución alta |
 
 ## 4. Filtrar por territorio
 
@@ -157,8 +157,11 @@ loja_alta <- read_cantones(provincia = "Loja", resolucion = "alta")
 c(baja = object.size(loja_baja), alta = object.size(loja_alta))
 ```
 
-Para medir **áreas o distancias en metros**, usa un sistema proyectado como
-UTM 17S (`crs = 32717`):
+Para medir **distancias en metros** en el continente, usa un sistema
+proyectado como UTM 17S (`crs = 32717`). Para **áreas** ya tienes
+`area_km2`; si calculas áreas de polígonos propios, usa una proyección de
+igual área como EPSG:6933, porque UTM 17S infla la superficie de Galápagos en
+un 3 % (ver [Datos y fuente](datos.html#superficie)):
 
 ```{r}
 loja <- read_cantones(provincia = "Loja", crs = 32717)
@@ -329,7 +332,7 @@ subset(dpa_equivalencias, principal & cambio == "código distinto",
 Una vez descargados, los datos se leen de la caché. Para entornos sin
 internet (servidores institucionales, Shiny Server, equipos de campo),
 descarga los archivos `geoecu_dpa_baja.gpkg` y `geoecu_dpa_alta.gpkg` desde
-el [release de datos](https://github.com/f-slg/geoecu/releases/tag/datos-v0.2.0),
+el [release de datos](https://github.com/f-slg/geoecu/releases/tag/datos-v0.3.0),
 cópialos a una carpeta e indícala:
 
 ```{r, eval = FALSE}

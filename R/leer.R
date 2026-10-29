@@ -29,8 +29,9 @@
 #' @param resolucion `"baja"` (por defecto; liviana, para mapas y tableros) o
 #'   `"alta"` (detallada, para análisis espacial).
 #' @param crs Sistema de coordenadas de salida. Por defecto WGS84
-#'   (EPSG:4326). Usa `32717` (UTM 17S) para calcular áreas o distancias en
-#'   metros.
+#'   (EPSG:4326). Usa `32717` (UTM 17S) para calcular distancias en metros en
+#'   el continente. Para áreas, usa `area_km2` o una proyección de igual área
+#'   como `6933`: UTM 17S infla la superficie de Galápagos en un 3 %.
 #'
 #' @return Un objeto `sf` de polígonos con las columnas:
 #'   * `read_provincias()`: `dpa_provin`, `provincia`, `tipo`, `area_km2`.
@@ -40,7 +41,9 @@
 #'     `canton`, `dpa_provin`, `provincia`, `area_km2`.
 #'
 #'   `tipo` vale `"provincia"`, `"cantón"`, `"cabecera cantonal"` o
-#'   `"parroquia rural"` según el nivel, o `"zona en estudio"`.
+#'   `"parroquia rural"` según el nivel, o `"zona en estudio"`. `area_km2` es
+#'   la superficie en km², calculada sobre el elipsoide WGS84 con la
+#'   resolución alta (el mismo valor en ambas resoluciones).
 #' @source Organización Territorial del Estado, Comité Nacional de Límites
 #'   Internos (CONALI), Ministerio de Gobierno del Ecuador. Datos abiertos,
 #'   licencia CC BY: <https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial>.

@@ -29,8 +29,12 @@ renombrar <- function(x) {
   x
 }
 
+# Área sobre el elipsoide WGS84 con una proyección de igual área (EPSG:6933,
+# Lambert cilíndrica elipsoidal). UTM 17S no conserva áreas: infla Galápagos
+# (huso 15) en ~3 % y la Amazonía oriental hasta ~0,6 %. Tampoco se usa s2,
+# que calcula sobre una esfera y sobreestima ~0,45 % en el ecuador.
 area_km2 <- function(x) {
-  round(as.numeric(st_area(st_transform(x, 32717))) / 1e6, 3)
+  round(as.numeric(st_area(st_transform(x, 6933))) / 1e6, 3)
 }
 
 texto_utf8 <- function(x) {

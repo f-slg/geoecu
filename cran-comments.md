@@ -1,14 +1,12 @@
 ## Submission
 
-This is an update of 'geoecu' (0.3.0 -> 0.4.0), submitted shortly after the
-first release because it corrects an error in the attribution of the data
-source: version 0.3.0 attributed the geographic layers to the Geographic
-Military Institute of Ecuador (IGM), which was not correct. The layers and the bundled `dpa`
-catalogue are now rebuilt from the open data of the Territorial Organization
-of the State published by the National Committee of Internal Boundaries
-(CONALI, Ministry of Government of Ecuador) under a CC BY licence. The source
-and licence of the data are documented in `inst/COPYRIGHTS` (declared in the
-`Copyright` field of DESCRIPTION) and in `inst/CITATION`.
+This is a minor update of 'geoecu' (0.4.0 -> 0.4.1) that corrects the
+surface area of each unit (column `area_km2`). It was computed in UTM zone
+17S, which does not preserve areas: the Galapagos Islands, which lie in UTM
+zone 15, were overestimated by about 3 %. Areas are now computed on the WGS84
+ellipsoid with an equal-area projection (EPSG:6933). The geometries and codes
+are unchanged; the corrected GeoPackages are published as the new data
+release `datos-v0.3.0`.
 
 ## Test environments
 
