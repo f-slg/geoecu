@@ -92,7 +92,7 @@ provincias <- read_provincias()
 cantones   <- read_cantones(provincia = "Loja")
 parroquias <- read_parroquias(canton = "Puyango", tipo = "rural")
 
-# En UTM 17S para medir áreas o distancias en metros
+# En UTM 17S para medir distancias en metros (las áreas ya vienen en area_km2)
 loja_utm <- read_cantones(provincia = 11, crs = 32717)
 
 # Versión detallada
@@ -113,6 +113,8 @@ La columna `tipo` distingue las circunscripciones (`"provincia"`, `"cantón"`,
 `"cabecera cantonal"`, `"parroquia rural"`) de las **zonas en estudio**,
 territorios con límites aún no resueltos que se incluyen para que el mapa no
 tenga huecos. Para excluirlas: `subset(x, tipo != "zona en estudio")`.
+La columna `area_km2` es la superficie en km², calculada sobre el elipsoide
+WGS84 con la resolución alta.
 
 ### Unir tus datos y mapear
 

@@ -60,3 +60,13 @@ test_that("la descarga rechaza archivos que no coinciden con la huella", {
   on.exit(assignInNamespace(".geoecu_md5", md5, "geoecu"), add = TRUE)
   expect_error(geoecu:::.descargar("baja"), "no coincide")
 })
+
+test_that("area_km2 es el \u00e1rea sobre el elipsoide, no en UTM 17S", {
+  x <- read_provincias()
+  elipsoide <- as.numeric(sf::st_area(sf::st_transform(x, 6933))) / 1e6
+  # La resolución baja difiere de la alta solo por la simplificación
+  expect_equal(x$area_km2, elipsoide, tolerance = 0.005)
+  gal <- x$area_km2[x$dpa_provin == "20"]
+  expect_gt(gal, 7950)
+  expect_lt(gal, 8050)   # en UTM 17S sale ~8233 km²
+})

@@ -39,8 +39,9 @@ devuelve todo el país.}
 \code{"alta"} (detallada, para análisis espacial).}
 
 \item{crs}{Sistema de coordenadas de salida. Por defecto WGS84
-(EPSG:4326). Usa \code{32717} (UTM 17S) para calcular áreas o distancias en
-metros.}
+(EPSG:4326). Usa \code{32717} (UTM 17S) para calcular distancias en metros en
+el continente. Para áreas, usa \code{area_km2} o una proyección de igual área
+como \code{6933}: UTM 17S infla la superficie de Galápagos en un 3 \%.}
 
 \item{canton}{Cantones a incluir, por nombre o código. Si un nombre se
 repite en varias provincias (por ejemplo, Bolívar u Olmedo), usa el
@@ -64,7 +65,9 @@ Un objeto \code{sf} de polígonos con las columnas:
 }
 
 \code{tipo} vale \code{"provincia"}, \code{"cantón"}, \code{"cabecera cantonal"} o
-\code{"parroquia rural"} según el nivel, o \code{"zona en estudio"}.
+\code{"parroquia rural"} según el nivel, o \code{"zona en estudio"}. \code{area_km2} es
+la superficie en km², calculada sobre el elipsoide WGS84 con la
+resolución alta (el mismo valor en ambas resoluciones).
 }
 \description{
 Devuelven un objeto \code{sf} con los límites del nivel solicitado y sus códigos
