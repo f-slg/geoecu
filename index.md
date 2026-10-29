@@ -196,12 +196,14 @@ geoecu_datos_disponibles()
 
 ## Galería de mapas y código reproducible
 
-Las cinco imágenes siguientes se generan con los datos abiertos de
-CONALI disponibles en `geoecu`. **Cada bloque de R es autónomo:**
-cópialo en RStudio para obtener la misma composición, paleta, capas,
-etiquetas y leyenda de la figura. El tamaño del panel *Plots* puede
-cambiar la distribución visual; cada ejemplo incluye la instrucción
-opcional de exportación con las dimensiones de la imagen publicada.
+Las seis imágenes siguientes se generan con los datos abiertos de CONALI
+disponibles en `geoecu`; la sexta añade la población del INEC mediante
+el paquete hermano [pobecu](https://f-slg.github.io/pobecu/). **Cada
+bloque de R es autónomo:** cópialo en RStudio para obtener la misma
+composición, paleta, capas, etiquetas y leyenda de la figura. El tamaño
+del panel *Plots* puede cambiar la distribución visual; cada ejemplo
+incluye la instrucción opcional de exportación con las dimensiones de la
+imagen publicada.
 
 | Nivel | Función principal | Cobertura |
 |----|----|----|
@@ -544,6 +546,138 @@ g_loja <- ggplot() +
 
 print(g_loja)
 # ggsave("mapa_loja.png", g_loja, width = 8, height = 8, dpi = 200)
+```
+
+### 6. Densidad poblacional: provincias, cantones y parroquias
+
+Combina `area_km2` de geoecu con la **población 2026 del INEC**,
+disponible en el paquete hermano
+[pobecu](https://f-slg.github.io/pobecu/), para obtener **habitantes por
+km²** en los tres niveles con una **escala logarítmica común**. La
+población usa las divisiones del Censo 2022, así que las unidades
+creadas después se suman a aquella de la que se separaron: los cantones
+Borbón y Sevilla Don Bosco, y las parroquias Sosote, Shuar Pastaza, Juan
+Montalvo, La Magdalena, La Primavera y Miss Ecuador. Las cifras
+parroquiales son una estimación de pobecu, no oficial.
+
+![Tres mapas de Ecuador con la densidad poblacional en habitantes por
+kilómetro cuadrado por provincia, cantón y parroquia, con una escala
+común y Galápagos en recuadro](reference/figures/README-densidad.png)
+
+**Ver y copiar el código R exacto de esta figura**
+
+``` r
+
+# install.packages("remotes"); remotes::install_github("f-slg/pobecu")
+library(geoecu)
+library(ggplot2)
+library(patchwork)
+
+azul   <- "#0F2233"
+dorado <- "#F2B705"
+
+tema <- theme_void(base_size = 12) +
+  theme(plot.title = element_text(face = "bold", size = 13, color = azul,
+                                  hjust = 0.5, margin = margin(t = 3, b = 7, l = 4, r = 4)),
+        plot.subtitle = element_text(size = 9.5, color = "grey40",
+                                     hjust = 0.5, margin = margin(b = 5, l = 4, r = 4)),
+        legend.position = "bottom",
+        legend.title = element_text(size = 9, color = "grey30"),
+        legend.text = element_text(size = 8.5, color = "grey30"),
+        plot.title.position = "plot",
+        plot.margin = margin(t = 18, r = 20, b = 18, l = 22, unit = "pt"),
+        plot.background = element_rect(fill = "white", color = NA))
+
+marco <- function(capa) {
+  geom_sf(data = marco_galapagos(capa), fill = NA, color = "grey78",
+          linewidth = 0.3)
+}
+
+anio <- 2026
+prov <- reubicar_galapagos(read_provincias(crs = 32717))
+cant <- reubicar_galapagos(read_cantones(crs = 32717))
+parr <- reubicar_galapagos(read_parroquias(crs = 32717))
+
+# Habitantes por km². `grupo` es el código de la unidad en la población del
+# INEC (pobecu): las unidades creadas después se suman a la de origen.
+densidad <- function(capa, grupo, pob) {
+  area <- tapply(capa$area_km2, grupo, sum)
+  hab <- pob$poblacion[match(names(area), pob$codigo)]
+  unname((hab / area)[grupo])
+}
+
+pob_prov <- pobecu::poblacion(nivel = "provincia", anio = anio)
+pob_prov$codigo <- pob_prov$dpa_provin
+prov$densidad <- densidad(prov, prov$dpa_provin, pob_prov)
+
+# Borbón (0809) y Sevilla Don Bosco (1413) se separaron de Eloy Alfaro y Morona
+pob_cant <- pobecu::poblacion(nivel = "canton", anio = anio)
+pob_cant$codigo <- pob_cant$dpa_canton
+grupo_cant <- c("0809" = "0802", "1413" = "1401")
+cant$densidad <- densidad(
+  cant, ifelse(cant$dpa_canton %in% names(grupo_cant),
+               grupo_cant[cant$dpa_canton], cant$dpa_canton), pob_cant)
+
+# Parroquias (estimación de pobecu, no oficial): los códigos del Censo 2022
+# que cambiaron se actualizan, y las parroquias creadas después se suman a
+# la parroquia de la que se separaron.
+pob_parr <- pobecu::poblacion(nivel = "parroquia", anio = anio)
+pob_parr$codigo <- ifelse(pob_parr$dpa_parroq %in% parr$dpa_parroq,
+                          pob_parr$dpa_parroq,
+                          actualizar_codigo(pob_parr$dpa_parroq))
+grupo_parr <- c("131251" = "131250",   # Sosote -> Rocafuerte
+                "160167" = "160162",   # Shuar Pastaza -> Simón Bolívar
+                "170257" = "170250",   # Juan Montalvo -> Cayambe
+                "210456" = "210450",   # La Magdalena -> Shushufindi
+                "210457" = "210450",   # La Primavera -> Shushufindi
+                "210458" = "210450")   # Miss Ecuador -> Shushufindi
+parr$densidad <- densidad(
+  parr, ifelse(parr$dpa_parroq %in% names(grupo_parr),
+               grupo_parr[parr$dpa_parroq], parr$dpa_parroq), pob_parr)
+
+# Una sola escala para comparar los tres niveles
+limites <- range(c(prov$densidad, cant$densidad, parr$densidad), na.rm = TRUE)
+escala <- scale_fill_gradientn(
+  colours = c("#FFF4D2", "#F2C14E", "#D9822B", "#8C3B12"),
+  trans = "log10", limits = limites,
+  breaks = c(0.1, 1, 10, 100, 1000),
+  labels = c("0,1", "1", "10", "100", "1.000"),
+  name = "Habitantes por km²", na.value = "grey85"
+)
+
+mapa_densidad <- function(capa, titulo, borde) {
+  ggplot() +
+    geom_sf(data = capa, aes(fill = densidad), color = "white",
+            linewidth = borde) +
+    geom_sf(data = prov, fill = NA, color = azul, linewidth = 0.3) +
+    marco(prov) +
+    escala +
+    labs(title = titulo) +
+    tema +
+    theme(plot.margin = margin(t = 6, r = 6, b = 6, l = 6, unit = "pt"))
+}
+
+panel_densidad <- (mapa_densidad(prov, "Provincias", 0.15) |
+                     mapa_densidad(cant, "Cantones", 0.08) |
+                     mapa_densidad(parr, "Parroquias", 0.03)) +
+  plot_layout(guides = "collect") +
+  plot_annotation(
+    title = "Ecuador | Densidad poblacional",
+    subtitle = sprintf("Población %d (INEC, vía pobecu) / area_km2 de geoecu", anio),
+    caption = paste("Escala logarítmica común · parroquias: estimación de pobecu, no oficial",
+                    "· gris: zonas en estudio, sin población asignada"),
+    theme = theme(plot.title = element_text(face = "bold", size = 17, color = azul),
+                  plot.subtitle = element_text(size = 10, color = "grey40"),
+                  plot.caption = element_text(size = 8, color = "grey45"),
+                  plot.margin = margin(t = 18, r = 20, b = 12, l = 22, unit = "pt"),
+                  plot.background = element_rect(fill = "white", color = NA))
+  ) &
+  theme(legend.position = "bottom",
+        legend.title.position = "top", legend.title = element_text(hjust = 0.5),
+        legend.key.width = unit(2.2, "cm"), legend.key.height = unit(0.3, "cm"))
+
+print(panel_densidad)
+# ggsave("mapa_densidad.png", panel_densidad, width = 15, height = 6.2, dpi = 200)
 ```
 
 > **Nota:**
