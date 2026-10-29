@@ -1,21 +1,22 @@
-# Comprueba que los cinco ejemplos de la galería del README sean
+# Comprueba que los seis ejemplos de la galería del README sean
 # autónomos, se puedan interpretar y produzcan mapas sin errores.
 #
 # Uso desde la raíz del repositorio:
 #   Rscript data-raw/06_validar_readme.R
 #
-# Requiere geoecu, ggplot2, patchwork y GeoPackages disponibles o internet.
+# Requiere geoecu, ggplot2, patchwork, pobecu y GeoPackages disponibles o internet.
 stopifnot(
   requireNamespace("geoecu", quietly = TRUE),
   requireNamespace("ggplot2", quietly = TRUE),
-  requireNamespace("patchwork", quietly = TRUE)
+  requireNamespace("patchwork", quietly = TRUE),
+  requireNamespace("pobecu", quietly = TRUE)
 )
 
 lineas <- readLines("README.md", warn = FALSE, encoding = "UTF-8")
-comienzos <- grep("^### [1-5][.] ", lineas)
+comienzos <- grep("^### [1-6][.] ", lineas)
 
-if (length(comienzos) != 5L) {
-  stop("Se esperaban cinco ejemplos cartográficos en el README.")
+if (length(comienzos) != 6L) {
+  stop("Se esperaban seis ejemplos cartográficos en el README.")
 }
 
 for (i in seq_along(comienzos)) {
@@ -49,4 +50,4 @@ for (i in seq_along(comienzos)) {
   unlink(grafico)
 }
 
-message("Los cinco ejemplos del README se ejecutaron correctamente.")
+message("Los seis ejemplos del README se ejecutaron correctamente.")
