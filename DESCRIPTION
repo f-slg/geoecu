@@ -2,7 +2,7 @@ Package: geoecu
 Type: Package
 Title: Maps of the Provinces, Cantons and Parishes of Ecuador (Mapas de
     Provincias, Cantones y Parroquias del Ecuador)
-Version: 0.4.1
+Version: 0.4.1.9000
 Authors@R:
     person("Ronald Fabricio", "Salas Guerrero",
            email = "fabriciosalasguerrero@gmail.com",
