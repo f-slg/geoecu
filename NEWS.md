@@ -1,3 +1,12 @@
+# geoecu (versión de desarrollo)
+
+* `geoecu_unir()` ya no elimina las columnas de `datos` que se llaman igual
+  que una de la capa (por ejemplo, `tipo` o `area_km2`): se conservan con el
+  sufijo `_datos` y se avisa con una advertencia.
+* `normalizar_nombre()` y las búsquedas por nombre reconocen los textos con
+  tildes como caracteres combinados (Unicode NFD), habituales al copiar de
+  algunos sistemas: "Cañar" ya no se convierte en `CAN AR`.
+
 # geoecu 0.4.1
 
 ## Datos
