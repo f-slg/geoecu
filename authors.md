@@ -11,14 +11,14 @@ Source:
 [`inst/CITATION`](https://github.com/f-slg/geoecu/blob/main/inst/CITATION)
 
 Salas Guerrero, R. F. (2026). geoecu: Mapas de provincias, cantones y
-parroquias del Ecuador. Paquete de R versión 0.4.1.
+parroquias del Ecuador. Paquete de R versión 0.4.1.9000.
 https://f-slg.github.io/geoecu/
 
     @Manual{,
       title = {geoecu: Mapas de provincias, cantones y parroquias del Ecuador},
       author = {Ronald Fabricio {Salas Guerrero}},
       year = {2026},
-      note = {Paquete de R versión 0.4.1},
+      note = {Paquete de R versión 0.4.1.9000},
       url = {https://f-slg.github.io/geoecu/},
     }
 

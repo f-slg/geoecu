@@ -15,7 +15,7 @@ que permite mapearlos."><meta property="og:image" content="https://f-slg.github.
 
     <a class="navbar-brand me-2" href="../index.html">geoecu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,7 +81,9 @@ que permite mapearlos.</p>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Un objeto <code>sf</code> con las columnas de la capa más las de <code>datos</code>.
 Si hay códigos en <code>datos</code> que no existen en la capa, se avisa con una
-advertencia.</p>
+advertencia. Las columnas de <code>datos</code> con el mismo nombre que una de la
+capa (por ejemplo, <code>tipo</code> o <code>area_km2</code>) se conservan con el sufijo
+<code>_datos</code>, también con una advertencia.</p>
     </div>
 
     <div class="section level2">

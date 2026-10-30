@@ -35,7 +35,9 @@ geoecu_unir(datos, codigo, nivel = c("canton", "provincia", "parroquia"), ...)
 
 Un objeto `sf` con las columnas de la capa más las de `datos`. Si hay
 códigos en `datos` que no existen en la capa, se avisa con una
-advertencia.
+advertencia. Las columnas de `datos` con el mismo nombre que una de la
+capa (por ejemplo, `tipo` o `area_km2`) se conservan con el sufijo
+`_datos`, también con una advertencia.
 
 ## Examples
 
