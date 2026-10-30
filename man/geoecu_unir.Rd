@@ -19,7 +19,9 @@ geoecu_unir(datos, codigo, nivel = c("canton", "provincia", "parroquia"), ...)
 \value{
 Un objeto \code{sf} con las columnas de la capa más las de \code{datos}.
 Si hay códigos en \code{datos} que no existen en la capa, se avisa con una
-advertencia.
+advertencia. Las columnas de \code{datos} con el mismo nombre que una de la
+capa (por ejemplo, \code{tipo} o \code{area_km2}) se conservan con el sufijo
+\verb{_datos}, también con una advertencia.
 }
 \description{
 Une una tabla (casos, tasas, coberturas, etc.) con la capa del nivel

@@ -116,7 +116,9 @@ read_parroquias <- function(provincia = NULL, canton = NULL, tipo = NULL,
 #'
 #' @return Un objeto `sf` con las columnas de la capa más las de `datos`.
 #'   Si hay códigos en `datos` que no existen en la capa, se avisa con una
-#'   advertencia.
+#'   advertencia. Las columnas de `datos` con el mismo nombre que una de la
+#'   capa (por ejemplo, `tipo` o `area_km2`) se conservan con el sufijo
+#'   `_datos`, también con una advertencia.
 #' @export
 #' @examplesIf geoecu_datos_disponibles()
 #' casos <- data.frame(cod = c(1101, 1102, 1103), casos = c(12, 3, 7))
@@ -143,7 +145,12 @@ geoecu_unir <- function(datos, codigo, nivel = c("canton", "provincia", "parroqu
   if (codigo != clave) datos[[codigo]] <- NULL
   repetidas <- setdiff(intersect(names(datos), names(capa)), clave)
   if (length(repetidas)) {
-    datos <- datos[, setdiff(names(datos), repetidas), drop = FALSE]
+    # Se conservan con sufijo: borrarlas perdería información del usuario.
+    nuevas <- make.unique(c(names(capa), names(datos), paste0(repetidas, "_datos")),
+                          sep = "_")[length(capa) + ncol(datos) + seq_along(repetidas)]
+    names(datos)[match(repetidas, names(datos))] <- nuevas
+    warning("Columnas de `datos` que tambi\u00e9n est\u00e1n en la capa, renombradas: ",
+            paste0(repetidas, " -> ", nuevas, collapse = ", "), call. = FALSE)
   }
   if (anyDuplicated(datos[[clave]][!is.na(datos[[clave]])])) {
     warning("Hay c\u00f3digos repetidos en `datos`: la uni\u00f3n duplicar\u00e1 pol\u00edgonos. ",
