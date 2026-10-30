@@ -24,6 +24,9 @@ normalizar_nombre <- function(x) {
     cp <- utf8ToInt(s)
     if (anyNA(cp)) cp <- utf8ToInt(iconv(s, "latin1", "UTF-8"))
     if (anyNA(cp)) return(NA_character_)
+    # Marcas diacríticas combinadas (texto en forma NFD, p. ej. "n" + tilde):
+    # se descartan porque la letra base ya está delante.
+    cp <- cp[cp < 0x300L | cp > 0x36fL]
     i <- match(cp, con)
     cp[!is.na(i)] <- sin[i[!is.na(i)]]
     cp[cp > 127L] <- 32L

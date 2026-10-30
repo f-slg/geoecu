@@ -48,6 +48,19 @@ test_that("geoecu_unir une por c\u00f3digo y conserva todos los pol\u00edgonos",
                  "no est\u00e1n en la capa")
 })
 
+test_that("geoecu_unir conserva las columnas de datos que coinciden con la capa", {
+  datos <- data.frame(cod = c("1101", "1102"), tipo = "casos confirmados",
+                      area_km2 = 99, tipo_datos = "otra")
+  expect_warning(m <- geoecu_unir(datos, "cod", "canton", provincia = "Loja"),
+                 "renombradas")
+  m <- m[m$dpa_canton %in% c("1101", "1102"), ]
+  expect_true(all(m$tipo == "cant\u00f3n"))
+  expect_equal(m$tipo_datos_1, rep("casos confirmados", 2))
+  expect_equal(m$area_km2_datos, c(99, 99))
+  expect_equal(m$tipo_datos, rep("otra", 2))
+  expect_false(any(m$area_km2 == 99))
+})
+
 test_that("la descarga rechaza archivos que no coinciden con la huella", {
   skip_on_cran()
   skip_if_offline("github.com")

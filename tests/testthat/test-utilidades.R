@@ -3,6 +3,9 @@ test_that("normalizar_nombre quita tildes, signos y espacios", {
   expect_equal(normalizar_nombre("  san  Jos\u00e9 de Chimbo "), "SAN JOSE DE CHIMBO")
   expect_equal(normalizar_nombre("CHECA (JIDCAY)"), "CHECA JIDCAY")
   expect_equal(normalizar_nombre(NA), NA_character_)
+  # Misma palabra con la tilde como carácter combinado (forma NFD)
+  expect_equal(normalizar_nombre("Can\u0303ar"), "CANAR")
+  expect_equal(normalizar_nombre("Jose\u0301"), "JOSE")
 })
 
 test_that("formatear_codigo recupera ceros a la izquierda", {
