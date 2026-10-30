@@ -18,6 +18,7 @@ publicados por el CONALI (Ministerio de Gobierno).
 > **Nota:** geoecu es un paquete independiente, desarrollado a título
 > personal. No es un producto oficial de ninguna institución, ni del CONALI
 > ni del Ministerio de Gobierno.
+
 ## Instalación
 
 Ejecuta este bloque en la **consola de R o RStudio**, no en la terminal de Ubuntu. Los paquetes de visualización son opcionales para leer capas, pero necesarios para reproducir las figuras de esta página.
@@ -35,7 +36,7 @@ install.packages("remotes")
 remotes::install_github("f-slg/geoecu")
 ```
 
-En la primera lectura, las geometrías se descargan desde el [release de datos](https://github.com/f-slg/geoecu/releases/tag/datos-v0.2.0), se verifican y se conservan en caché para futuras sesiones.
+En la primera lectura, las geometrías se descargan desde el [release de datos](https://github.com/f-slg/geoecu/releases/tag/datos-v0.3.0), se verifican y se conservan en caché para futuras sesiones.
 
 <details>
 <summary><strong>Ubuntu / Debian: requisitos de sf</strong></summary>
