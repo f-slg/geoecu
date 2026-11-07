@@ -573,7 +573,7 @@ común y Galápagos en recuadro](reference/figures/README-densidad.png)
 
 ``` r
 
-# install.packages("remotes"); remotes::install_github("f-slg/pobecu")
+# install.packages("pobecu")
 library(geoecu)
 library(ggplot2)
 library(patchwork)
