@@ -20,7 +20,8 @@
 <li class="nav-item"><a class="nav-link" href="../articles/datos.html">Datos y fuente</a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Funciones</a></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Novedades</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
+      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/f-slg/geoecu/blob/main/README.en.md" aria-label="README in English"><span class="fa fa-language"></span> English</a></li>
+<li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
 <li class="nav-item"><a class="external-link nav-link" href="https://github.com/f-slg/geoecu/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
@@ -35,7 +36,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.1" id="geoecu-041">geoecu 0.4.1<a class="anchor" aria-label="anchor" href="#geoecu-041"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.4.1" id="geoecu-041">geoecu 0.4.1<a class="anchor" aria-label="anchor" href="#geoecu-041"></a></h2><p class="text-muted">CRAN release: 2026-10-29</p>
 <div class="section level3">
 <h3 id="datos-0-4-1">Datos<a class="anchor" aria-label="anchor" href="#datos-0-4-1"></a></h3>
 <ul><li>Se corrige <code>area_km2</code> (nuevo release de datos <code>datos-v0.3.0</code>). La superficie se calculaba en UTM 17S, que no conserva áreas: Galápagos, en el huso 15, salía inflada en un 3 % (unos 240 km²) y las provincias de la Amazonía oriental entre 0,2 % y 0,6 %. Ahora se calcula sobre el elipsoide WGS84 con una proyección de igual área (EPSG:6933). La superficie total del Ecuador pasa de 257 205 a 256 505 km². Las geometrías y los códigos no cambian.</li>

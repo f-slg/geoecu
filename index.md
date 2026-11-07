@@ -1,5 +1,8 @@
 # geoecu
 
+**Español** ·
+[English](https://github.com/f-slg/geoecu/blob/main/README.en.md)
+
 **geoecu** da acceso en una línea de código a las capas de **provincias,
 cantones y parroquias del Ecuador**, con los **códigos de la División
 Político-Administrativa (DPA)**, listas para mapear y para unir con

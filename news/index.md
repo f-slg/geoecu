@@ -2,6 +2,8 @@
 
 ## geoecu 0.4.1
 
+CRAN release: 2026-10-29
+
 ### Datos
 
 - Se corrige `area_km2` (nuevo release de datos `datos-v0.3.0`). La
