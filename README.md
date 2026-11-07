@@ -531,7 +531,7 @@ Combina `area_km2` de geoecu con la **población 2026 del INEC**, disponible en 
 <summary><strong>Ver y copiar el código R exacto de esta figura</strong></summary>
 
 ```r
-# install.packages("remotes"); remotes::install_github("f-slg/pobecu")
+# install.packages("pobecu")
 library(geoecu)
 library(ggplot2)
 library(patchwork)
