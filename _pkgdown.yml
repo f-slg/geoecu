@@ -27,8 +27,13 @@ navbar:
   bg: primary
   structure:
     left: [guia, galeria, datos, reference, news]
-    right: [search, github]
+    right: [english, search, github]
   components:
+    english:
+      text: English
+      icon: fa-language
+      href: https://github.com/f-slg/geoecu/blob/main/README.en.md
+      aria-label: README in English
     guia:
       text: Guía de uso
       href: articles/guia.html
