@@ -1,5 +1,7 @@
 # geoecu <img src="man/figures/logo.png" align="right" height="139" alt="logo de geoecu" />
 
+**Español** · [English](https://github.com/f-slg/geoecu/blob/main/README.en.md)
+
 <!-- badges: start -->
 [![CRAN](https://www.r-pkg.org/badges/version/geoecu)](https://cran.r-project.org/package=geoecu)
 [![R-CMD-check](https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml)
