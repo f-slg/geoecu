@@ -127,7 +127,8 @@ Each layer is an `sf` object with DPA codes and the area `area_km2`:
 | `read_parroquias()` | `dpa_parroq`, `parroquia`, `tipo`, `dpa_canton`, `canton`, `area_km2` |
 
 `area_km2` is the area in km², computed on the WGS84 ellipsoid from the
-high-resolution layer.
+high-resolution layer. Use it rather than `sf::st_area()` on the WGS84 layer,
+which works on a sphere and gives areas 0.45% larger.
 
 ### Join a table by DPA code
 
@@ -161,6 +162,11 @@ ggplot(mapa_demo) +
 Cantons without data get `NA`. Before making epidemiological maps, aggregate
 events to the same territorial level and check the code matching.
 
+If your table has columns named like those of the layer (for example `tipo`,
+`canton` or `provincia`), since version 0.4.2 they are kept with the suffix
+`_datos`, with a warning. In version 0.4.1 and earlier those columns were
+dropped silently: if you use one of them, rename them before joining.
+
 ### DPA catalogue, search and cleaning
 
 ```r
@@ -170,6 +176,10 @@ buscar_dpa("puyango", nivel = "canton")
 formatear_codigo(c(701, 1101), "canton")
 normalizar_nombre("Cañar ")
 ```
+
+`formatear_codigo()` restores leading zeros and returns `NA`, with a warning,
+when a value cannot be a code of the given level (for example `"01"` as a
+canton).
 
 ### Codes from earlier versions
 
@@ -182,6 +192,11 @@ actualizar_codigo(c("010101", "080253"))
 subset(dpa_equivalencias, cambio == "código distinto")
 ```
 
+`actualizar_codigo()` warns when an earlier parish was split among several
+current ones, and when it keeps a current code whose territory changed
+substantially (for example `170250`, Cayambe, from which Juan Montalvo was
+separated). After converting, aggregate your data by the new code.
+
 ### Offline use
 
 ```r
@@ -192,6 +207,10 @@ geoecu_datos_disponibles()
 # If you have your own GeoPackages, point to an existing folder:
 # geoecu_usar_carpeta("~/datos/geoecu")
 ```
+
+Each file is checked against a checksum when it is downloaded and the first
+time it is used in a session: an incomplete file is downloaded again.
+`geoecu_limpiar_cache()` deletes the downloaded layers.
 
 ## Map gallery
 

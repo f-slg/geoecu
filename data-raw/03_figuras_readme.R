@@ -255,9 +255,9 @@ cant$densidad <- densidad(
 # que cambiaron se actualizan, y las parroquias creadas después se suman a
 # la parroquia de la que se separaron.
 pob_parr <- pobecu::poblacion(nivel = "parroquia", anio = anio)
-pob_parr$codigo <- ifelse(pob_parr$dpa_parroq %in% parr$dpa_parroq,
-                          pob_parr$dpa_parroq,
-                          actualizar_codigo(pob_parr$dpa_parroq))
+pob_parr$codigo <- pob_parr$dpa_parroq
+anterior <- !pob_parr$codigo %in% parr$dpa_parroq
+pob_parr$codigo[anterior] <- actualizar_codigo(pob_parr$codigo[anterior])
 grupo_parr <- c("131251" = "131250",   # Sosote -> Rocafuerte
                 "160167" = "160162",   # Shuar Pastaza -> Simón Bolívar
                 "170257" = "170250",   # Juan Montalvo -> Cayambe
