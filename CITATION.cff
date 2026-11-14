@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "Si usas geoecu, cítalo así. / If you use geoecu, please cite it as below."
+type: software
+title: "geoecu: Maps of the Provinces, Cantons and Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias del Ecuador)"
+abstract: >-
+  Boundaries of the provinces, cantons and parishes of Ecuador as 'sf'
+  objects, identified by the codes of the national political-administrative
+  division (DPA), ready to be mapped and joined with health, epidemiological
+  surveillance or other data. Derived from the open data of the Territorial
+  Organization of the State published by CONALI (Ministry of Government of
+  Ecuador) under a CC BY licence.
+authors:
+  - family-names: "Salas Guerrero"
+    given-names: "Ronald Fabricio"
+    orcid: "https://orcid.org/0000-0001-5077-1522"
+version: "0.4.1"
+date-released: "2026-10-30"
+doi: 10.32614/CRAN.package.geoecu
+license: MIT
+url: "https://f-slg.github.io/geoecu/"
+repository-code: "https://github.com/f-slg/geoecu"
+repository: "https://CRAN.R-project.org/package=geoecu"
+keywords:
+  - R
+  - Ecuador
+  - maps
+  - sf
+  - administrative boundaries
+  - DPA
+  - public health
+references:
+  - type: data
+    title: "Organización Territorial del Estado: límites territoriales internos (provincial, cantonal y parroquial)"
+    authors:
+      - name: "Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del Ecuador"
+    year: 2026
+    url: "https://www.datosabiertos.gob.ec/dataset/organizacion-territorial-parroquial"
+    notes: "Datos abiertos, licencia CC BY. Versión del 17 de julio de 2026."

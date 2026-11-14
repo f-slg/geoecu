@@ -6,7 +6,8 @@ Version: 0.4.1.9000
 Authors@R:
     person("Ronald Fabricio", "Salas Guerrero",
            email = "fabriciosalasguerrero@gmail.com",
-           role = c("aut", "cre", "cph"))
+           role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0000-0001-5077-1522"))
 Description: Provides the boundaries of the provinces, cantons and parishes
     of Ecuador as 'sf' objects, identified by the codes of the national
     political-administrative division (DPA, "División Político-Administrativa"),
