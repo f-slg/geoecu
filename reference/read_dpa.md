@@ -52,7 +52,10 @@ CC BY:
   Sistema de coordenadas de salida. Por defecto WGS84 (EPSG:4326). Usa
   `32717` (UTM 17S) para calcular distancias en metros en el continente.
   Para áreas, usa `area_km2` o una proyección de igual área como `6933`:
-  UTM 17S infla la superficie de Galápagos en un 3 %.
+  UTM 17S infla la superficie de Galápagos en un 3 %, y
+  [`sf::st_area()`](https://r-spatial.github.io/sf/reference/geos_measures.html)
+  sobre la capa en WGS84 calcula sobre una esfera y da valores un 0,45 %
+  mayores.
 
 - canton:
 

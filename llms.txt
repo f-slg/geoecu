@@ -127,7 +127,10 @@ Cada capa es un objeto `sf` con códigos DPA y el área `area_km2`:
 | [`read_parroquias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md) | `dpa_parroq`, `parroquia`, `tipo`, `dpa_canton`, `canton`, `area_km2` |
 
 La columna `area_km2` es la superficie en km², calculada sobre el
-elipsoide WGS84 con la resolución alta.
+elipsoide WGS84 con la resolución alta. Úsala en lugar de
+[`sf::st_area()`](https://r-spatial.github.io/sf/reference/geos_measures.html)
+sobre la capa en WGS84, que calcula sobre una esfera y da superficies un
+0,45 % mayores.
 
 ### Unir una tabla propia con códigos DPA
 
@@ -164,6 +167,12 @@ Los cantones sin datos quedan con `NA`. Antes de generar mapas
 epidemiológicos, agrega los eventos al mismo nivel territorial y
 verifica la correspondencia de códigos.
 
+Si tu tabla tiene columnas con el mismo nombre que la capa (por ejemplo,
+`tipo`, `canton` o `provincia`), desde la versión 0.4.2 se conservan con
+el sufijo `_datos` y se avisa con una advertencia. En la versión 0.4.1 y
+anteriores esas columnas se descartaban sin aviso: si usas una de ellas,
+renómbralas antes de unir.
+
 ### Catálogo DPA, búsqueda y limpieza
 
 ``` r
@@ -174,6 +183,11 @@ buscar_dpa("puyango", nivel = "canton")
 formatear_codigo(c(701, 1101), "canton")
 normalizar_nombre("Cañar ")
 ```
+
+[`formatear_codigo()`](https://f-slg.github.io/geoecu/reference/formatear_codigo.md)
+recupera los ceros a la izquierda y devuelve `NA`, con una advertencia,
+cuando un valor no puede ser un código del nivel indicado (por ejemplo,
+`"01"` como cantón).
 
 ### Códigos de versiones anteriores
 
@@ -187,6 +201,12 @@ actualizar_codigo(c("010101", "080253"))
 subset(dpa_equivalencias, cambio == "código distinto")
 ```
 
+[`actualizar_codigo()`](https://f-slg.github.io/geoecu/reference/actualizar_codigo.md)
+avisa cuando una parroquia anterior quedó repartida entre varias
+actuales y cuando conserva un código vigente cuyo territorio cambió
+mucho (por ejemplo, `170250`, Cayambe, de la que se separó Juan
+Montalvo). Después de convertir, agrega tus datos por el código nuevo.
+
 ### Datos sin conexión
 
 ``` r
@@ -198,6 +218,11 @@ geoecu_datos_disponibles()
 # Si tienes GeoPackages propios, indica una carpeta que exista:
 # geoecu_usar_carpeta("~/datos/geoecu")
 ```
+
+La huella de cada archivo se comprueba al descargarlo y la primera vez
+que se usa en cada sesión: si quedó incompleto, se descarga de nuevo.
+[`geoecu_limpiar_cache()`](https://f-slg.github.io/geoecu/reference/geoecu_limpiar_cache.md)
+borra las capas descargadas.
 
 ## Galería de mapas y código reproducible
 
@@ -627,9 +652,9 @@ cant$densidad <- densidad(
 # que cambiaron se actualizan, y las parroquias creadas después se suman a
 # la parroquia de la que se separaron.
 pob_parr <- pobecu::poblacion(nivel = "parroquia", anio = anio)
-pob_parr$codigo <- ifelse(pob_parr$dpa_parroq %in% parr$dpa_parroq,
-                          pob_parr$dpa_parroq,
-                          actualizar_codigo(pob_parr$dpa_parroq))
+pob_parr$codigo <- pob_parr$dpa_parroq
+anterior <- !pob_parr$codigo %in% parr$dpa_parroq
+pob_parr$codigo[anterior] <- actualizar_codigo(pob_parr$codigo[anterior])
 grupo_parr <- c("131251" = "131250",   # Sosote -> Rocafuerte
                 "160167" = "160162",   # Shuar Pastaza -> Simón Bolívar
                 "170257" = "170250",   # Juan Montalvo -> Cayambe

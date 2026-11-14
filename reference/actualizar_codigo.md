@@ -5,7 +5,9 @@ Convierte códigos de parroquia de los datos de geoecu 0.3.0 y anteriores
 código actual, usando la equivalencia principal de
 [dpa_equivalencias](https://f-slg.github.io/geoecu/reference/dpa_equivalencias.md).
 Los códigos vigentes se devuelven igual, aunque sus límites hayan
-cambiado.
+cambiado. Si la mayor parte del territorio que tenía un código vigente
+está hoy en otra parroquia (por ejemplo, `"170250"`, Cayambe, de la que
+se separó Juan Montalvo), el código se conserva y se avisa.
 
 ## Usage
 

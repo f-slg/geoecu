@@ -208,6 +208,13 @@ lugar de UTM 17S:
 sf::st_area(sf::st_transform(mis_poligonos, 6933))
 ```
 
+Tampoco conviene aplicar
+[`sf::st_area()`](https://r-spatial.github.io/sf/reference/geos_measures.html)
+directamente a la capa en WGS84, que es como la devuelve geoecu por
+defecto: sf calcula entonces sobre una esfera (su motor s2) y no sobre
+el elipsoide, y todas las superficies salen un 0,45 % mayores (unos 1
+150 km² de más en todo el país).
+
 ## Cambios respecto a versiones anteriores
 
 geoecu 0.3.0 y anteriores usaban otra capa de origen (release

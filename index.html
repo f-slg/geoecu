@@ -168,7 +168,7 @@
 </tr>
 </tbody>
 </table>
-<p>La columna <code>area_km2</code> es la superficie en km², calculada sobre el elipsoide WGS84 con la resolución alta.</p>
+<p>La columna <code>area_km2</code> es la superficie en km², calculada sobre el elipsoide WGS84 con la resolución alta. Úsala en lugar de <code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_area()</a></code> sobre la capa en WGS84, que calcula sobre una esfera y da superficies un 0,45 % mayores.</p>
 </div>
 <div class="section level3">
 <h3 id="unir-una-tabla-propia-con-códigos-dpa">Unir una tabla propia con códigos DPA<a class="anchor" aria-label="anchor" href="#unir-una-tabla-propia-con-c%C3%B3digos-dpa"></a>
@@ -197,6 +197,7 @@
 <span>       subtitle <span class="op">=</span> <span class="st">"Datos ficticios; no representan eventos observados"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Los cantones sin datos quedan con <code>NA</code>. Antes de generar mapas epidemiológicos, agrega los eventos al mismo nivel territorial y verifica la correspondencia de códigos.</p>
+<p>Si tu tabla tiene columnas con el mismo nombre que la capa (por ejemplo, <code>tipo</code>, <code>canton</code> o <code>provincia</code>), desde la versión 0.4.2 se conservan con el sufijo <code>_datos</code> y se avisa con una advertencia. En la versión 0.4.1 y anteriores esas columnas se descartaban sin aviso: si usas una de ellas, renómbralas antes de unir.</p>
 </div>
 <div class="section level3">
 <h3 id="catálogo-dpa-búsqueda-y-limpieza">Catálogo DPA, búsqueda y limpieza<a class="anchor" aria-label="anchor" href="#cat%C3%A1logo-dpa-b%C3%BAsqueda-y-limpieza"></a>
@@ -207,6 +208,7 @@
 <span><span class="fu"><a href="reference/buscar_dpa.html">buscar_dpa</a></span><span class="op">(</span><span class="st">"puyango"</span>, nivel <span class="op">=</span> <span class="st">"canton"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/formatear_codigo.html">formatear_codigo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">701</span>, <span class="fl">1101</span><span class="op">)</span>, <span class="st">"canton"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="reference/normalizar_nombre.html">normalizar_nombre</a></span><span class="op">(</span><span class="st">"Cañar "</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="reference/formatear_codigo.html">formatear_codigo()</a></code> recupera los ceros a la izquierda y devuelve <code>NA</code>, con una advertencia, cuando un valor no puede ser un código del nivel indicado (por ejemplo, <code>"01"</code> como cantón).</p>
 </div>
 <div class="section level3">
 <h3 id="códigos-de-versiones-anteriores">Códigos de versiones anteriores<a class="anchor" aria-label="anchor" href="#c%C3%B3digos-de-versiones-anteriores"></a>
@@ -215,6 +217,7 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="reference/actualizar_codigo.html">actualizar_codigo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"010101"</span>, <span class="st">"080253"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">dpa_equivalencias</span>, <span class="va">cambio</span> <span class="op">==</span> <span class="st">"código distinto"</span><span class="op">)</span></span></code></pre></div>
+<p><code><a href="reference/actualizar_codigo.html">actualizar_codigo()</a></code> avisa cuando una parroquia anterior quedó repartida entre varias actuales y cuando conserva un código vigente cuyo territorio cambió mucho (por ejemplo, <code>170250</code>, Cayambe, de la que se separó Juan Montalvo). Después de convertir, agrega tus datos por el código nuevo.</p>
 </div>
 <div class="section level3">
 <h3 id="datos-sin-conexión">Datos sin conexión<a class="anchor" aria-label="anchor" href="#datos-sin-conexi%C3%B3n"></a>
@@ -226,6 +229,7 @@
 <span></span>
 <span><span class="co"># Si tienes GeoPackages propios, indica una carpeta que exista:</span></span>
 <span><span class="co"># geoecu_usar_carpeta("~/datos/geoecu")</span></span></code></pre></div>
+<p>La huella de cada archivo se comprueba al descargarlo y la primera vez que se usa en cada sesión: si quedó incompleto, se descarga de nuevo. <code><a href="reference/geoecu_limpiar_cache.html">geoecu_limpiar_cache()</a></code> borra las capas descargadas.</p>
 </div>
 </div>
 <div class="section level2">
@@ -629,9 +633,9 @@
 <span><span class="co"># que cambiaron se actualizan, y las parroquias creadas después se suman a</span></span>
 <span><span class="co"># la parroquia de la que se separaron.</span></span>
 <span><span class="va">pob_parr</span> <span class="op">&lt;-</span> <span class="fu">pobecu</span><span class="fu">::</span><span class="fu"><a href="https://f-slg.github.io/pobecu/reference/poblacion.html" class="external-link">poblacion</a></span><span class="op">(</span>nivel <span class="op">=</span> <span class="st">"parroquia"</span>, anio <span class="op">=</span> <span class="va">anio</span><span class="op">)</span></span>
-<span><span class="va">pob_parr</span><span class="op">$</span><span class="va">codigo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">pob_parr</span><span class="op">$</span><span class="va">dpa_parroq</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">parr</span><span class="op">$</span><span class="va">dpa_parroq</span>,</span>
-<span>                          <span class="va">pob_parr</span><span class="op">$</span><span class="va">dpa_parroq</span>,</span>
-<span>                          <span class="fu"><a href="reference/actualizar_codigo.html">actualizar_codigo</a></span><span class="op">(</span><span class="va">pob_parr</span><span class="op">$</span><span class="va">dpa_parroq</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pob_parr</span><span class="op">$</span><span class="va">codigo</span> <span class="op">&lt;-</span> <span class="va">pob_parr</span><span class="op">$</span><span class="va">dpa_parroq</span></span>
+<span><span class="va">anterior</span> <span class="op">&lt;-</span> <span class="op">!</span><span class="va">pob_parr</span><span class="op">$</span><span class="va">codigo</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">parr</span><span class="op">$</span><span class="va">dpa_parroq</span></span>
+<span><span class="va">pob_parr</span><span class="op">$</span><span class="va">codigo</span><span class="op">[</span><span class="va">anterior</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/actualizar_codigo.html">actualizar_codigo</a></span><span class="op">(</span><span class="va">pob_parr</span><span class="op">$</span><span class="va">codigo</span><span class="op">[</span><span class="va">anterior</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">grupo_parr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"131251"</span> <span class="op">=</span> <span class="st">"131250"</span>,   <span class="co"># Sosote -&gt; Rocafuerte</span></span>
 <span>                <span class="st">"160167"</span> <span class="op">=</span> <span class="st">"160162"</span>,   <span class="co"># Shuar Pastaza -&gt; Simón Bolívar</span></span>
 <span>                <span class="st">"170257"</span> <span class="op">=</span> <span class="st">"170250"</span>,   <span class="co"># Juan Montalvo -&gt; Cayambe</span></span>

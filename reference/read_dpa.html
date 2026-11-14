@@ -95,7 +95,9 @@ devuelve todo el país.</p></dd>
 <dd><p>Sistema de coordenadas de salida. Por defecto WGS84
 (EPSG:4326). Usa <code>32717</code> (UTM 17S) para calcular distancias en metros en
 el continente. Para áreas, usa <code>area_km2</code> o una proyección de igual área
-como <code>6933</code>: UTM 17S infla la superficie de Galápagos en un 3 %.</p></dd>
+como <code>6933</code>: UTM 17S infla la superficie de Galápagos en un 3 %, y
+<code><a href="https://r-spatial.github.io/sf/reference/geos_measures.html" class="external-link">sf::st_area()</a></code> sobre la capa en WGS84 calcula sobre una esfera y da
+valores un 0,45 % mayores.</p></dd>
 
 
 <dt id="arg-canton">canton<a class="anchor" aria-label="anchor" href="#arg-canton"></a></dt>
