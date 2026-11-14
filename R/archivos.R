@@ -1,6 +1,9 @@
 #' Carpeta de caché de geoecu
 #'
 #' Los GeoPackages descargados se guardan aquí para no volver a descargarlos.
+#' La primera vez que se usan en cada sesión se comprueba su huella; si un
+#' archivo está incompleto o modificado, se descarga de nuevo. Para usar
+#' archivos propios, indica otra carpeta con [geoecu_usar_carpeta()].
 #' La ubicación sigue las convenciones de cada sistema operativo
 #' ([tools::R_user_dir()]).
 #'
@@ -24,6 +27,7 @@ geoecu_cache_dir <- function() {
 geoecu_limpiar_cache <- function() {
   carpeta <- tools::R_user_dir("geoecu", which = "cache")
   if (dir.exists(carpeta)) unlink(carpeta, recursive = TRUE)
+  rm(list = ls(.cache_verificada, all.names = TRUE), envir = .cache_verificada)
   message("Cach\u00e9 de geoecu eliminada.")
   invisible(TRUE)
 }
@@ -135,14 +139,44 @@ geoecu_datos_disponibles <- function(resolucion = "baja") {
          "(", .geoecu_version_datos, "). Puede estar incompleto o haber sido ",
          "modificado. Intenta de nuevo m\u00e1s tarde.", call. = FALSE)
   }
-  if (!file.copy(tmp, destino, overwrite = TRUE)) {
+  oficial <- is.null(getOption("geoecu.url_base"))
+  # Se copia con otro nombre y se renombra al final: si el proceso se
+  # interrumpe, no queda un archivo incompleto con el nombre definitivo.
+  parcial <- paste0(destino, ".", Sys.getpid(), ".tmp")
+  on.exit(unlink(parcial), add = TRUE)
+  guardado <- file.copy(tmp, parcial, overwrite = TRUE) &&
+    (suppressWarnings(file.rename(parcial, destino)) ||
+       file.copy(parcial, destino, overwrite = TRUE))
+  if (!guardado) {
     stop("No se pudo guardar el archivo en la cach\u00e9: ", destino, call. = FALSE)
   }
+  if (oficial) assign(destino, TRUE, envir = .cache_verificada)
   destino
+}
+
+# Archivos de la caché cuya huella ya se comprobó en esta sesión.
+.cache_verificada <- new.env(parent = emptyenv())
+
+# ¿El archivo de la caché es el del release oficial? Se comprueba una vez por
+# sesión. Con `geoecu.url_base` la fuente es otra y no hay huella que comparar.
+.cache_integra <- function(ruta, resolucion) {
+  if (!is.null(getOption("geoecu.url_base"))) return(TRUE)
+  if (exists(ruta, envir = .cache_verificada, inherits = FALSE)) return(TRUE)
+  ok <- identical(unname(tools::md5sum(ruta)), .geoecu_md5[[resolucion]])
+  if (ok) assign(ruta, TRUE, envir = .cache_verificada)
+  ok
 }
 
 .ruta_datos <- function(resolucion) {
   ruta <- .ruta_local(resolucion)
-  if (is.null(ruta)) ruta <- .descargar(resolucion)
+  if (is.null(ruta)) return(.descargar(resolucion))
+  # Solo se verifica la caché: una carpeta indicada por el usuario puede
+  # contener datos propios.
+  en_cache <- identical(ruta, file.path(geoecu_cache_dir(), .nombre_archivo(resolucion)))
+  if (en_cache && !.cache_integra(ruta, resolucion)) {
+    message("El archivo en cach\u00e9 no coincide con la versi\u00f3n esperada de los ",
+            "datos (incompleto o modificado); se descarga de nuevo.")
+    ruta <- .descargar(resolucion)
+  }
   ruta
 }

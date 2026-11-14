@@ -6,6 +6,30 @@
 * `normalizar_nombre()` y las búsquedas por nombre reconocen los textos con
   tildes como caracteres combinados (Unicode NFD), habituales al copiar de
   algunos sistemas: "Cañar" ya no se convierte en `CAN AR`.
+* `geoecu_unir()` tampoco sobrescribe una columna de `datos` que se llame
+  como la clave de la capa (por ejemplo, `dpa_canton`) cuando el código está
+  en otra columna: se conserva como `dpa_canton_datos`, con una advertencia.
+* `actualizar_codigo()` avisa cuando conserva un código vigente cuya
+  parroquia anterior quedó en su mayor parte en otra parroquia actual
+  (`"030157"`, `"160162"` y `"170250"`). El resultado no cambia.
+* `formatear_codigo()` devuelve `NA`, con advertencia, en lugar de inventar
+  la provincia `"00"`: `"01"` como cantón ya no se convierte en `"0001"`.
+  Además, los números grandes ya no pasan por notación científica
+  (`100000` se mostraba como `1e+05`).
+* Los filtros de `read_provincias()`, `read_cantones()` y
+  `read_parroquias()` explican el error cuando reciben `NA` o un texto
+  vacío, y `buscar_dpa(NA)` devuelve una tabla sin filas.
+* `normalizar_nombre()` conserva la letra base de otras vocales acentuadas y
+  de la cedilla (`à`, `ê`, `ã`, `ç`...), que antes se convertían en espacios.
+* Caché más robusta: la descarga se guarda con un nombre temporal y se
+  renombra al terminar, y la huella del archivo en caché se comprueba la
+  primera vez que se usa en cada sesión; si no coincide, se descarga de
+  nuevo. Los archivos de `geoecu_usar_carpeta()` no se verifican.
+* `geoecu_unir()`, `reubicar_galapagos()` y `marco_galapagos()` validan
+  `codigo`, `separacion` y `margen` y explican el error.
+* Documentación: `sf::st_area()` sobre las capas en WGS84 calcula sobre una
+  esfera y da superficies un 0,45 % mayores que `area_km2`; se advierte en
+  `read_provincias()` y en el artículo **Datos y fuente**.
 * `citation("geoecu")` incluye el DOI del paquete en CRAN
   (<https://doi.org/10.32614/CRAN.package.geoecu>) y el ORCID del autor, que
   también figura en `DESCRIPTION`. Nuevo `CITATION.cff` en el repositorio.

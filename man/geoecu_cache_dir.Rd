@@ -11,6 +11,9 @@ Ruta de la carpeta de caché (texto).
 }
 \description{
 Los GeoPackages descargados se guardan aquí para no volver a descargarlos.
+La primera vez que se usan en cada sesión se comprueba su huella; si un
+archivo está incompleto o modificado, se descarga de nuevo. Para usar
+archivos propios, indica otra carpeta con \code{\link[=geoecu_usar_carpeta]{geoecu_usar_carpeta()}}.
 La ubicación sigue las convenciones de cada sistema operativo
 (\code{\link[tools:R_user_dir]{tools::R_user_dir()}}).
 }

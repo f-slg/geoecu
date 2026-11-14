@@ -41,7 +41,9 @@ devuelve todo el país.}
 \item{crs}{Sistema de coordenadas de salida. Por defecto WGS84
 (EPSG:4326). Usa \code{32717} (UTM 17S) para calcular distancias en metros en
 el continente. Para áreas, usa \code{area_km2} o una proyección de igual área
-como \code{6933}: UTM 17S infla la superficie de Galápagos en un 3 \%.}
+como \code{6933}: UTM 17S infla la superficie de Galápagos en un 3 \%, y
+\code{sf::st_area()} sobre la capa en WGS84 calcula sobre una esfera y da
+valores un 0,45 \% mayores.}
 
 \item{canton}{Cantones a incluir, por nombre o código. Si un nombre se
 repite en varias provincias (por ejemplo, Bolívar u Olmedo), usa el

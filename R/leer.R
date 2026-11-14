@@ -31,7 +31,9 @@
 #' @param crs Sistema de coordenadas de salida. Por defecto WGS84
 #'   (EPSG:4326). Usa `32717` (UTM 17S) para calcular distancias en metros en
 #'   el continente. Para áreas, usa `area_km2` o una proyección de igual área
-#'   como `6933`: UTM 17S infla la superficie de Galápagos en un 3 %.
+#'   como `6933`: UTM 17S infla la superficie de Galápagos en un 3 %, y
+#'   `sf::st_area()` sobre la capa en WGS84 calcula sobre una esfera y da
+#'   valores un 0,45 % mayores.
 #'
 #' @return Un objeto `sf` de polígonos con las columnas:
 #'   * `read_provincias()`: `dpa_provin`, `provincia`, `tipo`, `area_km2`.
@@ -117,8 +119,9 @@ read_parroquias <- function(provincia = NULL, canton = NULL, tipo = NULL,
 #' @return Un objeto `sf` con las columnas de la capa más las de `datos`.
 #'   Si hay códigos en `datos` que no existen en la capa, se avisa con una
 #'   advertencia. Las columnas de `datos` con el mismo nombre que una de la
-#'   capa (por ejemplo, `tipo` o `area_km2`) se conservan con el sufijo
-#'   `_datos`, también con una advertencia.
+#'   capa (por ejemplo, `tipo`, `area_km2` o la propia columna de código de
+#'   la capa, si `codigo` es otra) se conservan con el sufijo `_datos`,
+#'   también con una advertencia.
 #' @export
 #' @examplesIf geoecu_datos_disponibles()
 #' casos <- data.frame(cod = c(1101, 1102, 1103), casos = c(12, 3, 7))
@@ -129,6 +132,9 @@ geoecu_unir <- function(datos, codigo, nivel = c("canton", "provincia", "parroqu
                         ...) {
   nivel <- match.arg(nivel)
   if (!is.data.frame(datos)) stop("`datos` debe ser un data.frame.", call. = FALSE)
+  if (!is.character(codigo) || length(codigo) != 1L || is.na(codigo)) {
+    stop("`codigo` debe ser el nombre de una sola columna de `datos`.", call. = FALSE)
+  }
   if (!codigo %in% names(datos)) {
     stop("La columna '", codigo, "' no est\u00e1 en `datos`.", call. = FALSE)
   }
@@ -141,9 +147,10 @@ geoecu_unir <- function(datos, codigo, nivel = c("canton", "provincia", "parroqu
 
   if (inherits(datos, "sf")) datos <- sf::st_drop_geometry(datos)
   datos <- as.data.frame(datos)
-  datos[[clave]] <- formatear_codigo(datos[[codigo]], nivel)
-  if (codigo != clave) datos[[codigo]] <- NULL
-  repetidas <- setdiff(intersect(names(datos), names(capa)), clave)
+  valores <- formatear_codigo(datos[[codigo]], nivel)
+  datos[[codigo]] <- NULL
+  # Incluye la columna clave de la capa si `datos` la trae y `codigo` es otra.
+  repetidas <- intersect(names(datos), names(capa))
   if (length(repetidas)) {
     # Se conservan con sufijo: borrarlas perdería información del usuario.
     nuevas <- make.unique(c(names(capa), names(datos), paste0(repetidas, "_datos")),
@@ -152,6 +159,7 @@ geoecu_unir <- function(datos, codigo, nivel = c("canton", "provincia", "parroqu
     warning("Columnas de `datos` que tambi\u00e9n est\u00e1n en la capa, renombradas: ",
             paste0(repetidas, " -> ", nuevas, collapse = ", "), call. = FALSE)
   }
+  datos[[clave]] <- valores
   if (anyDuplicated(datos[[clave]][!is.na(datos[[clave]])])) {
     warning("Hay c\u00f3digos repetidos en `datos`: la uni\u00f3n duplicar\u00e1 pol\u00edgonos. ",
             "Agrega tus datos por c\u00f3digo antes de unir.", call. = FALSE)

@@ -33,6 +33,7 @@ reubicar_galapagos <- function(x, separacion = 0.06) {
     stop("`x` debe ser un objeto sf de geoecu con la columna `dpa_provin`.",
          call. = FALSE)
   }
+  .validar_proporcion(separacion, "separacion")
   es_gal <- x$dpa_provin == "20"
   if (!any(es_gal) || all(es_gal)) {
     message("La capa no contiene Gal\u00e1pagos y el continente a la vez; ",
@@ -83,6 +84,7 @@ marco_galapagos <- function(x, margen = 0.06) {
     stop("`x` debe ser un objeto sf de geoecu con la columna `dpa_provin`.",
          call. = FALSE)
   }
+  .validar_proporcion(margen, "margen")
   es_gal <- x$dpa_provin == "20"
   if (!any(es_gal)) stop("La capa no contiene Gal\u00e1pagos.", call. = FALSE)
   bb <- sf::st_bbox(x[es_gal, ])
@@ -90,4 +92,12 @@ marco_galapagos <- function(x, margen = 0.06) {
   caja <- c(xmin = bb[["xmin"]] - m, ymin = bb[["ymin"]] - m,
             xmax = bb[["xmax"]] + m, ymax = bb[["ymax"]] + m)
   sf::st_as_sfc(sf::st_bbox(caja, crs = sf::st_crs(x)))
+}
+
+# --- internas ----------------------------------------------------------------
+
+.validar_proporcion <- function(x, nombre) {
+  if (!is.numeric(x) || length(x) != 1L || !is.finite(x) || x < 0) {
+    stop("`", nombre, "` debe ser un n\u00famero mayor o igual que cero.", call. = FALSE)
+  }
 }
