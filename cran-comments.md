@@ -1,33 +1,35 @@
-## Resubmission
-
-This is a resubmission of 0.4.1. The incoming pretest reported a possibly
-invalid file URI in README.md (`data-raw/03_figuras_readme.R`, a file that is
-not part of the package). The link now points to the file on GitHub.
-
 ## Submission
 
-This is a minor update of 'geoecu' (0.4.0 -> 0.4.1) that corrects the
-surface area of each unit (column `area_km2`). It was computed in UTM zone
-17S, which does not preserve areas: the Galapagos Islands, which lie in UTM
-zone 15, were overestimated by about 3 %. Areas are now computed on the WGS84
-ellipsoid with an equal-area projection (EPSG:6933). The geometries and codes
-are unchanged; the corrected GeoPackages are published as the new data
-release `datos-v0.3.0`.
+This is a patch release of 'geoecu' (0.4.1 -> 0.4.2). It fixes a defect in
+`geoecu_unir()` that silently dropped columns of the user's table, and several
+smaller problems in the handling of codes, names, filters and the download
+cache. See NEWS.md for details. The geographic data are unchanged (data
+release `datos-v0.3.0`).
+
+## Reason for the early update
+
+We apologise for submitting again so soon after 0.4.1 (published 2026-10-30).
+Version 0.4.1 has a defect that silently loses user data: `geoecu_unir()`,
+which joins a user's table to the boundaries, drops without any warning the
+columns of the user's table whose names coincide with a column of the layer
+(for example `tipo`, `canton` or `provincia`), and overwrites a column named
+like the key of the layer. Such columns are common in the case tables of
+epidemiological surveillance, one of the uses the package is intended for.
+Ecuador has been under a national red alert for the El Niño phenomenon since
+29 August 2026, so we would rather not leave this defect in place for another
+month in the function meant for joining case and rate tables to the map.
+Version 0.4.2 keeps those columns, with the suffix `_datos`, and warns. We do
+not plan another update in the coming months.
 
 ## Test environments
 
-* local Ubuntu 26.04, R 4.5.2
-* GitHub Actions: windows-latest, macos-latest, ubuntu-latest (R release),
-  with the data-dependent tests enabled
-* win-builder: R-devel (2026-10-28 r90783 ucrt)
+* local Ubuntu 26.04, R 4.5.2 (`R CMD check --as-cran` on the built tarball)
+* GitHub Actions: windows-latest, macos-latest and ubuntu-latest (R release)
+  and ubuntu-latest (R-devel), with the data-dependent tests enabled
 
 ## R CMD check results
 
 0 errors | 0 warnings | 0 notes
-
-* Version 0.4.0 was published only a week ago (2026-10-22). We preferred not
-  to wait because 0.4.1 corrects an error in the published data: the
-  `area_km2` values of the Galapagos Islands were overestimated by about 3 %.
 
 ## Notes for the reviewers
 
@@ -41,5 +43,8 @@ release `datos-v0.3.0`.
   `@examplesIf geoecu_datos_disponibles()`, and the corresponding tests are
   skipped when the data are not available, so checks do not require internet
   access.
+* The new tests of the download and cache code do not use the internet or the
+  user's cache: they download from a local `file://` source into a temporary
+  directory set through `R_USER_CACHE_DIR`.
 * The documentation is in Spanish (`Language: es`) because the package is
   aimed at users in Ecuador; the Title and Description are in English.
