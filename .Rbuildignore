@@ -11,3 +11,4 @@
 ^cran-comments\.md$
 ^CRAN-SUBMISSION$
 ^README\.en\.md$
+^CITATION\.cff$

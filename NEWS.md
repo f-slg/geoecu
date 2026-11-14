@@ -6,6 +6,9 @@
 * `normalizar_nombre()` y las búsquedas por nombre reconocen los textos con
   tildes como caracteres combinados (Unicode NFD), habituales al copiar de
   algunos sistemas: "Cañar" ya no se convierte en `CAN AR`.
+* `citation("geoecu")` incluye el DOI del paquete en CRAN
+  (<https://doi.org/10.32614/CRAN.package.geoecu>) y el ORCID del autor, que
+  también figura en `DESCRIPTION`. Nuevo `CITATION.cff` en el repositorio.
 
 # geoecu 0.4.1
 
