@@ -3,23 +3,25 @@
 ## Authors
 
 - **Ronald Fabricio Salas Guerrero**. Author, maintainer, copyright
-  holder.
+  holder. [](https://orcid.org/0000-0001-5077-1522)
 
 ## Citation
 
 Source:
 [`inst/CITATION`](https://github.com/f-slg/geoecu/blob/main/inst/CITATION)
 
-Salas Guerrero, R. F. (2026). geoecu: Mapas de provincias, cantones y
-parroquias del Ecuador. Paquete de R versión 0.4.1.9000.
-https://f-slg.github.io/geoecu/
+Salas Guerrero, R. F. (2026). geoecu: Maps of the Provinces, Cantons and
+Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias del
+Ecuador). R package version 0.4.1.9000.
+https://doi.org/10.32614/CRAN.package.geoecu
 
     @Manual{,
-      title = {geoecu: Mapas de provincias, cantones y parroquias del Ecuador},
+      title = {geoecu: Maps of the Provinces, Cantons and Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias del Ecuador)},
       author = {Ronald Fabricio {Salas Guerrero}},
       year = {2026},
-      note = {Paquete de R versión 0.4.1.9000},
-      url = {https://f-slg.github.io/geoecu/},
+      note = {R package version 0.4.1.9000},
+      doi = {10.32614/CRAN.package.geoecu},
+      url = {https://CRAN.R-project.org/package=geoecu},
     }
 
 Comité Nacional de Límites Internos (CONALI), Ministerio de Gobierno del

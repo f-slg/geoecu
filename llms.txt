@@ -712,10 +712,31 @@ hasta la siguiente actualización de datos.
 
 ## Cómo citar
 
-``` r
+Si usas geoecu en un informe, tablero, tesis o artículo, cítalo. El DOI
+apunta siempre a la versión vigente en CRAN; indica la versión que
+usaste (`packageVersion("geoecu")`).
 
-citation("geoecu")
+> Salas Guerrero, R. F. (2026). *geoecu: Maps of the Provinces, Cantons
+> and Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias
+> del Ecuador)*. R package version 0.4.1.
+> <https://doi.org/10.32614/CRAN.package.geoecu>
+
+En BibTeX:
+
+``` bibtex
+@Manual{geoecu,
+  title  = {geoecu: Maps of the Provinces, Cantons and Parishes of Ecuador
+            (Mapas de Provincias, Cantones y Parroquias del Ecuador)},
+  author = {Ronald Fabricio {Salas Guerrero}},
+  year   = {2026},
+  note   = {R package version 0.4.1},
+  doi    = {10.32614/CRAN.package.geoecu},
+  url    = {https://CRAN.R-project.org/package=geoecu},
+}
 ```
+
+Desde R, `citation("geoecu")` devuelve la misma referencia, y en GitHub
+el botón **Cite this repository** la ofrece en APA y BibTeX.
 
 Al usar los datos, cita también la fuente, como pide el CONALI:
 

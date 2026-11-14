@@ -226,7 +226,7 @@ loja_baja <- read_cantones(provincia = "Loja")
 loja_alta <- read_cantones(provincia = "Loja", resolucion = "alta")
 c(baja = object.size(loja_baja), alta = object.size(loja_alta))
 #>   baja   alta 
-#>  59400 774824
+#>  59456 774880
 ```
 
 Para medir **distancias en metros** en el continente, usa un sistema

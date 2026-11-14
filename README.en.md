@@ -6,6 +6,9 @@
 [Español](https://f-slg.github.io/geoecu/README.md) · **English**
 
 [![CRAN](https://www.r-pkg.org/badges/version/geoecu)](https://cran.r-project.org/package=geoecu)
+[![DOI](https://img.shields.io/badge/DOI-10.32614%2FCRAN.package.geoecu-0F2233.svg)](https://doi.org/10.32614/CRAN.package.geoecu)
+[![CRAN
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/geoecu)](https://cran.r-project.org/package=geoecu)
 [![R-CMD-check](https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/f-slg/geoecu/actions/workflows/R-CMD-check.yaml)
 [![Website](https://img.shields.io/badge/docs-f--slg.github.io%2Fgeoecu-0F2233.svg)](https://f-slg.github.io/geoecu/)
 [![License:
@@ -299,10 +302,31 @@ scale](reference/figures/README-densidad.png)
 
 ## Citation
 
-``` r
+If you use geoecu in a report, dashboard, thesis or paper, please cite
+it. The DOI always resolves to the current CRAN version; state the
+version you used (`packageVersion("geoecu")`).
 
-citation("geoecu")
+> Salas Guerrero, R. F. (2026). *geoecu: Maps of the Provinces, Cantons
+> and Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias
+> del Ecuador)*. R package version 0.4.1.
+> <https://doi.org/10.32614/CRAN.package.geoecu>
+
+BibTeX:
+
+``` bibtex
+@Manual{geoecu,
+  title  = {geoecu: Maps of the Provinces, Cantons and Parishes of Ecuador
+            (Mapas de Provincias, Cantones y Parroquias del Ecuador)},
+  author = {Ronald Fabricio {Salas Guerrero}},
+  year   = {2026},
+  note   = {R package version 0.4.1},
+  doi    = {10.32614/CRAN.package.geoecu},
+  url    = {https://CRAN.R-project.org/package=geoecu},
+}
 ```
+
+From R, `citation("geoecu")` returns the same reference, and on GitHub
+the **Cite this repository** button offers it in APA and BibTeX.
 
 When using the data, please also cite the source, as CONALI requests:
 
