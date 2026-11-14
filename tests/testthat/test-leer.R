@@ -61,6 +61,33 @@ test_that("geoecu_unir conserva las columnas de datos que coinciden con la capa"
   expect_false(any(m$area_km2 == 99))
 })
 
+test_that("geoecu_unir no sobrescribe una columna con el nombre de la clave", {
+  datos <- data.frame(cod = c(1101, 1110), dpa_canton = c("AAAA", "BBBB"), casos = 1:2)
+  expect_warning(m <- geoecu_unir(datos, "cod", "canton", provincia = "Loja"),
+                 "dpa_canton -> dpa_canton_datos")
+  expect_equal(nrow(m), 16)
+  expect_equal(m$dpa_canton_datos[m$dpa_canton == "1110"], "BBBB")
+  expect_equal(m$casos[m$dpa_canton == "1101"], 1L)
+  # Si la columna de código ya es la clave, no hay nada que renombrar
+  expect_no_warning(m2 <- geoecu_unir(data.frame(dpa_canton = 1101, casos = 5),
+                                      "dpa_canton", "canton", provincia = "Loja"))
+  expect_equal(m2$casos[m2$dpa_canton == "1101"], 5)
+})
+
+test_that("geoecu_unir exige una sola columna de c\u00f3digo", {
+  expect_error(geoecu_unir(data.frame(a = 1101), c("a", "b"), "canton"),
+               "una sola columna")
+  expect_error(geoecu_unir(data.frame(a = 1101), 1, "canton"), "una sola columna")
+  # Una tabla con solo la columna de código también se une
+  m <- geoecu_unir(data.frame(cod = 1101), "cod", "canton", provincia = "Loja")
+  expect_equal(nrow(m), 16)
+})
+
+test_that("los filtros rechazan NA y textos vac\u00edos con un mensaje claro", {
+  expect_error(read_provincias(NA), "no admite NA")
+  expect_error(read_cantones(canton = ""), "no admite NA")
+})
+
 test_that("la descarga rechaza archivos que no coinciden con la huella", {
   skip_on_cran()
   skip_if_offline("github.com")

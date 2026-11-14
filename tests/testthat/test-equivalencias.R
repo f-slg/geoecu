@@ -13,7 +13,7 @@ test_that("actualizar_codigo convierte códigos anteriores", {
   # Sevilla Don Bosco y Bella Vista cambian de código
   expect_equal(actualizar_codigo(c(140157, 200353)), c("141350", "200351"))
   # los códigos vigentes no cambian
-  expect_equal(actualizar_codigo(c("010150", "170250")), c("010150", "170250"))
+  expect_equal(actualizar_codigo(c("010150", "110150")), c("010150", "110150"))
   expect_equal(actualizar_codigo(NA), NA_character_)
 })
 
@@ -21,4 +21,12 @@ test_that("actualizar_codigo avisa ante códigos desconocidos o repartidos", {
   expect_warning(x <- actualizar_codigo("999999"), "ninguna versión")
   expect_equal(x, NA_character_)
   expect_warning(actualizar_codigo("220254"), "repartida")
+})
+
+test_that("actualizar_codigo avisa si un c\u00f3digo vigente perdi\u00f3 la mayor parte de su territorio", {
+  # De Cayambe (170250) se separó Juan Montalvo; de Rivera (030157), la zona Juval
+  expect_warning(x <- actualizar_codigo(c("170250", "030157", "110150")),
+                 "se conservan.*170250, 030157")
+  expect_equal(x, c("170250", "030157", "110150"))
+  expect_no_warning(actualizar_codigo(c("110150", "010101")))
 })

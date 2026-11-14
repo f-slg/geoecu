@@ -18,6 +18,9 @@ Convierte códigos de parroquia de los datos de geoecu 0.3.0 y anteriores
 (por ejemplo, de parroquias urbanas o del antiguo cantón Eloy Alfaro) al
 código actual, usando la equivalencia principal de \link{dpa_equivalencias}.
 Los códigos vigentes se devuelven igual, aunque sus límites hayan cambiado.
+Si la mayor parte del territorio que tenía un código vigente está hoy en
+otra parroquia (por ejemplo, \code{"170250"}, Cayambe, de la que se separó Juan
+Montalvo), el código se conserva y se avisa.
 }
 \details{
 Cuando menos del 90 \% de una parroquia anterior quedó en una sola parroquia

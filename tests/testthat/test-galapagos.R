@@ -30,6 +30,14 @@ test_that("reubicar_galapagos no se aplica dos veces y avisa si no hay Galapagos
                  "sin cambios")
 })
 
+test_that("separacion y margen deben ser n\u00fameros no negativos", {
+  p <- read_provincias(crs = 32717)
+  expect_error(reubicar_galapagos(p, separacion = "a"), "separacion")
+  expect_error(reubicar_galapagos(p, separacion = -1), "mayor o igual que cero")
+  expect_error(marco_galapagos(p, margen = NA), "margen")
+  expect_s3_class(reubicar_galapagos(p, separacion = 0), "sf")
+})
+
 test_that("marco_galapagos devuelve un recuadro que contiene las islas", {
   p <- reubicar_galapagos(read_provincias(crs = 32717))
   m <- marco_galapagos(p)
