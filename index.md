@@ -743,7 +743,7 @@ usaste (`packageVersion("geoecu")`).
 
 > Salas Guerrero, R. F. (2026). *geoecu: Maps of the Provinces, Cantons
 > and Parishes of Ecuador (Mapas de Provincias, Cantones y Parroquias
-> del Ecuador)*. R package version 0.4.1.
+> del Ecuador)*. R package version 0.4.2.
 > <https://doi.org/10.32614/CRAN.package.geoecu>
 
 En BibTeX:
@@ -754,7 +754,7 @@ En BibTeX:
             (Mapas de Provincias, Cantones y Parroquias del Ecuador)},
   author = {Ronald Fabricio {Salas Guerrero}},
   year   = {2026},
-  note   = {R package version 0.4.1},
+  note   = {R package version 0.4.2},
   doi    = {10.32614/CRAN.package.geoecu},
   url    = {https://CRAN.R-project.org/package=geoecu},
 }

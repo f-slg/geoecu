@@ -1,5 +1,63 @@
 # Changelog
 
+## geoecu 0.4.2
+
+### Correcciones
+
+- [`geoecu_unir()`](https://f-slg.github.io/geoecu/reference/geoecu_unir.md)
+  ya no elimina sin aviso las columnas de `datos` que se llaman igual
+  que una de la capa (por ejemplo, `tipo`, `canton` o `area_km2`): se
+  conservan con el sufijo `_datos` y se avisa con una advertencia.
+  Tampoco sobrescribe una columna de `datos` que se llame como la clave
+  de la capa (por ejemplo, `dpa_canton`) cuando el código está en otra
+  columna: se conserva como `dpa_canton_datos`.
+- [`normalizar_nombre()`](https://f-slg.github.io/geoecu/reference/normalizar_nombre.md)
+  y las búsquedas por nombre reconocen los textos con tildes como
+  caracteres combinados (Unicode NFD), habituales al copiar de algunos
+  sistemas: “Cañar” ya no se convierte en `CAN AR`. También se conserva
+  la letra base de otras vocales acentuadas y de la cedilla (`à`, `ê`,
+  `ã`, `ç`…), que antes se convertían en espacios.
+- [`formatear_codigo()`](https://f-slg.github.io/geoecu/reference/formatear_codigo.md)
+  devuelve `NA`, con advertencia, en lugar de inventar la provincia
+  `"00"`: `"01"` como cantón ya no se convierte en `"0001"`. Además, los
+  números grandes ya no pasan por notación científica (`100000` se
+  mostraba como `1e+05`).
+- Los filtros de
+  [`read_provincias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md),
+  [`read_cantones()`](https://f-slg.github.io/geoecu/reference/read_dpa.md)
+  y
+  [`read_parroquias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md)
+  explican el error cuando reciben `NA` o un texto vacío, y
+  `buscar_dpa(NA)` devuelve una tabla sin filas.
+- [`geoecu_unir()`](https://f-slg.github.io/geoecu/reference/geoecu_unir.md),
+  [`reubicar_galapagos()`](https://f-slg.github.io/geoecu/reference/reubicar_galapagos.md)
+  y
+  [`marco_galapagos()`](https://f-slg.github.io/geoecu/reference/marco_galapagos.md)
+  validan `codigo`, `separacion` y `margen` y explican el error.
+- [`actualizar_codigo()`](https://f-slg.github.io/geoecu/reference/actualizar_codigo.md)
+  avisa cuando conserva un código vigente cuya parroquia anterior quedó
+  en su mayor parte en otra parroquia actual (`"030157"`, `"160162"` y
+  `"170250"`). El resultado no cambia.
+- Caché más robusta: la descarga se guarda con un nombre temporal y se
+  renombra al terminar, y la huella del archivo en caché se comprueba la
+  primera vez que se usa en cada sesión; si no coincide, se descarga de
+  nuevo. Los archivos de
+  [`geoecu_usar_carpeta()`](https://f-slg.github.io/geoecu/reference/geoecu_usar_carpeta.md)
+  no se verifican.
+
+### Documentación
+
+- [`sf::st_area()`](https://r-spatial.github.io/sf/reference/geos_measures.html)
+  sobre las capas en WGS84 calcula sobre una esfera y da superficies un
+  0,45 % mayores que `area_km2`; se advierte en
+  [`read_provincias()`](https://f-slg.github.io/geoecu/reference/read_dpa.md),
+  en el README y en el artículo **Datos y fuente**.
+- `citation("geoecu")` incluye el DOI del paquete en CRAN
+  (<https://doi.org/10.32614/CRAN.package.geoecu>) y el ORCID del autor,
+  que también figura en `DESCRIPTION`. Nuevo `CITATION.cff` en el
+  repositorio.
+- README en español e inglés con los cambios de esta versión.
+
 ## geoecu 0.4.1
 
 CRAN release: 2026-10-29
